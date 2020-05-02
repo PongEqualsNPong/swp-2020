@@ -9,8 +9,10 @@ import android.os.Bundle;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
-    Button change_pw;
-    EditText new_pw;
+    Button buttonChangePassword;
+    EditText fieldChangePassword;
+
+    String username, newPassword;
 
 
     @Override
@@ -18,26 +20,29 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        change_pw = (Button) findViewById(R.id.button_change);
-        new_pw = (EditText) findViewById(R.id.field_change);
+        buttonChangePassword = (Button) findViewById(R.id.button_change);
+        fieldChangePassword = (EditText) findViewById(R.id.field_change);
 
-        change_pw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                set_new_pw(new_pw.toString());
-            }
-        });
+        buttonChangePassword.setOnClickListener(this);
+        username = getIntent().getStringExtra("username");
+
+
     }
+    public void startLogin(View view){
 
-    public void set_new_pw(String newPassword){
-        Intent intent =  new Intent(this, Login.class);
-        intent.putExtra( "NEWPASSWORD",newPassword.toString());
+        Intent intent = new Intent(this, Login.class);
+        intent.putExtra("username", username);
+        intent.putExtra("password", newPassword);
         startActivity(intent);
     }
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        newPassword = fieldChangePassword.getText().toString();
+
+        startLogin(view);
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.praktikum.spapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,39 +10,53 @@ import android.os.Bundle;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    String password, username;
+    String givenName, givenPassword;
+
     EditText loginName, loginPassword;
-    Button login;
+    Button loginButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+
+        Intent intent = getIntent();
+        password = intent.getStringExtra("password");
+        username = intent.getStringExtra("username");
+
         loginName = (EditText) findViewById(R.id.userName);
-
         loginPassword = (EditText) findViewById(R.id.password);
-        login = (Button) findViewById(R.id.login);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate(loginName.toString(), loginPassword.toString());
-            }
-        });
+        loginButton = (Button) findViewById(R.id.login);
+        loginButton.setOnClickListener(this);
     }
 
-    public void validate(String loginName, String loginPassword) {
-        if (loginName == getIntent().getStringExtra("USERNAME") && loginPassword == getIntent().getStringExtra("PASSWORD")) {
+    public void startRefused(View view){
+        Intent intent = new Intent(this, Refused.class);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
+    }
 
-            startActivity(new Intent(this, Welcome.class));
-        } else {
-            startActivity(new Intent(this, Refused.class));
-        }
+    public void startWelcome(View view){
+        Intent intent = new Intent(this, Welcome.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
 
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        givenName = loginName.getText().toString();
+        givenPassword = loginPassword.getText().toString();
 
+
+        if(givenName.equals(username) && givenPassword.equals(password)){
+            startWelcome(view);
+        } else {
+            startRefused(view);
+        }
     }
 }

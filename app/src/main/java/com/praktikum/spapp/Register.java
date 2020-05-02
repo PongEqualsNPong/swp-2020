@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
-    EditText registerName, registerPassword;
+    EditText userName, password;
     Button sign_up;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -20,28 +20,31 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
-        registerName = (EditText) findViewById(R.id.userName);
-        registerPassword = (EditText) findViewById(R.id.password);
+        userName = (EditText) findViewById(R.id.userName);
+        password = (EditText) findViewById(R.id.password);
         sign_up = (Button) findViewById(R.id.sign_up);
 
         sign_up.setOnClickListener(this);
 
+
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_up:
+    public void onClick(View view) {
+        startLogin(view);
+    }
 
-                Intent intent = new Intent(this, Login.class);
-                intent.putExtra( "USERNAME",registerName.toString());
-                intent.putExtra( "PASSWORD",registerPassword.toString());
+    public void startLogin(View view){
+        Intent intent = new Intent(this, Login.class);
+        Bundle extras = new Bundle();
+        String sendName = userName.getText().toString();
+        String sendPassword = password.getText().toString();
+        extras.putString("username", sendName);
+        extras.putString("password", sendPassword);
 
-                startActivity(intent);
-                break;
-//                startActivity(new Intent(this, Refused.class));
+        intent.putExtras(extras);
 
-        }
+        startActivity(intent);
     }
 }
 

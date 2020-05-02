@@ -1,5 +1,6 @@
 package com.praktikum.spapp;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,7 +11,8 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
 
 
 
-    String returnCode;
+    final String returnCode = "322";
+    String password, username;
     Button returnButton;
     EditText returnField;
 
@@ -19,17 +21,32 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.refused);
 
-        returnCode = "322";
         returnButton = (Button) findViewById(R.id.button_try_again);
         returnField = (EditText) findViewById(R.id.field_change);
 
         returnButton.setOnClickListener(this);
-
-
+        password = getIntent().getStringExtra("password");
+        username = getIntent().getStringExtra("username");
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        if(returnField.getText().toString().equals(returnCode)) {
+            startLogin(view);
+        } else {
+            startRegister(view);
+        }
 
+
+    }
+    public void startLogin(View view){
+        Intent intent = new Intent();
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
+    }
+
+    public void startRegister(View view){
+        startActivity(new Intent(this, Register.class));
     }
 }

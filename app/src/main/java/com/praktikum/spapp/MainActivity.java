@@ -29,19 +29,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.sign_up:
-//                Intent intent = new Intent(this, Login.class);
-//                intent.putExtra( "USERNAME",userName.toString());
-//                intent.putExtra( "PASSWORD",password.toString());
-//
-//                startActivity(intent);
-//                break;
-                startActivity(new Intent(this, Login.class));
-//
-//            case R.id.login:
-//
-        }
+    public void onClick(View view) {
+        startLogin(view);
     }
-}
+
+    public void startLogin(View view){
+        Intent intent = new Intent(this, Login.class);
+        Bundle extras = new Bundle();
+        String sendName = userName.getText().toString();
+        String sendPassword = password.getText().toString();
+        extras.putString("username", sendName);
+        extras.putString("password", sendPassword);
+
+        intent.putExtras(extras);
+
+        startActivity(intent);
+}}
