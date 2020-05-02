@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">SPApp</string>
-    <string name="field_name">Name</string>
-    <string name="field_password">****</string>
+    <string name="field_name">admin</string>
+    <string name="field_password">admin</string>
     <string name="button_sign_up">Sign Up</string>
     <string name="button_login">Login</string>
     <string name="text_refuse">Incorrect username or password</string>
-
 
 
 </resources>

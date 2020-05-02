@@ -9,8 +9,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+public class MainActivity extends AppCompatActivity  {
+    //this is the register page
 
     EditText userName, password;
     Button sign_up;
@@ -25,23 +25,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         password = (EditText) findViewById(R.id.password);
         sign_up = (Button) findViewById(R.id.sign_up);
 
-        sign_up.setOnClickListener(this);
+        //when user clicks on submit button
+
+        onRegisterSubmit();
 
     }
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.sign_up:
-//                Intent intent = new Intent(this, Login.class);
-//                intent.putExtra( "USERNAME",userName.toString());
-//                intent.putExtra( "PASSWORD",password.toString());
-//
-//                startActivity(intent);
-//                break;
-                startActivity(new Intent(this, Login.class));
-//
-//            case R.id.login:
-//
-        }
+
+    public void onRegisterSubmit() {
+        sign_up = (Button) findViewById(R.id.sign_up);
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLogin();
+            }
+        });
     }
+
+    public void openLogin() {
+        Intent login = new Intent(this, Login.class);
+        startActivity(login);
+    }
+
+
 }

@@ -7,7 +7,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity {
 
     EditText loginName, loginPassword;
     Button login;
@@ -21,22 +21,51 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         loginPassword = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                validate(loginName.toString(),loginPassword.toString());
-            }
-        });
+        //when user submit
+        onSubmit();
     }
 
-    public void validate(String loginName, String loginPassword ) {
-        if(loginName == getIntent().getStringExtra("USERNAME") && loginPassword == getIntent().getStringExtra("PASSWORD"));
-        startActivity(new Intent(this, Refused.class));
+    public boolean validateCredentials() {
+         loginName = (EditText) findViewById(R.id.userName);
+         loginPassword = (EditText) findViewById(R.id.password);
+
+        if(loginName.getText().toString().equals("admin")  && loginPassword.getText().toString().equals("admin") )
+            return true;
+
+        else return false;
 
     }
 
-    @Override
-    public void onClick(View v) {
+    public void onSubmit() {
+        login = (Button) findViewById(R.id.login);
 
+        if(validateCredentials()==true) {
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openChangePWD();
+                }
+            });
+        }
+        else {
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openRefused();
+                }
+            });
+        }
     }
+
+    public void openChangePWD() {
+        Intent changePWD = new Intent(this, changePWD.class);
+        startActivity(changePWD);
+    }
+
+    public void openRefused() {
+        Intent  refused = new Intent(this, Refused.class);
+        startActivity(refused);
+    }
+
+
 }
