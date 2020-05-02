@@ -9,17 +9,30 @@
     <TextView
             android:text="@string/text_refuse"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="267dp"
-            tools:layout_editor_absoluteX="102dp" android:id="@+id/textView2"/>
-    <EditText
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/text_incorrect" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="180dp" app:layout_constraintHorizontal_bias="0.495"/>
+    <EditText
+            android:layout_width="206dp"
+            android:layout_height="45dp"
             android:inputType="number"
             android:ems="10"
-            tools:layout_editor_absoluteY="406dp" tools:layout_editor_absoluteX="96dp" android:id="@+id/editText2"/>
+            android:id="@+id/field_enter_code" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/text_incorrect"
+            android:layout_marginTop="180dp" app:layout_constraintHorizontal_bias="0.492"/>
     <Button
-            android:text="Button"
+            android:text="@string/button_try_again"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" tools:layout_editor_absoluteY="518dp"
-            tools:layout_editor_absoluteX="161dp" android:id="@+id/button"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/button_try_again" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/field_enter_code"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="322"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/code_numbers"
+            app:layout_constraintTop_toBottomOf="@+id/text_incorrect" android:layout_marginTop="96dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

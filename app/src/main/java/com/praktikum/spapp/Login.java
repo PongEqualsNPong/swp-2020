@@ -18,20 +18,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.login);
 
         loginName = (EditText) findViewById(R.id.userName);
+
         loginPassword = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate(loginName.toString(),loginPassword.toString());
+                validate(loginName.toString(), loginPassword.toString());
             }
         });
     }
 
-    public void validate(String loginName, String loginPassword ) {
-        if(loginName == getIntent().getStringExtra("USERNAME") && loginPassword == getIntent().getStringExtra("PASSWORD"));
-        startActivity(new Intent(this, Refused.class));
+    public void validate(String loginName, String loginPassword) {
+        if (loginName == getIntent().getStringExtra("USERNAME") && loginPassword == getIntent().getStringExtra("PASSWORD")) {
+
+            startActivity(new Intent(this, Welcome.class));
+        } else {
+            startActivity(new Intent(this, Refused.class));
+        }
 
     }
 
