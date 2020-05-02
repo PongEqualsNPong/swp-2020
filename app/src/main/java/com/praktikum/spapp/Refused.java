@@ -42,7 +42,7 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void startLogin(View view){
-        Intent intent = new Intent();
+        Intent intent = new Intent(this, Login.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         startActivity(intent);
