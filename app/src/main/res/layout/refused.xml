@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_incorrect" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="180dp" app:layout_constraintHorizontal_bias="0.495"/>
+            android:layout_marginTop="132dp" app:layout_constraintHorizontal_bias="0.49"/>
     <EditText
             android:layout_width="206dp"
             android:layout_height="45dp"
@@ -20,19 +20,20 @@
             android:ems="10"
             android:id="@+id/field_enter_code" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/text_incorrect"
-            android:layout_marginTop="180dp" app:layout_constraintHorizontal_bias="0.492"/>
+            android:layout_marginTop="112dp" app:layout_constraintHorizontal_bias="0.492"/>
     <Button
             android:text="@string/button_try_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_try_again" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/field_enter_code"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.178"/>
     <TextView
             android:text="322"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/code_numbers"
-            app:layout_constraintTop_toBottomOf="@+id/text_incorrect" android:layout_marginTop="96dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/text_incorrect" android:layout_marginTop="56dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

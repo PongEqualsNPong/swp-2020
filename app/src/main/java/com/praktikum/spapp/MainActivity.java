@@ -12,6 +12,7 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    // variable for xml Elements
     EditText userName, password;
     Button sign_up;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
 
+        // assign variables
         userName = (EditText) findViewById(R.id.userName);
         password = (EditText) findViewById(R.id.password);
         sign_up = (Button) findViewById(R.id.sign_up);
@@ -33,7 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startLogin(view);
     }
 
+    // start Login activity
     public void startLogin(View view){
+
+        // intent extras in a bundle
         Intent intent = new Intent(this, Login.class);
         Bundle extras = new Bundle();
         String sendName = userName.getText().toString();

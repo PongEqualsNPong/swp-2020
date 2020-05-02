@@ -10,7 +10,7 @@ import android.os.Bundle;
 public class Refused extends AppCompatActivity implements View.OnClickListener {
 
 
-
+    // constant that needs to be put in
     final String returnCode = "322";
     String password, username;
     Button returnButton;
@@ -24,9 +24,11 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
         returnButton = (Button) findViewById(R.id.button_try_again);
         returnField = (EditText) findViewById(R.id.field_change);
 
-        returnButton.setOnClickListener(this);
         password = getIntent().getStringExtra("password");
         username = getIntent().getStringExtra("username");
+
+        returnButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -47,6 +49,6 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void startRegister(View view){
-        startActivity(new Intent(this, Register.class));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
