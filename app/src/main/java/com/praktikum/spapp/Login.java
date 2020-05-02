@@ -1,71 +1,74 @@
 package com.praktikum.spapp;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    // variable from intend
+    String password, username;
+    // variables given by input xml elemnt
+    String givenName, givenPassword;
+    // xml elements
     EditText loginName, loginPassword;
-    Button login;
+    Button loginButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        // custom toolbar TODO logout function
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Login");
+
+        //
+        Intent intent = getIntent();
+        password = intent.getStringExtra("password");
+        username = intent.getStringExtra("username");
+
+        // assign xml to variables
         loginName = (EditText) findViewById(R.id.userName);
         loginPassword = (EditText) findViewById(R.id.password);
-        login = (Button) findViewById(R.id.login);
-
-        //when user submit
-        onSubmit();
+        loginButton = (Button) findViewById(R.id.login);
+        loginButton.setOnClickListener(this);
     }
 
-    public boolean validateCredentials() {
-         loginName = (EditText) findViewById(R.id.userName);
-         loginPassword = (EditText) findViewById(R.id.password);
-
-        if(loginName.getText().toString().equals("admin")  && loginPassword.getText().toString().equals("admin") )
-            return true;
-
-        else return false;
+    // start refuse activity
+    public void startRefused(View view){
+        Intent intent = new Intent(this, Refused.class);
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
+    }
+    // start welcome activity
+    public void startWelcome(View view){
+        Intent intent = new Intent(this, Welcome.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
 
     }
 
-    public void onSubmit() {
-        login = (Button) findViewById(R.id.login);
+    @Override
+    public void onClick(View view) {
+        //assign intend extras to variables
+        givenName = loginName.getText().toString();
+        givenPassword = loginPassword.getText().toString();
 
-        if(validateCredentials()==true) {
-            login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openChangePWD();
-                }
-            });
-        }
-        else {
-            login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openRefused();
-                }
-            });
+
+        // compare
+        if(givenName.equals(username) && givenPassword.equals(password)){
+            startWelcome(view);
+        } else {
+            startRefused(view);
         }
     }
-
-    public void openChangePWD() {
-        Intent changePWD = new Intent(this, changePWD.class);
-        startActivity(changePWD);
-    }
-
-    public void openRefused() {
-        Intent  refused = new Intent(this, Refused.class);
-        startActivity(refused);
-    }
-
-
 }

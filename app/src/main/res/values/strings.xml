@@ -5,6 +5,9 @@
     <string name="button_sign_up">Sign Up</string>
     <string name="button_login">Login</string>
     <string name="text_refuse">Incorrect username or password</string>
+    <string name="button_try_again">Enter Code</string>
+    <string name="enter_code">Enter code</string>
+
 
 
 </resources>

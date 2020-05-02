@@ -1,38 +1,54 @@
 package com.praktikum.spapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class Refused extends AppCompatActivity {
+public class Refused extends AppCompatActivity implements View.OnClickListener {
 
-    Button comeBack;
+
+    // constant that needs to be put in
+    final String returnCode = "322";
+    String password, username;
+    Button returnButton;
+    EditText returnField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.refused);
 
-        //button to comeback
-        comeBackLogin();
+        returnButton = (Button) findViewById(R.id.button_try_again);
+        returnField = (EditText) findViewById(R.id.field_change);
+
+        password = getIntent().getStringExtra("password");
+        username = getIntent().getStringExtra("username");
+
+        returnButton.setOnClickListener(this);
+
     }
 
-    public void comeBackLogin() {
-        comeBack = (Button) findViewById(R.id.button);
+    @Override
+    public void onClick(View view) {
+        if(returnField.getText().toString().equals(returnCode)) {
+            startLogin(view);
+        } else {
+            startRegister(view);
+        }
 
-        comeBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLogin();
-            }
-        });
+
+    }
+    public void startLogin(View view){
+        Intent intent = new Intent();
+        intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        startActivity(intent);
     }
 
-    public void openLogin() {
-        Intent login = new Intent(this, Login.class);
-        startActivity(login);
+    public void startRegister(View view){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
