@@ -23,8 +23,9 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         buttonChangePassword = (Button) findViewById(R.id.button_change);
         fieldChangePassword = (EditText) findViewById(R.id.field_change);
 
-        buttonChangePassword.setOnClickListener(this);
         username = getIntent().getStringExtra("username");
+
+        buttonChangePassword.setOnClickListener(this);
 
 
     }
@@ -36,13 +37,9 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-
     @Override
     public void onClick(View view) {
         newPassword = fieldChangePassword.getText().toString();
-
         startLogin(view);
-
-
     }
 }

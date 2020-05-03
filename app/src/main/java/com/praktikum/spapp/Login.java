@@ -63,7 +63,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         givenName = loginName.getText().toString();
         givenPassword = loginPassword.getText().toString();
 
-
         // compare
         if(givenName.equals(username) && givenPassword.equals(password)){
             startWelcome(view);

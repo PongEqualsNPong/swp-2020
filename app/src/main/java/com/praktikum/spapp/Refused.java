@@ -22,7 +22,7 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.refused);
 
         returnButton = (Button) findViewById(R.id.button_try_again);
-        returnField = (EditText) findViewById(R.id.field_change);
+        returnField = (EditText) findViewById(R.id.field_enter_code);
 
         password = getIntent().getStringExtra("password");
         username = getIntent().getStringExtra("username");
@@ -33,7 +33,9 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(returnField.getText().toString().equals(returnCode)) {
+        String field = returnField.getText().toString();
+
+        if(field.equals(returnCode)) {
             startLogin(view);
         } else {
             startRegister(view);
@@ -49,6 +51,7 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void startRegister(View view){
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent = new Intent(this, Register.class);
+        startActivity(intent);
     }
 }

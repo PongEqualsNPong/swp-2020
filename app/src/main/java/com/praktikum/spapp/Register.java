@@ -14,7 +14,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     EditText userName, password;
     Button sign_up;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         sign_up = (Button) findViewById(R.id.sign_up);
 
         sign_up.setOnClickListener(this);
-
 
     }
 
