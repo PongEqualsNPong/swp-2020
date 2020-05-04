@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
 public class Refused extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,8 +22,16 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.refused);
 
+        // custom toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // hardcoded rn
+        getSupportActionBar().setTitle("Refused Login");
+
         returnButton = (Button) findViewById(R.id.button_try_again);
         returnField = (EditText) findViewById(R.id.field_enter_code);
+
+
 
         password = getIntent().getStringExtra("password");
         username = getIntent().getStringExtra("username");
@@ -54,4 +63,6 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
         Intent intent = new Intent(this, Register.class);
         startActivity(intent);
     }
+
+    //TODO number generator and display
 }
