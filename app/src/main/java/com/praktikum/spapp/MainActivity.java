@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,16 +17,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText userName, password;
     Button sign_up;
 
+    // whats this annotation?
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        // custom toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // hardcoded rn
+        getSupportActionBar().setTitle("Register");
 
         // assign variables
         userName = (EditText) findViewById(R.id.userName);
         password = (EditText) findViewById(R.id.password);
         sign_up = (Button) findViewById(R.id.sign_up);
+
+//        // custom toolbar
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("Register");
 
         sign_up.setOnClickListener(this);
 

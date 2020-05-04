@@ -2,9 +2,11 @@ package com.praktikum.spapp;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -25,9 +27,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        // custom toolbar TODO logout function
+        // custom toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // hardcoded rn
         getSupportActionBar().setTitle("Login");
 
         //
@@ -43,6 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     // start refuse activity
+    // what does View view parameter? Is it required?
     public void startRefused(View view){
         Intent intent = new Intent(this, Refused.class);
         intent.putExtra("username", username);
@@ -53,6 +57,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void startWelcome(View view){
         Intent intent = new Intent(this, Welcome.class);
         intent.putExtra("username", username);
+        intent.putExtra("password", password);
+        // bp
         startActivity(intent);
 
     }
