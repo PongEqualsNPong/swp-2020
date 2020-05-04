@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText userName, password;
     Button sign_up;
 
-    // whats this annotation?
+    // Could be the specific version-based. Did not appear when I used Android 10.
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

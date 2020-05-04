@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     // start refuse activity
-    // what does View view parameter? Is it required?
+    // open the Refused View page.
     public void startRefused(View view){
         Intent intent = new Intent(this, Refused.class);
         intent.putExtra("username", username);
