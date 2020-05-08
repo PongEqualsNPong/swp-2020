@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
@@ -24,6 +26,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         password = (EditText) findViewById(R.id.password);
         sign_up = (Button) findViewById(R.id.sign_up);
 
+        //hardcoding toolbar title
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Register new login");
         sign_up.setOnClickListener(this);
 
     }

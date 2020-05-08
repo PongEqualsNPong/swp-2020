@@ -9,11 +9,17 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     Button buttonChangePassword;
+    Button buttonViewProfile;
     EditText fieldChangePassword;
 
     String username, newPassword, oldPassword;
@@ -35,10 +41,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
         buttonChangePassword = (Button) findViewById(R.id.button_change);
         fieldChangePassword = (EditText) findViewById(R.id.field_change);
-
-
+        //TODO: new OnClickListener for buttonViewProfile
+        buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
 
         buttonChangePassword.setOnClickListener(this);
+        buttonViewProfile.setOnClickListener(this);
 
 
     }
@@ -53,8 +60,20 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        newPassword = fieldChangePassword.getText().toString();
-        startLogin();
+        //toast checking pw field is not null
+        switch (view.getId()) {
+            case R.id.button_change:
+                if (fieldChangePassword.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    newPassword = fieldChangePassword.getText().toString();
+                    startLogin();
+                }
+                break;
+            case R.id.button_viewprofile:
+                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     // on click of toolbar item
