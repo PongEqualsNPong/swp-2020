@@ -7,7 +7,7 @@
     <string name="text_refuse">Incorrect username or password</string>
     <string name="button_try_again">Enter Code</string>
     <string name="enter_code">Enter code</string>
-
+    <string name="join">Join</string>
 
 
 </resources>

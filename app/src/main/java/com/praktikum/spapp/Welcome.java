@@ -20,6 +20,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     Button buttonChangePassword;
     Button buttonViewProfile;
+    Button buttonJoinServer;
     EditText fieldChangePassword;
 
     String username, newPassword, oldPassword;
@@ -43,9 +44,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         fieldChangePassword = (EditText) findViewById(R.id.field_change);
         //TODO: new OnClickListener for buttonViewProfile
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
+        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
 
         buttonChangePassword.setOnClickListener(this);
         buttonViewProfile.setOnClickListener(this);
+        buttonJoinServer.setOnClickListener(this);
 
 
     }
@@ -73,6 +76,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
             case R.id.button_viewprofile:
                 Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.button_joinserver:
+                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ServerJoin.class);
+                // bp
+                startActivity(intent);
         }
     }
 
