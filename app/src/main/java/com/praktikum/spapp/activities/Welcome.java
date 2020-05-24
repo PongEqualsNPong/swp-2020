@@ -1,4 +1,4 @@
-package com.praktikum.spapp;
+package com.praktikum.spapp.activities;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -13,8 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.praktikum.spapp.R;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
 

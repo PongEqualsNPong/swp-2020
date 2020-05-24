@@ -1,15 +1,13 @@
-package com.praktikum.spapp;
+package com.praktikum.spapp.activities;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import com.praktikum.spapp.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 

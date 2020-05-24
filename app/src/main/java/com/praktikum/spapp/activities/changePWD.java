@@ -1,8 +1,9 @@
-package com.praktikum.spapp;
+package com.praktikum.spapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import com.praktikum.spapp.R;
 
 public class changePWD extends AppCompatActivity {
 
