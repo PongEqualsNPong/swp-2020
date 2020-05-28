@@ -10,18 +10,19 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class ProjectService {
-
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client;
     String ourAPI = "https//outAPI.com";
 
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
 
     public ProjectService() {
+         client= new OkHttpClient();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    String projectCreate(Project project) throws JSONException, IOException {
+    public void projectCreate(Project project) throws JSONException, IOException {
 
         String data = new JSONObject()
                 .put("name", project.getName())
@@ -36,7 +37,6 @@ public class ProjectService {
         try (Response response = client.newCall(request).execute()) {
             // create the response string
             String responseString = response.body().string();
-            return responseString;
         }
     }
 

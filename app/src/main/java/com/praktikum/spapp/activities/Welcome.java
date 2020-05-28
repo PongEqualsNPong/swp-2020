@@ -49,7 +49,6 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         buttonViewProfile.setOnClickListener(this);
         buttonJoinServer.setOnClickListener(this);
 
-
         buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
         buttonCreateProject.setOnClickListener(this);
 
