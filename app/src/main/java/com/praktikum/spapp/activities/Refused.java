@@ -1,17 +1,15 @@
-package com.praktikum.spapp;
+package com.praktikum.spapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import org.w3c.dom.Text;
+import com.praktikum.spapp.R;
 
 import java.util.Random;
 
@@ -55,9 +53,9 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
             startLogin(view);
             Toast.makeText(this,"Valid security code",Toast.LENGTH_SHORT).show();
         } else {
-            //temporary disable this as you should not advance if code is incorrect
-            //startRegister(view);
-            Toast.makeText(this,"Invalid security code",Toast.LENGTH_SHORT).show();
+//            temporary disable this as you should not advance if code is incorrect
+            startRegister(view);
+//            Toast.makeText(this,"Invalid security code",Toast.LENGTH_SHORT).show();
         }
 
 
@@ -70,7 +68,7 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void startRegister(View view){
-        Intent intent = new Intent(this, Register.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
