@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import java.net.ProtocolException;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -21,7 +21,7 @@ public class UserServiceTest {
 //    }
 
     @Test
-    public void loginOnServerTest() throws JSONException, ProtocolException {
+    public void loginOnServerTest() throws JSONException, IOException {
 
         String nameAdmin = "admin";
         String passwordAdmin = "admin";

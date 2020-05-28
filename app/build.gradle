@@ -37,5 +37,13 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
 
+    // okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    // https://mvnrepository.com/artifact/com.auth0/java-jwt
+    compile group: 'com.auth0', name: 'java-jwt', version: '3.10.3'
+
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.7.2")
+
+
 
 }

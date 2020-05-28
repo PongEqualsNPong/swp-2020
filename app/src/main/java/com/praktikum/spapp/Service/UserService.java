@@ -2,84 +2,50 @@ package com.praktikum.spapp.Service;
 
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import com.praktikum.spapp.common.HttpClient;
+import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.ProtocolException;
-import java.util.Scanner;
+import java.io.IOException;
 
 public class UserService {
 
-    HttpClient userClient;
+    OkHttpClient client = new OkHttpClient();
 
-    // this stuff to abstract service class?
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
+
     public UserService() throws IOException {
-//        super();
-        this.userClient = new HttpClient("http://fakeUrl/user");
+
     }
+//        Request request = new Request.Builder()
+//                .url("https://jsonplaceholder.typicode.com/")
+//                .build();
 
-    private static String streamToString(InputStream inputStream) {
-        String text = new Scanner(inputStream, "UTF-8").useDelimiter("\\Z").next();
-        return text;
-    }
-
-    public String getTestString() throws IOException {
-
-        userClient.connection.setRequestMethod("GET");
-        userClient.connection.setRequestProperty("Content-Type", "application/json");
-        userClient.connection.setRequestProperty("charset", "utf-8");
-        int responseCode = userClient.connection.getResponseCode();
-        String jsonString = null;
-        if (responseCode != 200)
-            throw new RuntimeException("HttpResponseCode:  +responseCode");
-        else {
-
-            InputStream inStream = userClient.connection.getInputStream();
-            jsonString = streamToString(inStream); // input stream to string
-        }
-        userClient.connection.disconnect();
-        return jsonString;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public String loginOnServer(String nameOrEmail, String password) throws ProtocolException, JSONException {
-        userClient.connection.setRequestMethod("POST");
-        userClient.connection.setRequestProperty("Content-Type", "application/json");
-        userClient.connection.setRequestProperty("charset", "utf-8");
-        userClient.connection.setDoOutput(true);
-
+    public String loginOnServer(String nameOrEmail, String password) throws IOException, JSONException {
 
         // create json and convert to string
-        JSONObject data = new JSONObject();
-        data.put("username", nameOrEmail );
-        data.put("password", password);
+        String data = new JSONObject()
+                .put("username", nameOrEmail )
+                .put("password", password)
+                .toString();
 
-        String jsonStringToPost = data.toString();
+        // create request body
+        RequestBody requestBody = RequestBody.create(data,JSON);
+        Request request = new Request.Builder()
+                .url("https://jsonplaceholder.typicode.com/")
+                .post(requestBody)
+                .build();
 
-        // output the string
-        try(OutputStream os = userClient.connection.getOutputStream()) {
-            byte[] input = jsonStringToPost.getBytes("utf-8");
-            os.write(input, 0, input.length);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // get the response as a string
+        try(Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        } catch (Exception e) {
+            e.getMessage();
         }
-
-        try(BufferedReader br = new BufferedReader(
-                new InputStreamReader(userClient.connection.getInputStream(), "utf-8"))) {
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-            }
-            return responseLine;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         return null;
+
     }
 }

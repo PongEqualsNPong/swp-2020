@@ -1,6 +1,7 @@
 package com.praktikum.spapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,11 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
-
 import com.praktikum.spapp.R;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
@@ -52,7 +49,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void startLogin(){
+    public void startLogin() {
         Intent intent = new Intent(this, Login.class);
         intent.putExtra("username", username);
         intent.putExtra("password", newPassword);
@@ -60,37 +57,38 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    @Override
-    public void onClick(View view) {
-        //toast checking pw field is not null
-        switch (view.getId()) {
-            case R.id.button_change:
-                if (fieldChangePassword.getText().toString().isEmpty()) {
-                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    newPassword = fieldChangePassword.getText().toString();
-                    startLogin();
-                }
-                break;
-            case R.id.button_viewprofile:
-                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.button_joinserver:
-                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, ServerJoin.class);
-                // bp
-                startActivity(intent);
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        //toast checking pw field is not null
+//        switch (view.getId()) {
+
+//            case R.id.button_change:
+//                if (fieldChangePassword.getText().toString().isEmpty()) {
+//                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    newPassword = fieldChangePassword.getText().toString();
+//                    startLogin();
+//                }
+//                break;
+//            case R.id.button_viewprofile:
+//                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.button_joinserver:
+//                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(this, ServerJoin.class);
+//                // bp
+//                startActivity(intent);
+//        }
+//    }
 
     // on click of toolbar item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_logout:
                 Intent intent = new Intent(this, Login.class);
                 intent.putExtra("username", username);
-                intent.putExtra("password",oldPassword);
+                intent.putExtra("password", oldPassword);
                 startActivity(intent);
 
         }
@@ -101,5 +99,11 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;}
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }
