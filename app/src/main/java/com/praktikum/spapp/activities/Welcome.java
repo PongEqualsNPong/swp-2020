@@ -7,16 +7,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.ServerJoin;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     Button buttonChangePassword;
     Button buttonViewProfile;
     Button buttonJoinServer;
+    Button buttonCreateProject;
     EditText fieldChangePassword;
 
     String username, newPassword, oldPassword;
@@ -47,41 +50,52 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         buttonJoinServer.setOnClickListener(this);
 
 
+        buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
+        buttonCreateProject.setOnClickListener(this);
+
+
+
+
     }
 
     public void startLogin() {
         Intent intent = new Intent(this, Login.class);
         intent.putExtra("username", username);
         intent.putExtra("password", newPassword);
-        // breakpoint
         startActivity(intent);
     }
 
 //    @Override
-//    public void onClick(View view) {
-//        //toast checking pw field is not null
-//        switch (view.getId()) {
+    public void onClick(View view) {
+        //toast checking pw field is not null
+        switch (view.getId()) {
 
-//            case R.id.button_change:
-//                if (fieldChangePassword.getText().toString().isEmpty()) {
-//                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    newPassword = fieldChangePassword.getText().toString();
-//                    startLogin();
-//                }
-//                break;
-//            case R.id.button_viewprofile:
-//                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.button_joinserver:
-//                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(this, ServerJoin.class);
-//                // bp
-//                startActivity(intent);
-//        }
-//    }
+            case R.id.button_change:
+                if (fieldChangePassword.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    newPassword = fieldChangePassword.getText().toString();
+                    startLogin();
+                }
+                break;
+            case R.id.button_viewprofile:
+                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button_joinserver:
+                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ServerJoin.class);
+                // bp
+                startActivity(intent);
 
-    // on click of toolbar item
+            case R.id.buttonCreateProject:
+                startActivityCreateProject(view);
+
+
+
+            }
+    }
+
+//     on click of toolbar item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -102,8 +116,10 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-
+    // start Activities
+    public void startActivityCreateProject(View view){
+        Intent intent = new Intent(this, CreateProject.class);
+        startActivity(intent);
     }
+
 }
