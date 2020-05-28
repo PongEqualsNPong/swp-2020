@@ -12,12 +12,16 @@ public class UserService {
 
     OkHttpClient client = new OkHttpClient();
 
+    //for now do singleton pattern
+    String authToken;
+
+    String ourAPI = "https//outAPI.com";
+
+    // this in abstract Service class?
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
 
-    public UserService() throws IOException {
-
-    }
+    public UserService() {}
 //        Request request = new Request.Builder()
 //                .url("https://jsonplaceholder.typicode.com/")
 //                .build();
@@ -34,18 +38,35 @@ public class UserService {
 
         // create request body
         RequestBody requestBody = RequestBody.create(data,JSON);
+        // make request
         Request request = new Request.Builder()
-                .url("https://jsonplaceholder.typicode.com/")
+                .url(ourAPI)
                 .post(requestBody)
                 .build();
 
         // get the response as a string
         try(Response response = client.newCall(request).execute()) {
-            return response.body().string();
+            // create the response string
+            String responseString = response.body().string();
+            //
+            JSONObject  someString =  new JSONObject(responseString);
+            authToken = someString.getString("accessToken");
+
+            return responseString;
+
         } catch (Exception e) {
             e.getMessage();
         }
         return null;
+
+    }
+
+    public String fetchAllUsers() throws IOException {
+        Request request = new Request.Builder()
+                .url(ourAPI)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
 
     }
 }
