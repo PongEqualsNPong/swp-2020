@@ -39,6 +39,11 @@
         <activity android:name=".activities.Login">
         </activity>
         <activity android:name=".activities.ServerJoin" />
+        <activity android:name=".activities.CheckForInvite" />
+        <activity android:name=".activities.ProjectDetails" />
+        <activity android:name=".activities.OpenProject" />
+        <activity android:name=".activities.ViewProject" />
+        <activity android:name=".activities.ViewProfile" />
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@
     tools:context=".activities.Welcome">
 
     <Button
-        android:id="@+id/button_viewprojects2"
+        android:id="@+id/button_viewprojects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View My Projects"
@@ -37,10 +37,10 @@
         android:text="Project Details"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/field_change"
-        app:layout_constraintVertical_bias="0.894" />
+        app:layout_constraintTop_toBottomOf="@+id/button_openproject"
+        app:layout_constraintVertical_bias="0.526" />
 
     <TextView
         android:id="@+id/textView2"
@@ -65,10 +65,10 @@
         android:text="Open Project"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/field_change"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.762" />
 
     <Button
         android:id="@+id/button_joinserver"
