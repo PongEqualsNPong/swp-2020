@@ -11,11 +11,23 @@ public class User {
     /** The email */
     private String email;
 
+    private String role;
+
+    private String userInfo;
+
 
     public User(String username, String password, String email){
         this.username =  username;
         this.password = password;
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 
