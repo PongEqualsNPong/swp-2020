@@ -14,12 +14,15 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-public class CreateProject extends AppCompatActivity implements View.OnClickListener {
+public class CreateProject extends AppCompatActivity  {
 
     // UI Elements
     EditText textFieldEnterProjectName;
     EditText textFieldEnterProjectDescription;
     Button buttonCreate;
+
+
+    ProjectService projectService = new ProjectService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +34,13 @@ public class CreateProject extends AppCompatActivity implements View.OnClickList
         textFieldEnterProjectDescription = (EditText) findViewById(R.id.enterProjectDescription);
         buttonCreate = (Button) findViewById(R.id.buttonCreateProject);
 
-        buttonCreate.setOnClickListener(this);
+//        buttonCreate.setOnClickListener(this);
 
 
     }
 
-    @Override
+//    @Override
     public void onClick(View v) {
-
-
-        String
 
 
         final Project project = new Project(){};
@@ -51,7 +51,6 @@ public class CreateProject extends AppCompatActivity implements View.OnClickList
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void run() {
-                ProjectService projectService = new ProjectService();
                 try {
                     projectService.projectCreate(project);
                 } catch (JSONException e) {

@@ -19,7 +19,12 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     Button buttonChangePassword;
     Button buttonViewProfile;
     Button buttonJoinServer;
+    // declare field
     Button buttonCreateProject;
+
+
+    Button buttonInviteUser;
+
     EditText fieldChangePassword;
 
     String username, newPassword, oldPassword;
@@ -49,8 +54,15 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         buttonViewProfile.setOnClickListener(this);
         buttonJoinServer.setOnClickListener(this);
 
+
+        // field binden
         buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
+
+        // field set on click listener
         buttonCreateProject.setOnClickListener(this);
+
+        buttonInviteUser = (Button) findViewById(R.id.button_invite);
+        buttonInviteUser.setOnClickListener(this);
 
 
 
@@ -81,13 +93,14 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
                 Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_joinserver:
-                //Toast.makeText(this, "JOIN BUTTON", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, ServerJoin.class);
-                // bp
-                startActivity(intent);
+                startJoinServer(view);
+                break;
 
             case R.id.buttonCreateProject:
                 startActivityCreateProject(view);
+
+            case R.id.button_invite:
+                startActiviyInvite();
 
 
 
@@ -118,6 +131,16 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     // start Activities
     public void startActivityCreateProject(View view){
         Intent intent = new Intent(this, CreateProject.class);
+        startActivity(intent);
+    }
+
+    public void startJoinServer(View view){
+        Intent intent = new Intent(this, ServerJoin.class);
+        startActivity(intent);
+    }
+
+    public void startActiviyInvite(){
+        Intent intent = new Intent(this,InviteActivity.class);
         startActivity(intent);
     }
 

@@ -17,7 +17,7 @@ public class ProjectService {
             = MediaType.get("application/json; charset=utf-8");
 
     public ProjectService() {
-         client= new OkHttpClient();
+         client = new OkHttpClient();
 
     }
 
@@ -39,6 +39,7 @@ public class ProjectService {
             String responseString = response.body().string();
         }
     }
+
 
 
 }

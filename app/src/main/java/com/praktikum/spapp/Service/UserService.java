@@ -11,6 +11,8 @@ import java.io.IOException;
 public class UserService {
 
     OkHttpClient client = new OkHttpClient();
+
+    //for now do singleton pattern
     String authToken;
 
     String ourAPI = "https//outAPI.com";
