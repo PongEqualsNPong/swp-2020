@@ -16,6 +16,10 @@
 <!--        <activity android:name=".Login">-->
 <!--        </activity>-->
         <activity android:name=".activities.Register">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -23,10 +27,6 @@
                 android:resource="@xml/login2"/>
 
         <activity android:name=".activities.Login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 
