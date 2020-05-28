@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.ServerJoin;
 
 public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,8 +21,9 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     // declare field
     Button buttonCreateProject;
 
-
     Button buttonInviteUser;
+
+    Button buttonOpenProject;
 
     EditText fieldChangePassword;
 
@@ -48,10 +48,12 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         fieldChangePassword = (EditText) findViewById(R.id.field_change);
         //TODO: new OnClickListener for buttonViewProfile
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
-        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
 
         buttonChangePassword.setOnClickListener(this);
         buttonViewProfile.setOnClickListener(this);
+
+
+        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
         buttonJoinServer.setOnClickListener(this);
 
 
@@ -64,8 +66,8 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         buttonInviteUser = (Button) findViewById(R.id.button_invite);
         buttonInviteUser.setOnClickListener(this);
 
-
-
+        buttonOpenProject = (Button) findViewById(R.id.button_viewprojects2);
+        buttonOpenProject.setOnClickListener(this);
 
     }
 
@@ -95,15 +97,15 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
             case R.id.button_joinserver:
                 startJoinServer(view);
                 break;
-
             case R.id.buttonCreateProject:
                 startActivityCreateProject(view);
-
+                break;
             case R.id.button_invite:
-                startActiviyInvite();
-
-
-
+                startActivityInvite();
+                break;
+            case R.id.button_viewprojects2:
+                startActivityViewProject();
+                break;
             }
     }
 
@@ -116,7 +118,6 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
                 intent.putExtra("username", username);
                 intent.putExtra("password", oldPassword);
                 startActivity(intent);
-
         }
         return true;
     }
@@ -139,8 +140,13 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    public void startActiviyInvite(){
-        Intent intent = new Intent(this,InviteActivity.class);
+    public void startActivityInvite(){
+        Intent intent = new Intent(this, InviteActivity.class);
+        startActivity(intent);
+    }
+
+    private void startActivityViewProject() {
+        Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
 
