@@ -22,7 +22,7 @@ public class ProjectService {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void projectCreate(Project project) throws JSONException, IOException {
+    public String projectCreate(Project project) throws JSONException, IOException {
 
         String data = new JSONObject()
                 .put("name", project.getName())
@@ -36,10 +36,17 @@ public class ProjectService {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             // create the response string
-            String responseString = response.body().string();
+            return response.body().string();
         }
     }
 
+    public String fetchAllProjects() throws IOException {
+        Request request = new Request.Builder()
+                .url(ourAPI)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
 
 
+    }
 }

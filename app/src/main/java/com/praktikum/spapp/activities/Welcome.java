@@ -130,7 +130,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
 
     // start Activities
     public void startActivityCreateProject(View view){
-        Intent intent = new Intent(this, CreateProject.class);
+        Intent intent = new Intent(this, CreateProjectActivity.class);
         startActivity(intent);
     }
 
@@ -140,7 +140,7 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void startActiviyInvite(){
-        Intent intent = new Intent(this,InviteActivity.class);
+        Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
 

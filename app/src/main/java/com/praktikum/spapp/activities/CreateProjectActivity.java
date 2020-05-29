@@ -8,21 +8,15 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.dto.Project;
-import org.json.JSONException;
 
-import java.io.IOException;
-
-public class CreateProject extends AppCompatActivity  {
+public class CreateProjectActivity extends AppCompatActivity implements View.OnClickListener {
 
     // UI Elements
     EditText textFieldEnterProjectName;
     EditText textFieldEnterProjectDescription;
     Button buttonCreate;
 
-
-    ProjectService projectService = new ProjectService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,32 +28,36 @@ public class CreateProject extends AppCompatActivity  {
         textFieldEnterProjectDescription = (EditText) findViewById(R.id.enterProjectDescription);
         buttonCreate = (Button) findViewById(R.id.buttonCreateProject);
 
-//        buttonCreate.setOnClickListener(this);
+        buttonCreate.setOnClickListener(this);
 
 
     }
 
-//    @Override
+    //    @Override
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onClick(View v) {
 
 
-        final Project project = new Project(){};
+        final Project project = new Project() {
+        };
         project.setName(textFieldEnterProjectName.getText().toString());
         project.setName(textFieldEnterProjectDescription.getText().toString());
 
-        new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void run() {
-                try {
-                    projectService.projectCreate(project);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+//        runOnUiThread((new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    ProjectService projectService = new ProjectService();
+//                    projectService.projectCreate(project);
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }));
     }
 }
