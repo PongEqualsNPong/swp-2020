@@ -2,6 +2,7 @@ package com.praktikum.spapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,7 +72,10 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void startOpenMailView(View view) {
-        Intent intent = new Intent(this, openMail.class);
+        
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.parse("mailto:?subject=" + givenEmail + "&body"+ "hello");
+        intent.setData(data);
         startActivity(intent);
     }
 }
