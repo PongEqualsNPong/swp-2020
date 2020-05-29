@@ -63,6 +63,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+
+
         //assign intend extras to variables
         givenName = loginName.getText().toString();
         givenPassword = loginPassword.getText().toString();
