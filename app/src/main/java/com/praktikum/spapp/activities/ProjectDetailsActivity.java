@@ -1,15 +1,13 @@
 package com.praktikum.spapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
 
-public class changePWD extends AppCompatActivity {
-
+public class ProjectDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_p_w_d);
+        setContentView(R.layout.activity_project_details);
     }
 }

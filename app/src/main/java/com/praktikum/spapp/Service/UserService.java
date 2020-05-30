@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.praktikum.spapp.dto.AuthenticatorSingleton;
 import okhttp3.*;
 import org.json.JSONException;
 
@@ -13,29 +14,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserService {
+public class UserService extends Service{
 
-    OkHttpClient client;
-
-    //for now do singleton pattern
-    String authToken;
-
-    final String ourAPI = "https://api.solaimani.de/api/auth/signin";
-
-    // this in abstract Service class?
-    public static final MediaType JSON
-            = MediaType.get("application/json; charset=utf-8");
-
-
-    // constructor empty
+    //
     public UserService() {
-        client = new OkHttpClient();
+        super();
     }
 
-
-
     public String testAPI() throws IOException, JSONException {
-        Request request = new Request.Builder().url(ourAPI).build();
+        Request request = new Request.Builder().url(api).build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
         JsonObject someJSON =  new JsonParser().parse(responseString).getAsJsonObject();
@@ -43,7 +30,6 @@ public class UserService {
         System.out.println(responseString);
         System.out.println(result);
         return result;
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -61,7 +47,7 @@ public class UserService {
         RequestBody requestBody = RequestBody.create(jsonString,JSON);
         // make request
         Request request = new Request.Builder()
-                .url(ourAPI)
+                .url(api)
                 .post(requestBody)
                 .build();
 
@@ -72,24 +58,23 @@ public class UserService {
             // convert string to json object
             JsonParser parser = new JsonParser();
             JsonObject result = parser.parse(responseString).getAsJsonObject();
+
+
             // parse the auth token
-//            AuthenticatorSingleton.getInstance().setAccessToken(gson.fromJson(responseString, String.class));
+            AuthenticatorSingleton.getInstance().setAccessToken(gson.fromJson(responseString, String.class));
             return responseString;
 
         } catch (Exception e) {
             e.getMessage();
         }
         return null;
-
     }
 
     public String fetchAllUsers() throws IOException {
         Request request = new Request.Builder()
-                .url(ourAPI)
+                .url(api)
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
-
 }

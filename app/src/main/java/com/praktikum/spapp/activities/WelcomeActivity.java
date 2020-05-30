@@ -12,23 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.ServerJoin;
 
-public class Welcome extends AppCompatActivity implements View.OnClickListener {
-
-    Button buttonChangePassword;
-    Button buttonViewProfile;
-    Button buttonJoinServer;
-    // declare field
-    Button buttonCreateProject;
-
-
-    Button buttonInviteUser;
-
-    EditText fieldChangePassword;
+public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     String username, newPassword, oldPassword;
-
+    // PW CORNER
+    Button buttonChangePassword;
+    Button buttonJoinServer;
+    EditText fieldChangePassword;
+    // USER CORNER
+    Button buttonViewProfile;
+    Button buttonInviteUser;
+    Button CheckForInvite;
+    //PROJECT CORNER
+    Button buttonOpenProject;
+    Button buttonCreateProject;
+    Button buttonProjectDetails;
+    Button buttonViewProjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +48,41 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
         fieldChangePassword = (EditText) findViewById(R.id.field_change);
         //TODO: new OnClickListener for buttonViewProfile
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
-        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
 
         buttonChangePassword.setOnClickListener(this);
         buttonViewProfile.setOnClickListener(this);
+
+
+        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
         buttonJoinServer.setOnClickListener(this);
 
+        CheckForInvite = (Button) findViewById(R.id.button_invitecheck);
+        CheckForInvite.setOnClickListener(this);
 
-        // field binden
         buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
-
-        // field set on click listener
         buttonCreateProject.setOnClickListener(this);
 
         buttonInviteUser = (Button) findViewById(R.id.button_invite);
         buttonInviteUser.setOnClickListener(this);
 
+        buttonOpenProject = (Button) findViewById(R.id.button_openproject);
+        buttonOpenProject.setOnClickListener(this);
 
+        buttonProjectDetails = (Button) findViewById(R.id.button_detailproject);
+        buttonProjectDetails.setOnClickListener(this);
 
-
+        buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
+        buttonViewProjects.setOnClickListener(this);
     }
 
     public void startLogin() {
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", newPassword);
         startActivity(intent);
     }
 
-//    @Override
+    //    @Override
     public void onClick(View view) {
         //toast checking pw field is not null
         switch (view.getId()) {
@@ -90,33 +96,41 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.button_viewprofile:
-                Toast.makeText(this, "SHOULD BE DIFFERENT", Toast.LENGTH_SHORT).show();
+                startViewProfile();
                 break;
             case R.id.button_joinserver:
-                startJoinServer(view);
+                startJoinServer();
                 break;
-
             case R.id.buttonCreateProject:
                 startActivityCreateProject(view);
-
+                break;
             case R.id.button_invite:
-                startActiviyInvite();
-
-
-
-            }
+                startActivityInvite();
+                break;
+            case R.id.button_invitecheck:
+                startActivityCheckForInvite();
+                break;
+            case R.id.button_openproject:
+                startActivityOpenProject();
+                break;
+            case R.id.button_detailproject:
+                startActivityProjectDetails();
+                break;
+            case R.id.button_viewprojects:
+                startActivityViewProject();
+                break;
+        }
     }
 
-//     on click of toolbar item
+    //     on click of toolbar item
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
-                Intent intent = new Intent(this, Login.class);
+                Intent intent = new Intent(this, LoginActivity.class);
                 intent.putExtra("username", username);
                 intent.putExtra("password", oldPassword);
                 startActivity(intent);
-
         }
         return true;
     }
@@ -129,18 +143,43 @@ public class Welcome extends AppCompatActivity implements View.OnClickListener {
     }
 
     // start Activities
-    public void startActivityCreateProject(View view){
+    public void startActivityCreateProject(View view) {
         Intent intent = new Intent(this, CreateProjectActivity.class);
         startActivity(intent);
     }
 
-    public void startJoinServer(View view){
-        Intent intent = new Intent(this, ServerJoin.class);
+    public void startJoinServer() {
+        Intent intent = new Intent(this, ServerJoinActivity.class);
         startActivity(intent);
     }
 
-    public void startActiviyInvite(){
+    public void startViewProfile() {
+        Intent intent = new Intent(this, ViewProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void startActivityCheckForInvite() {
+        Intent intent = new Intent(this, CheckForInviteActivity.class);
+        startActivity(intent);
+    }
+
+    private void startActivityOpenProject() {
+        Intent intent = new Intent(this, OpenProjectActivity.class);
+        startActivity(intent);
+    }
+
+    private void startActivityProjectDetails() {
+        Intent intent = new Intent(this, ProjectDetailsActivity.class);
+        startActivity(intent);
+    }
+
+    public void startActivityInvite() {
         Intent intent = new Intent(this, InviteActivity.class);
+        startActivity(intent);
+    }
+
+    private void startActivityViewProject() {
+        Intent intent = new Intent(this, ViewProjectActivity.class);
         startActivity(intent);
     }
 

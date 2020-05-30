@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void startLogin(View view){
 
         // intent extras in a bundle
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         Bundle extras = new Bundle();
         String sendName = userName.getText().toString();
         String sendPassword = password.getText().toString();
