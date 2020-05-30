@@ -72,7 +72,7 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void startOpenMailView(View view) {
-        
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         Uri data = Uri.parse("mailto:?subject=" + givenEmail + "&body"+ "hello");
         intent.setData(data);
