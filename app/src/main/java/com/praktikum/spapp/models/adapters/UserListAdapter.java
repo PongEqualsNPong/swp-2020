@@ -79,22 +79,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         holder.email.setText(email);
         holder.role.setText(roleString);
 
-
-
-
-
-
-//        TextView tvUsername = (TextView) convertView.findViewById(R.id.textView1);
-//        TextView tvEmail = (TextView) convertView.findViewById(R.id.textView2);
-//        TextView tvRole = (TextView) convertView.findViewById(R.id.textView3);
-//
-//        tvUsername.setText(username);
-//        tvEmail.setText(email);
-//        tvRole.setText(role.toString() );
-
         return convertView;
 
     }
-
-
 }

@@ -164,7 +164,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void startActivityOpenProject() {
-        Intent intent = new Intent(this, OpenProjectActivity.class);
+        Intent intent = new Intent(this, OpenAllProjectsActivity.class);
         startActivity(intent);
     }
 

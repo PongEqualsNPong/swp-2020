@@ -42,7 +42,7 @@
         <activity android:name=".activities.ServerJoinActivity"/>
         <activity android:name=".activities.CheckForInviteActivity"/>
         <activity android:name=".activities.ProjectDetailsActivity"/>
-        <activity android:name=".activities.OpenProjectActivity"/>
+        <activity android:name=".activities.OpenAllProjectsActivity"/>
         <activity android:name=".activities.ViewProjectActivity"/>
         <activity android:name=".activities.ViewProfileActivity"/>
     </application>
