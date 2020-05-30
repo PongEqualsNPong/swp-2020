@@ -1,4 +1,4 @@
-package com.praktikum.spapp.models;
+package com.praktikum.spapp.models.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.Role;
 
 import java.util.ArrayList;
@@ -45,8 +46,6 @@ public class UserListAdapter extends ArrayAdapter<User> {
         String roleString = role.toString();
 
         User user = new User(username, email, role);
-
-
 
         //create view result
         final View result;
@@ -96,4 +95,6 @@ public class UserListAdapter extends ArrayAdapter<User> {
         return convertView;
 
     }
+
+
 }

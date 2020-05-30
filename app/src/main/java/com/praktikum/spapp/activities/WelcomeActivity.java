@@ -154,7 +154,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void startViewProfile() {
-        Intent intent = new Intent(this, ShowFetchedUsers.class);
+        Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
         startActivity(intent);
     }
 

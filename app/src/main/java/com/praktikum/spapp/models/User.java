@@ -2,7 +2,9 @@ package com.praktikum.spapp.models;
 
 import com.praktikum.spapp.models.enums.Role;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private String username;
 

@@ -9,7 +9,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.ShowFetchedUsers">
+        <activity android:name=".activities.ShowUserDetailsActivity">
+        </activity>
+        <activity android:name=".activities.ShowFetchedUsersActivity">
         </activity>
         <activity android:name=".activities.openMailActivity"/>
         <activity android:name=".activities.InviteActivity"/>

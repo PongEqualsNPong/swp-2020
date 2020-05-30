@@ -1,6 +1,8 @@
 package com.praktikum.spapp.models;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
 
     private String id;
 
