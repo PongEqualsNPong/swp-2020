@@ -6,15 +6,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.praktikum.spapp.dto.AuthenticatorSingleton;
-import okhttp3.*;
+import com.google.gson.reflect.TypeToken;
+import com.praktikum.spapp.models.AuthenticatorSingleton;
+import com.praktikum.spapp.models.User;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class UserService extends Service{
+public class UserService extends Service {
 
     //
     public UserService() {
@@ -25,7 +32,7 @@ public class UserService extends Service{
         Request request = new Request.Builder().url(api).build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        JsonObject someJSON =  new JsonParser().parse(responseString).getAsJsonObject();
+        JsonObject someJSON = new JsonParser().parse(responseString).getAsJsonObject();
         String result = someJSON.get("status").getAsString();
         System.out.println(responseString);
         System.out.println(result);
@@ -36,7 +43,7 @@ public class UserService extends Service{
     public String loginOnServer(String nameOrEmail, String password) throws IOException, JSONException {
 
         // create jsonString GSON by map
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("username", nameOrEmail);
         map.put("password", password);
         Gson gson = new GsonBuilder().create();
@@ -44,7 +51,7 @@ public class UserService extends Service{
 
 
         // create request body
-        RequestBody requestBody = RequestBody.create(jsonString,JSON);
+        RequestBody requestBody = RequestBody.create(jsonString, JSON);
         // make request
         Request request = new Request.Builder()
                 .url(api)
@@ -52,7 +59,7 @@ public class UserService extends Service{
                 .build();
 
         // get the response as a string
-        try(Response response = client.newCall(request).execute()) {
+        try (Response response = client.newCall(request).execute()) {
             // create the response string
             String responseString = response.body().string();
             // convert string to json object
@@ -70,11 +77,16 @@ public class UserService extends Service{
         return null;
     }
 
-    public String fetchAllUsers() throws IOException {
+    public List<User> fetchAllUsers() throws IOException {
         Request request = new Request.Builder()
                 .url(api)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        String responseString = response.body().string();
+
+        Gson gson =  new Gson();
+        //
+        Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+        return gson.fromJson(responseString, listType);
     }
 }

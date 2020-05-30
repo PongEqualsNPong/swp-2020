@@ -2,7 +2,7 @@ package com.praktikum.spapp.Service;
 
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import com.praktikum.spapp.dto.Project;
+import com.praktikum.spapp.models.Project;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;

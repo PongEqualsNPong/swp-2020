@@ -11,8 +11,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testOptions {
-                unitTests.returnDefaultValues = true
-            }
+            unitTests.returnDefaultValues = true
+        }
 
     }
     buildTypes {

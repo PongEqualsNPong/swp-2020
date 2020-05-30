@@ -1,4 +1,4 @@
-package com.praktikum.spapp.dto;
+package com.praktikum.spapp.models;
 
 public class Project {
 

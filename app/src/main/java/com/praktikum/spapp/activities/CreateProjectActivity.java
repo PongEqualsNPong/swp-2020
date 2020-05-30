@@ -8,7 +8,7 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.dto.Project;
+import com.praktikum.spapp.models.Project;
 
 public class CreateProjectActivity extends AppCompatActivity implements View.OnClickListener {
 
