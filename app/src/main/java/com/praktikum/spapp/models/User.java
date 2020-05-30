@@ -16,6 +16,7 @@ public class User implements Serializable {
 
 //    private UserInfo userInfo;
 
+    //TODO BACKEND, siehe ShowFetchedUsersActivity.java
     public User(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;

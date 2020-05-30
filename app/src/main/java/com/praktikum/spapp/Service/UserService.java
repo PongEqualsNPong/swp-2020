@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserService extends Service {
@@ -50,6 +49,8 @@ public class UserService extends Service {
         String jsonString = gson.toJson(map);
 
 
+
+
         // create request body
         RequestBody requestBody = RequestBody.create(jsonString, JSON);
         // make request
@@ -77,7 +78,7 @@ public class UserService extends Service {
         return null;
     }
 
-    public List<User> fetchAllUsers() throws IOException {
+    public ArrayList<User> fetchAllUsers() throws IOException {
         Request request = new Request.Builder()
                 .url(api)
                 .build();
@@ -85,8 +86,9 @@ public class UserService extends Service {
         String responseString = response.body().string();
 
         Gson gson =  new Gson();
-        //
+        //tell gson which type
         Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+        //map return and ArrayList<User>
         return gson.fromJson(responseString, listType);
     }
 }

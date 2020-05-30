@@ -24,6 +24,7 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
+        //TODO delete this data, fetch intent and deserialize, on BACKEND we need some User data like this
         User cyberMujahid = new User("cyber","1234", "cyberemail", ROLE_ADMIN);
         User monsoon = new User("monsoon","4321", "monsoonemail", ROLE_ADMIN);
         User sol = new User("sol","789", "solemail", ROLE_USER);

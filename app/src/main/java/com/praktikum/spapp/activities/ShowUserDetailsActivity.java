@@ -9,6 +9,7 @@ import com.praktikum.spapp.models.User;
 public class ShowUserDetailsActivity extends AppCompatActivity {
 
     TextView username;
+    TextView email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
 
         username = (TextView) findViewById(R.id.textView4);
         username.setText(user.getUsername());
+        email.setText(user.getEmail());
 
 
 

@@ -12,6 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.models.User;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -96,7 +101,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.button_viewprofile:
-                startViewProfile();
+                try {
+                    startViewProfile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.button_joinserver:
                 startJoinServer();
@@ -152,9 +161,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, ServerJoinActivity.class);
         startActivity(intent);
     }
-
-    public void startViewProfile() {
+    //TODO start thread, userservice.fetchAllUsers, pass List<User> as intent, deserialize in following activity
+    public void startViewProfile() throws IOException {
+        UserService userService = new UserService();
+        ArrayList<User> fetchedUsersAsList =  userService.fetchAllUsers();
         Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
+        intent.putExtra("userList",  fetchedUsersAsList);
         startActivity(intent);
     }
 

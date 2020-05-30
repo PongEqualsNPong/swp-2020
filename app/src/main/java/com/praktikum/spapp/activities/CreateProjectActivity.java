@@ -38,7 +38,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
 
-        final Project project = new Project() {
+        Project project = new Project() {
         };
         project.setName(textFieldEnterProjectName.getText().toString());
         project.setName(textFieldEnterProjectDescription.getText().toString());
