@@ -13,7 +13,6 @@
         </activity>
         <activity android:name=".activities.ShowFetchedUsersActivity">
         </activity>
-        <activity android:name=".activities.openMailActivity"/>
         <activity android:name=".activities.InviteActivity"/>
         <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess"/>
         <activity android:name=".activities.CreateProjectActivity"/>
