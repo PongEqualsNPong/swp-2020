@@ -128,6 +128,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_viewprojects:
                 startActivityViewProject();
                 break;
+            case R.id.buttonShowAllUser:
+                startActivityShowAllUser();
+                break;
         }
     }
 
@@ -192,6 +195,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private void startActivityViewProject() {
         Intent intent = new Intent(this, ViewProjectActivity.class);
+        startActivity(intent);
+    }
+    public void startActivityShowAllUser() {
+        Intent intent = new Intent(this, showAllUserActivity.class);
         startActivity(intent);
     }
 }
