@@ -26,6 +26,7 @@ public class ServerJoinActivity extends AppCompatActivity  implements View.OnCli
     //XML elems
     EditText uname, password;
     Button buttonConfirm;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,12 @@ public class ServerJoinActivity extends AppCompatActivity  implements View.OnCli
 
         buttonConfirm = (Button) findViewById(R.id.serverjoin_buttonConfirm);
         buttonConfirm.setOnClickListener(this);
-
+        
+        try {
+            postToServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
