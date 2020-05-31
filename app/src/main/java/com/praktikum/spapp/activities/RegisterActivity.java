@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import com.praktikum.spapp.R;
 
-public class Register extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText userName, password;
     Button sign_up;
@@ -39,7 +39,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void startLogin(View view){
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         Bundle extras = new Bundle();
         String sendName = userName.getText().toString();
         String sendPassword = password.getText().toString();

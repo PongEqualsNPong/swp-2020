@@ -9,7 +9,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     // variable from intend
     String password, username;
@@ -46,14 +46,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     // start refuse activity
     // open the Refused View page.
     public void startRefused(View view){
-        Intent intent = new Intent(this, Refused.class);
+        Intent intent = new Intent(this, RefusedActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         startActivity(intent);
     }
     // start welcome activity
     public void startWelcome(View view){
-        Intent intent = new Intent(this, Welcome.class);
+        Intent intent = new Intent(this, WelcomeActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         // bp

@@ -13,7 +13,7 @@ import com.praktikum.spapp.R;
 
 import java.util.Random;
 
-public class Refused extends AppCompatActivity implements View.OnClickListener {
+public class RefusedActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     // constant that needs to be put in
@@ -61,7 +61,7 @@ public class Refused extends AppCompatActivity implements View.OnClickListener {
 
     }
     public void startLogin(View view){
-        Intent intent = new Intent(this, Login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         startActivity(intent);

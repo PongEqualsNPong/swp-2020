@@ -1,4 +1,4 @@
-package com.praktikum.spapp.dto.enums;
+package com.praktikum.spapp.models.enums;
 
 public enum ProjectType {
 

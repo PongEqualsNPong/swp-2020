@@ -4,10 +4,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
 
-public class ViewProject extends AppCompatActivity  {
+public class ProjectDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_project);
+        setContentView(R.layout.activity_project_details);
     }
 }

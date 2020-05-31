@@ -1,13 +1,16 @@
 package com.praktikum.spapp.activities;
 
-import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
 import com.praktikum.spapp.R;
 
-public class OpenProject extends AppCompatActivity {
+public class openMailActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_project);
+        setContentView(R.layout.activity_open_mail);
     }
 }

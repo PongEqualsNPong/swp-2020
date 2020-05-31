@@ -1,16 +1,14 @@
 package com.praktikum.spapp.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
+
 
 public class InviteActivity extends AppCompatActivity implements View.OnClickListener {
     //string from intent
@@ -72,10 +70,7 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void startOpenMailView(View view) {
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        Uri data = Uri.parse("mailto:?subject=" + givenEmail + "&body"+ "hello");
-        intent.setData(data);
+        Intent intent = new Intent(this, openMailActivity.class);
         startActivity(intent);
     }
 }

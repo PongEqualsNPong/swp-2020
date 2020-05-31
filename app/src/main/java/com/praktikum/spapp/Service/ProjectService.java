@@ -2,27 +2,21 @@ package com.praktikum.spapp.Service;
 
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import com.praktikum.spapp.dto.Project;
+import com.praktikum.spapp.models.Project;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class ProjectService {
-    OkHttpClient client;
-    String ourAPI = "https//outAPI.com";
-
-    public static final MediaType JSON
-            = MediaType.get("application/json; charset=utf-8");
+public class ProjectService extends Service {
 
     public ProjectService() {
-         client = new OkHttpClient();
-
+        super();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void projectCreate(Project project) throws JSONException, IOException {
+    public String projectCreate(Project project) throws JSONException, IOException {
 
         String data = new JSONObject()
                 .put("name", project.getName())
@@ -31,15 +25,22 @@ public class ProjectService {
 
         RequestBody requestBody = RequestBody.create(data, JSON);
         Request request = new Request.Builder()
-                .url(ourAPI)
+                .url(api)
                 .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             // create the response string
-            String responseString = response.body().string();
+            return response.body().string();
         }
     }
 
+    public String fetchAllProjects() throws IOException {
+        Request request = new Request.Builder()
+                .url(api)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response.body().string();
 
 
+    }
 }
