@@ -41,6 +41,7 @@
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.ServerJoinActivity"/>
         <activity android:name=".activities.CheckForInviteActivity"/>
+        <activity android:name=".activities.CheckForInvite2"/>
         <activity android:name=".activities.ProjectDetailsActivity"/>
         <activity android:name=".activities.OpenAllProjectsActivity"/>
         <activity android:name=".activities.ViewProjectActivity"/>
