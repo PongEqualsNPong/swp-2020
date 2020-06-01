@@ -12,8 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.models.User;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final static String TAG = "Welcome Activity";
+
+    ArrayList<User> userArrayList;
+
 
     String username, newPassword, oldPassword;
     // PW CORNER
@@ -154,32 +164,45 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void startViewProfile() {
-        Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
-        startActivity(intent);
+        new Thread(() -> {
+
+            UserService userService = new UserService();
+            try {
+                ArrayList<User> userArrayList = (ArrayList<User>) userService.fetchAllUsers();
+                Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
+                intent.putExtra("userArrayList", userArrayList);
+
+                runOnUiThread(() -> {
+                    startActivity(intent);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
-    private void startActivityCheckForInvite() {
-        Intent intent = new Intent(this, CheckForInviteActivity.class);
-        startActivity(intent);
-    }
+        private void startActivityCheckForInvite () {
+            Intent intent = new Intent(this, CheckForInviteActivity.class);
+            startActivity(intent);
+        }
 
-    private void startActivityOpenProject() {
-        Intent intent = new Intent(this, OpenAllProjectsActivity.class);
-        startActivity(intent);
-    }
+        private void startActivityOpenProject () {
+            Intent intent = new Intent(this, OpenAllProjectsActivity.class);
+            startActivity(intent);
+        }
 
-    private void startActivityProjectDetails() {
-        Intent intent = new Intent(this, ProjectDetailsActivity.class);
-        startActivity(intent);
-    }
+        private void startActivityProjectDetails () {
+            Intent intent = new Intent(this, ProjectDetailsActivity.class);
+            startActivity(intent);
+        }
 
-    public void startActivityInvite() {
-        Intent intent = new Intent(this, InviteActivity.class);
-        startActivity(intent);
-    }
+        public void startActivityInvite () {
+            Intent intent = new Intent(this, InviteActivity.class);
+            startActivity(intent);
+        }
 
-    private void startActivityViewProject() {
-        Intent intent = new Intent(this, ViewProjectActivity.class);
-        startActivity(intent);
+        private void startActivityViewProject () {
+            Intent intent = new Intent(this, ViewProjectActivity.class);
+            startActivity(intent);
+        }
     }
-}

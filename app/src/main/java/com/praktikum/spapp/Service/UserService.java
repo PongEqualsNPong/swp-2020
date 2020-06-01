@@ -1,6 +1,7 @@
 package com.praktikum.spapp.Service;
 
 import android.os.Build;
+import android.util.Log;
 import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 public class UserService extends Service {
 
+    private final static String TAG = "UserService";
     //
     public UserService() {
         super();
@@ -78,15 +80,25 @@ public class UserService extends Service {
     }
 
     public List<User> fetchAllUsers() throws IOException {
+        String empty = "";
         Request request = new Request.Builder()
                 .url(api)
+                .header("Authorization", "Bearer sdf")
+                .post(RequestBody.create(empty,JSON))
                 .build();
+
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
+        System.out.println(responseString);
+
 
         Gson gson =  new Gson();
         //
         Type listType = new TypeToken<ArrayList<User>>(){}.getType();
-        return gson.fromJson(responseString, listType);
+        ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
+        if(userArrayList == null) {
+            Log.d(TAG, "fetchAllUsers: ");;
+        }
+        return userArrayList;
     }
 }
