@@ -20,7 +20,7 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_fetched_users);
 
         final ListView listView = (ListView) findViewById(R.id.listView);
-
+        //This will be set Var from LoginActivit/FetchUserAll for now
         ArrayList<User> userArrayList = (ArrayList<User>)getIntent().getSerializableExtra("userArrayList");
 
         final UserListAdapter adapter = new UserListAdapter(this, R.layout.adapter_view_layout, userArrayList);

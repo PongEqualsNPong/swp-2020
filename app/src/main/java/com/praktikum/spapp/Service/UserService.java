@@ -48,7 +48,7 @@ public class UserService extends Service {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public String loginOnServer(String nameOrEmail, String password) throws IOException, JSONException {
+    public Token loginOnServer(String nameOrEmail, String password) throws IOException, JSONException {
 
         // create jsonString GSON by map
         Map<String, String> map = new HashMap<String, String>();
@@ -73,7 +73,7 @@ public class UserService extends Service {
 
         System.out.print(tokenJson.getAccessToken());
         UserService.accessToken = tokenJson.getAccessToken();
-        return tokenJson.getAccessToken();
+        return tokenJson;
     }
 
     public List<User> fetchAllUsers() throws IOException {

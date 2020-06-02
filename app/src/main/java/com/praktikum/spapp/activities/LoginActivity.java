@@ -1,13 +1,24 @@
 package com.praktikum.spapp.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.models.Token;
+import com.praktikum.spapp.models.User;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View view) {
 
@@ -69,11 +81,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         givenName = loginName.getText().toString();
         givenPassword = loginPassword.getText().toString();
 
+
+        new Thread(() -> {
+
+            UserService userService = new UserService();
+            try {
+                Token userArrayList = (Token) userService.loginOnServer(givenName,givenPassword);
+                //Activity will be shown next Intent will be changed
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                //Map
+                intent.putExtra("token", userArrayList);
+                //System.out.print(userArrayList.getSuccess());
+                //TODO
+                if(userArrayList.getSuccess() == "1") {
+                    runOnUiThread(() -> {
+                        //Intent will be started
+                        startActivity(intent);
+                    });
+                }else{
+                    startRefused(view);
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+
         // compare
-        if(givenName.equals(username) && givenPassword.equals(password)){
+        /*if(givenName.equals(username) && givenPassword.equals(password)){
             startWelcome(view);
         } else {
             startRefused(view);
-        }
+        }*/
     }
 }
