@@ -15,16 +15,16 @@ public class UserServiceTest {
         System.out.println(userService.testAPI());
     }
 
-//    @Test
-//    public void loginOnServerTest() throws JSONException, IOException {
-//
-//        String nameAdmin = "admin";
-//        String passwordAdmin = "admin";
-//        String wrongPasswordAdmin = "wrong";
-//
-//        UserService userService = new UserService();
-//        System.out.println(userService.loginOnServer(nameAdmin, passwordAdmin));
-//    }
+    @Test
+    public void loginOnServerTest() throws JSONException, IOException {
+
+        String nameAdmin = "admin";
+        String passwordAdmin = "admin";
+        String wrongPasswordAdmin = "wrong";
+
+        UserService userService = new UserService();
+        System.out.println(userService.loginOnServer(nameAdmin, passwordAdmin));
+    }
 
 
     @Test
