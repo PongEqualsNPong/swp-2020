@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.UserService;
 import com.praktikum.spapp.models.User;
@@ -19,6 +21,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final static String TAG = "Welcome Activity";
+
+    ArrayList<User> userArrayList;
+
 
     String username, newPassword, oldPassword;
     // PW CORNER
@@ -101,11 +108,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.button_viewprofile:
-                try {
-                    startViewProfile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                startViewProfile();
                 break;
             case R.id.button_joinserver:
                 startJoinServer();
@@ -164,13 +167,23 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, ServerJoinActivity.class);
         startActivity(intent);
     }
-    //TODO start thread, userservice.fetchAllUsers, pass List<User> as intent, deserialize in following activity
-    public void startViewProfile() throws IOException {
-        UserService userService = new UserService();
-        ArrayList<User> fetchedUsersAsList =  userService.fetchAllUsers();
-        Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
-        intent.putExtra("userList",  fetchedUsersAsList);
-        startActivity(intent);
+
+    public void startViewProfile() {
+        new Thread(() -> {
+
+            UserService userService = new UserService();
+            try {
+                ArrayList<User> userArrayList = (ArrayList<User>) userService.fetchAllUsers();
+                Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
+                intent.putExtra("userArrayList", userArrayList);
+
+                runOnUiThread(() -> {
+                    startActivity(intent);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private void startActivityCheckForInvite() {
@@ -197,8 +210,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, ViewProjectActivity.class);
         startActivity(intent);
     }
+
     public void startActivityShowAllUser() {
         Intent intent = new Intent(this, showAllUserActivity.class);
         startActivity(intent);
     }
 }
+

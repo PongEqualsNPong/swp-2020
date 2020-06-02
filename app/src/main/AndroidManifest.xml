@@ -45,5 +45,6 @@
         <activity android:name=".activities.ViewProjectActivity" />
         <activity android:name=".activities.ViewProfileActivity" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

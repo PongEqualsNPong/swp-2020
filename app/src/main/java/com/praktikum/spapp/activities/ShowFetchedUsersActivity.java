@@ -12,9 +12,6 @@ import com.praktikum.spapp.models.adapters.UserListAdapter;
 
 import java.util.ArrayList;
 
-import static com.praktikum.spapp.models.enums.Role.ROLE_ADMIN;
-import static com.praktikum.spapp.models.enums.Role.ROLE_USER;
-
 public class ShowFetchedUsersActivity extends AppCompatActivity {
 
     @Override
@@ -24,39 +21,9 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
 
         final ListView listView = (ListView) findViewById(R.id.listView);
 
-        //TODO delete this data, fetch intent and deserialize, on BACKEND we need some User data like this
-        User cyberMujahid = new User("cyber","1234", "cyberemail", ROLE_ADMIN);
-        User monsoon = new User("monsoon","4321", "monsoonemail", ROLE_ADMIN);
-        User sol = new User("sol","789", "solemail", ROLE_USER);
-        User tung = new User("tung","987", "tungemail", ROLE_USER);
+        ArrayList<User> userArrayList = (ArrayList<User>)getIntent().getSerializableExtra("userArrayList");
 
-        ArrayList<User> arrayList = new ArrayList<>();
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-        arrayList.add(cyberMujahid);
-        arrayList.add(monsoon);
-        arrayList.add(sol);
-        arrayList.add(tung);
-
-        final UserListAdapter adapter = new UserListAdapter(this, R.layout.adapter_view_layout, arrayList);
+        final UserListAdapter adapter = new UserListAdapter(this, R.layout.adapter_view_layout, userArrayList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((new AdapterView.OnItemClickListener() {
