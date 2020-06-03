@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     });
                 }else{
                     startRefused(view);
+
                 }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
