@@ -10,6 +10,7 @@ public class Token implements Serializable {
     public String tokenType;
     public String accessToken;
     public String success;
+    public static String userId;
 
     public Token(String tokenType, String accessToken, String success) {
         this.tokenType = tokenType;
@@ -43,5 +44,13 @@ public class Token implements Serializable {
 
     public String getSuccess() {
         return success;
+    }
+
+    public static String getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(String userId) {
+        Token.userId = userId;
     }
 }

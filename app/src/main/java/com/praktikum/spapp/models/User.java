@@ -7,12 +7,10 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private String username;
-
     private String password;
-
     private String email;
-
     private Role role;
+//    private UserInfo userInfo;
 
 //    private UserInfo userInfo;
 
@@ -24,6 +22,7 @@ public class User implements Serializable {
         this.role = role;
 //        this.userInfo = userInfo;
     }
+
     public User(String username, String email, Role role) {
         this.username = username;
         this.email = email;

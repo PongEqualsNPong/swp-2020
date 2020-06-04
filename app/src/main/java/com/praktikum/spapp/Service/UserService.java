@@ -5,11 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.Token;
 import com.praktikum.spapp.models.User;
 
@@ -30,6 +29,7 @@ public class UserService extends Service {
 
     private final static String TAG = "UserService";
     static String accessToken;
+
     //
     public UserService() {
         super();
@@ -67,7 +67,8 @@ public class UserService extends Service {
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
-        Type listType = new TypeToken<Token>(){}.getType();
+        Type listType = new TypeToken<Token>() {
+        }.getType();
         Token tokenJson = gson.fromJson(responseString, listType);
 
         System.out.print(tokenJson.getAccessToken());
@@ -85,15 +86,44 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
+//        System.out.println(responseString);
 
-        Gson gson = new Gson();
-        //
-        Type listType = new TypeToken<ArrayList<User>>() {}.getType();
-        ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
-        if (userArrayList == null) {
-            Log.d(TAG, "fetchAllUsers: ");
+        if (Utils.isSuccess(responseString)) {
+            Gson gson = new Gson();
+            //
+            Type listType = new TypeToken<ArrayList<User>>() {
+            }.getType();
+            ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
+            return userArrayList;
+        } else {
+            return null;
         }
-        return userArrayList;
     }
+
+    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
+
+        JSONObject data = new JSONObject()
+                .put("email", inviteForm.getEmail())
+                .put("projectId", inviteForm.getProjectId())
+                .put("role", inviteForm.getRole().toString());
+
+        if (inviteForm.isHandler()) {
+            data.put("projectRights", "handler");
+        }
+        if (inviteForm.isProcessor()) {
+            data.put("projectRights", "processor");
+        }
+        String dataString =  data.toString();
+
+        RequestBody requestBody = RequestBody.create(dataString, JSON);
+        Request request = new Request.Builder()
+                .url(api)
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
+
 }

@@ -8,8 +8,9 @@ import com.praktikum.spapp.models.User;
 
 public class ShowUserDetailsActivity extends AppCompatActivity {
 
-    TextView username;
-    TextView email;
+    TextView tvUsername;
+    TextView tvEmail;
+    TextView tvRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +19,12 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
 
         User user = (User) getIntent().getSerializableExtra("User");
 
-        username = (TextView) findViewById(R.id.textView4);
-        username.setText(user.getUsername());
-        email.setText(user.getEmail());
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvRole = (TextView) findViewById(R.id.tvRole);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
 
-
-
+        tvUsername.setText(user.getUsername());
+        tvRole.setText(user.getRole().toString());
+        tvEmail.setText(user.getEmail());
     }
 }

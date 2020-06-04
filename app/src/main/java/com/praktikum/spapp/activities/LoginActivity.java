@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     EditText loginName, loginPassword;
     Button loginButton;
     Dialog myDialog;
+    static Token token;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         new Thread(() -> {
             UserService userService = new UserService();
             try {
-                Token token = (Token) userService.loginOnServer(givenName,givenPassword);
+                token = (Token) userService.loginOnServer(givenName, givenPassword);
                 //Activity will be shown next Intent will be changed
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 //Map
