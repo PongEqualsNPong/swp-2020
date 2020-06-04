@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +12,6 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -27,8 +22,9 @@ import com.praktikum.spapp.models.Token;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     // variable from intend
     String password, username;
@@ -59,7 +55,7 @@ public class LoginActivity extends AppCompatActivity  {
         loginName = (EditText) findViewById(R.id.userName);
         loginPassword = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.login);
-        //loginButton.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
     }
 
     // start refuse activity
@@ -80,16 +76,15 @@ public class LoginActivity extends AppCompatActivity  {
 
     }
 
-  /*  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View view) {
 
         //assign intend extras to variables
         givenName = loginName.getText().toString();
         givenPassword = loginPassword.getText().toString();
-
+        AtomicBoolean credentinals = new AtomicBoolean(false);
         new Thread(() -> {
-
             UserService userService = new UserService();
             try {
                 Token token = (Token) userService.loginOnServer(givenName,givenPassword);
@@ -106,17 +101,19 @@ public class LoginActivity extends AppCompatActivity  {
                         startActivity(intent);
                     });
                  }else{
-
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            ShowPopup();
+                        }
+                    });
                 }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
 
-
-    }*/
-
-    public void ShowPopup(View v) {
+    public void ShowPopup() {
         TextView txtclose;
         Button btnFollow;
         myDialog.setContentView(R.layout.activity_static_pop_up);
