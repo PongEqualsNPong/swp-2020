@@ -47,6 +47,7 @@ public class ProjectService extends Service {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
+
     public ArrayList<Project> fetchProjectsOnlyFromUser(User user) throws IOException {
         Gson gson = new GsonBuilder().create();
 
