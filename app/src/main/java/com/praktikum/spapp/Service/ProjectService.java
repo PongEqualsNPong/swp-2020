@@ -3,6 +3,7 @@ package com.praktikum.spapp.Service;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.User;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +16,6 @@ public class ProjectService extends Service {
         super();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String projectCreate(Project project) throws JSONException, IOException {
 
         String data = new JSONObject()
@@ -40,7 +40,14 @@ public class ProjectService extends Service {
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
+    }
+    public String fetchProjectsOnlyFromUser(User user) throws IOException {
+        String responseString = fetchAllProjects();
 
 
+
+
+
+        return null;
     }
 }

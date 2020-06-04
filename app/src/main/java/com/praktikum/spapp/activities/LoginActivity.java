@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             UserService userService = new UserService();
             try {
-                Token token = (Token) userService.loginOnServer(givenName,givenPassword);
+                Token token = (Token) userService.loginOnServer(givenName, givenPassword);
                 //Activity will be shown next Intent will be changed
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 //Map

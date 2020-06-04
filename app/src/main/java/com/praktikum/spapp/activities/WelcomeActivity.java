@@ -122,9 +122,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_openproject:
                 startActivityOpenProject();
                 break;
-            case R.id.buttonShowAllUser:
-                startActivityShowAllUser();
-                break;
         }
     }
 
@@ -140,6 +137,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         }
         return true;
     }
+
+
 
     // create the menu
     @Override
@@ -187,9 +186,5 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startActivityShowAllUser() {
-        Intent intent = new Intent(this, ShowAllUserActivity.class);
-        startActivity(intent);
-    }
 }
 
