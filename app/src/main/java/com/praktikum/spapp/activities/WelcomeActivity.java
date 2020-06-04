@@ -110,9 +110,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_viewprofile:
                 startViewProfile();
                 break;
-            case R.id.button_joinserver:
-                startJoinServer();
-                break;
             case R.id.buttonCreateProject:
                 startActivityCreateProject(view);
                 break;
@@ -124,12 +121,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.button_openproject:
                 startActivityOpenProject();
-                break;
-            case R.id.button_detailproject:
-                startActivityProjectDetails();
-                break;
-            case R.id.button_viewprojects:
-                startActivityViewProject();
                 break;
             case R.id.buttonShowAllUser:
                 startActivityShowAllUser();
@@ -163,11 +154,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startJoinServer() {
-        Intent intent = new Intent(this, ServerJoinActivity.class);
-        startActivity(intent);
-    }
-
     public void startViewProfile() {
         new Thread(() -> {
 
@@ -196,23 +182,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    private void startActivityProjectDetails() {
-        Intent intent = new Intent(this, ProjectDetailsActivity.class);
-        startActivity(intent);
-    }
-
     public void startActivityInvite() {
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
 
-    private void startActivityViewProject() {
-        Intent intent = new Intent(this, ViewProjectActivity.class);
-        startActivity(intent);
-    }
-
     public void startActivityShowAllUser() {
-        Intent intent = new Intent(this, showAllUserActivity.class);
+        Intent intent = new Intent(this, ShowAllUserActivity.class);
         startActivity(intent);
     }
 }

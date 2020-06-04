@@ -49,26 +49,25 @@ public class RefusedActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         String field = returnField.getText().toString();
-        if(field.equals(Integer.toString(returnCode))) {
+        if (field.equals(Integer.toString(returnCode))) {
             startLogin(view);
-            Toast.makeText(this,"Valid security code",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Valid security code", Toast.LENGTH_SHORT).show();
         } else {
 //            temporary disable this as you should not advance if code is incorrect
-            startRegister(view);
+            startLogin(view);
 //            Toast.makeText(this,"Invalid security code",Toast.LENGTH_SHORT).show();
         }
-
-
     }
-    public void startLogin(View view){
+
+    public void startLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.putExtra("username", username);
         intent.putExtra("password", password);
         startActivity(intent);
     }
 
-    public void startRegister(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+    public void startRegister(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

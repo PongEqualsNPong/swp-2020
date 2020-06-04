@@ -86,22 +86,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             UserService userService = new UserService();
             try {
-                Token userArrayList = (Token) userService.loginOnServer(givenName,givenPassword);
+                Token token = (Token) userService.loginOnServer(givenName,givenPassword);
                 //Activity will be shown next Intent will be changed
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 //Map
-                intent.putExtra("token", userArrayList);
+                intent.putExtra("token", token);
                 //System.out.print(userArrayList.getSuccess());
                 //TODO
-                if(userArrayList.getSuccess() == "1") {
+                if(token.getSuccess().equals("1")) {
+                    System.out.println(token.getSuccess());
+                }
                     runOnUiThread(() -> {
-                        //Intent will be started
+//                        Intent will be started
                         startActivity(intent);
                     });
-                }else{
-                    startRefused(view);
-
-                }
+//                }else{
+//                    startRefused(view);
+//
+//                }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }

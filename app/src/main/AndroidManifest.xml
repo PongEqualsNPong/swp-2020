@@ -9,24 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.showAllUserActivity"></activity>
+        <activity android:name=".activities.ShowAllUserActivity"></activity>
         <activity android:name=".activities.ShowUserDetailsActivity"></activity>
         <activity android:name=".activities.ShowFetchedUsersActivity"></activity>
         <activity android:name=".activities.InviteActivity" />
         <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess" />
         <activity android:name=".activities.CreateProjectActivity" />
-        <activity android:name=".activities.WelcomeActivity">
-
-        </activity>
+        <activity android:name=".activities.WelcomeActivity"></activity>
         <activity android:name=".activities.RefusedActivity" /> <!-- <activity android:name=".Login"> -->
-        <!-- </activity> -->
-        <activity android:name=".activities.RegisterActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="com.google.android.actions"
@@ -39,13 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ServerJoinActivity" />
         <activity android:name=".activities.CheckForInviteActivity" />
         <activity android:name=".activities.CheckForInvite2" />
-        <activity android:name=".activities.ProjectDetailsActivity" />
         <activity android:name=".activities.OpenAllProjectsActivity" />
-        <activity android:name=".activities.ViewProjectActivity" />
-        <activity android:name=".activities.ViewProfileActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

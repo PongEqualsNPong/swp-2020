@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.praktikum.spapp.R;
 
-public class showAllUserActivity extends AppCompatActivity {
+public class ShowAllUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
