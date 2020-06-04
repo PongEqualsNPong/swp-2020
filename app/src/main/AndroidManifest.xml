@@ -9,19 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.ShowAllUserActivity"></activity>
-        <activity android:name=".activities.ShowUserDetailsActivity"></activity>
-        <activity android:name=".activities.ShowFetchedUsersActivity"></activity>
+        <activity android:name=".activities.StaticPopUp"></activity>
+        <activity android:name=".activities.ShowAllUserActivity" />
+        <activity android:name=".activities.ShowUserDetailsActivity" />
+        <activity android:name=".activities.ShowFetchedUsersActivity" />
         <activity android:name=".activities.InviteActivity" />
         <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess" />
         <activity android:name=".activities.CreateProjectActivity" />
-        <activity android:name=".activities.WelcomeActivity"></activity>
+        <activity android:name=".activities.WelcomeActivity" />
         <activity android:name=".activities.RefusedActivity" /> <!-- <activity android:name=".Login"> -->
-
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/login2" />
-
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +28,12 @@
         <activity android:name=".activities.CheckForInviteActivity" />
         <activity android:name=".activities.CheckForInvite2" />
         <activity android:name=".activities.OpenAllProjectsActivity" />
+
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/login2" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

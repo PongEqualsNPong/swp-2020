@@ -45,7 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 //TODO switch to ProjectDetailsActivity instead of a Toast
-                Toast.makeText(aContext, "ASSHOLE", Toast.LENGTH_SHORT).show();
+                Toast.makeText(aContext, "No Function", Toast.LENGTH_SHORT).show();
             }
         });
 

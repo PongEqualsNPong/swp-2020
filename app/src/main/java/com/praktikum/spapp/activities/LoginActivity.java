@@ -1,7 +1,13 @@
 package com.praktikum.spapp.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,18 +15,20 @@ import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.UserService;
 import com.praktikum.spapp.models.Token;
-import com.praktikum.spapp.models.User;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity  {
 
     // variable from intend
     String password, username;
@@ -29,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // xml elements
     EditText loginName, loginPassword;
     Button loginButton;
-
+    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setSupportActionBar(toolbar);
         // hardcoded rn
         getSupportActionBar().setTitle("Login");
-
+        myDialog = new Dialog(this);
         //
         Intent intent = getIntent();
         password = intent.getStringExtra("password");
@@ -51,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginName = (EditText) findViewById(R.id.userName);
         loginPassword = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.login);
-        loginButton.setOnClickListener(this);
+        //loginButton.setOnClickListener(this);
     }
 
     // start refuse activity
@@ -72,15 +80,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+  /*  @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View view) {
-
 
         //assign intend extras to variables
         givenName = loginName.getText().toString();
         givenPassword = loginPassword.getText().toString();
-
 
         new Thread(() -> {
 
@@ -95,26 +101,67 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //TODO
                 if(token.getSuccess().equals("1")) {
                     System.out.println(token.getSuccess());
-                }
                     runOnUiThread(() -> {
-//                        Intent will be started
+                        //Intent will be started
                         startActivity(intent);
                     });
-//                }else{
-//                    startRefused(view);
-//
-//                }
+                 }else{
+
+                }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
         }).start();
 
 
-        // compare
-        /*if(givenName.equals(username) && givenPassword.equals(password)){
-            startWelcome(view);
-        } else {
-            startRefused(view);
-        }*/
+    }*/
+
+    public void ShowPopup(View v) {
+        TextView txtclose;
+        Button btnFollow;
+        myDialog.setContentView(R.layout.activity_static_pop_up);
+        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose.setText("M");
+        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
+
+    /*
+    public void onButtonShowPopupWindowClick(View view) {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_static_pop_up, null);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+*/
+
 }
+
+

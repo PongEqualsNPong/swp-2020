@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity">
 
     <EditText
             android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
             android:layout_marginBottom="108dp" android:text="@string/field_password"/>
     <Button
             android:text="@string/button_login"
+            android:onClick="ShowPopup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/login"
@@ -43,6 +44,5 @@
             android:id="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
