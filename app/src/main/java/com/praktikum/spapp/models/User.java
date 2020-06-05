@@ -10,11 +10,8 @@ public class User implements Serializable {
     private String password;
     private String email;
     private Role role;
-//    private UserInfo userInfo;
+    private UserInfo userInfo;
 
-//    private UserInfo userInfo;
-
-    //TODO BACKEND, siehe ShowFetchedUsersActivity.java
     public User(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
@@ -61,12 +58,12 @@ public class User implements Serializable {
         this.role = role;
     }
 
-//    public UserInfo getUserInfo() {
-//        return userInfo;
-//    }
-//
-//    public void setUserInfo(UserInfo userInfo) {
-//        this.userInfo = userInfo;
-//    }
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
 }
 

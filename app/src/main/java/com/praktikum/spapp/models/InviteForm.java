@@ -19,7 +19,6 @@ public class InviteForm {
     }
     public InviteForm(){};
 
-
     public String getEmail() {
         return email;
     }

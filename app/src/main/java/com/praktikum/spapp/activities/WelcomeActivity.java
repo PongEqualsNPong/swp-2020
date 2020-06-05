@@ -48,8 +48,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         // hardcoded rn
         getSupportActionBar().setTitle("Welcome back " + Token.getUserId());
 
-        //TODO: new OnClickListener for buttonViewProfile
-
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
@@ -117,21 +115,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void startViewProfile() {
-        new Thread(() -> {
-
-            UserService userService = new UserService();
-            try {
-                ArrayList<User> userArrayList = (ArrayList<User>) userService.fetchAllUsers();
-                Intent intent = new Intent(this, ShowFetchedUsersActivity.class);
-                intent.putExtra("userArrayList", userArrayList);
-
-                runOnUiThread(() -> {
-                    startActivity(intent);
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        startActivity( new Intent(this, ShowFetchedUsersActivity.class));
     }
 
     private void startActivityCheckForInvite() {

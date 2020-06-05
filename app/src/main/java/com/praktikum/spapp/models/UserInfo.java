@@ -10,9 +10,9 @@ public class UserInfo implements Serializable {
 
     private String surename;
 
-    private String studentNumber;
+    private int studentNumber;
 
-    public UserInfo(String id, String forename, String surename, String studentNumber) {
+    public UserInfo(String id, String forename, String surename, int studentNumber) {
         this.id = id;
         this.forename = forename;
         this.surename = surename;
@@ -43,11 +43,11 @@ public class UserInfo implements Serializable {
         this.surename = surename;
     }
 
-    public String getStudentNumber() {
+    public int getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(String studentNumber) {
+    public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
     }
 }

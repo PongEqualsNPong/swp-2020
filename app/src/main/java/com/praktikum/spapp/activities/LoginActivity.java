@@ -99,49 +99,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//
-//            case R.id.login:
-//                AtomicBoolean credentinals = new AtomicBoolean(false);
-//                new Thread(() -> {
-//                    UserService userService = new UserService();
-//                    try {
-//                        token = (Token) userService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
-//                        //Activity will be shown next Intent will be changed
-//                        Intent intent = new Intent(this, WelcomeActivity.class);
-//                        //Map
-//                        intent.putExtra("token", token);
-//                        //System.out.print(userArrayList.getSuccess());
-//                        //TODO
-//                        if (token.getSuccess().equals("1")) {
-//                            System.out.println(token.getSuccess());
-//                            runOnUiThread(() -> {
-//                                //Intent will be started
-//                                startActivity(intent);
-//                            });
-//                        } else {
-//                            runOnUiThread(new Runnable() {
-//                                public void run() {
-//                                    ShowPopup();
-//                                }
-//                            });
-//                        }
-//                    } catch (IOException | JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }).start();
-//
-//            case R.id.inviteClick:
-//                startActivity(new Intent(this, CheckForInviteActivity.class));
-//        }
-//    }
-
     public void ShowPopup() {
         TextView txtclose;
         Button btnFollow;
         myDialog.setContentView(R.layout.activity_static_pop_up);
+
         txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
         btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
