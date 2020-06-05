@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.models.Token;
 import com.praktikum.spapp.models.User;
 
 import java.io.IOException;
@@ -26,12 +27,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     ArrayList<User> userArrayList;
 
-
-    String username, newPassword, oldPassword;
-    // PW CORNER
-    Button buttonChangePassword;
-    Button buttonJoinServer;
-    EditText fieldChangePassword;
     // USER CORNER
     Button buttonViewProfile;
     Button buttonInviteUser;
@@ -47,26 +42,16 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        username = getIntent().getStringExtra("username");
-        oldPassword = getIntent().getStringExtra("password");
-
         // custom toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // hardcoded rn
-        getSupportActionBar().setTitle("Welcome back " + username);
+        getSupportActionBar().setTitle("Welcome back " + Token.getUserId());
 
-        buttonChangePassword = (Button) findViewById(R.id.button_change);
-        fieldChangePassword = (EditText) findViewById(R.id.field_change);
         //TODO: new OnClickListener for buttonViewProfile
+
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
-
-        buttonChangePassword.setOnClickListener(this);
         buttonViewProfile.setOnClickListener(this);
-
-
-        buttonJoinServer = (Button) findViewById(R.id.button_joinserver);
-        buttonJoinServer.setOnClickListener(this);
 
         CheckForInvite = (Button) findViewById(R.id.button_invitecheck);
         CheckForInvite.setOnClickListener(this);
@@ -80,18 +65,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonOpenProject = (Button) findViewById(R.id.button_openproject);
         buttonOpenProject.setOnClickListener(this);
 
-        buttonProjectDetails = (Button) findViewById(R.id.button_detailproject);
-        buttonProjectDetails.setOnClickListener(this);
-
         buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
-    }
-
-    public void startLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("username", username);
-        intent.putExtra("password", newPassword);
-        startActivity(intent);
     }
 
     //    @Override
@@ -99,14 +74,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         //toast checking pw field is not null
         switch (view.getId()) {
 
-            case R.id.button_change:
-                if (fieldChangePassword.getText().toString().isEmpty()) {
-                    Toast.makeText(this, "Password must not be empty", Toast.LENGTH_SHORT).show();
-                } else {
-                    newPassword = fieldChangePassword.getText().toString();
-                    startLogin();
-                }
-                break;
             case R.id.button_viewprofile:
                 startViewProfile();
                 break;
@@ -131,14 +98,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         switch (item.getItemId()) {
             case R.id.action_logout:
                 Intent intent = new Intent(this, LoginActivity.class);
-                intent.putExtra("username", username);
-                intent.putExtra("password", oldPassword);
                 startActivity(intent);
         }
         return true;
     }
-
-
 
     // create the menu
     @Override

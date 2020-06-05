@@ -18,7 +18,7 @@
         <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess"/>
         <activity android:name=".activities.CreateProjectActivity"/>
         <activity android:name=".activities.WelcomeActivity"/>
-        <activity android:name=".activities.RefusedActivity"/> <!-- <activity android:name=".Login"> -->
+        <!-- <activity android:name=".Login"> -->
         <meta-data
                 android:name="com.google.android.actions"
                 android:resource="@xml/login2"/>
