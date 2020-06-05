@@ -19,7 +19,6 @@ public class Token implements Serializable {
     }
 
     public Token() {
-
     }
 
     public void setTokenType(String tokenType) {

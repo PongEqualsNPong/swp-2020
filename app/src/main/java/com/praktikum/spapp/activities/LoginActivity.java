@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,24 +25,20 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity {
 
-    // variable from intend
-    String password, username;
-    // variables given by input xml elemnt
-    String givenName, givenPassword;
     // xml elements
-    EditText loginName, loginPassword;
-    Button loginButton;
+    EditText etLoginName;
+    EditText etLoginPassword;
+    Button butLogin;
     Dialog myDialog;
+    TextView tvClickWithInvite;
     static Token token;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
 
         // custom toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,59 +46,104 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // hardcoded rn
         getSupportActionBar().setTitle("Login");
         myDialog = new Dialog(this);
-        Intent intent = getIntent();
-        password = intent.getStringExtra("password");
-        username = intent.getStringExtra("username");
 
         // assign xml to variables
-        loginName = (EditText) findViewById(R.id.userName);
-        loginPassword = (EditText) findViewById(R.id.password);
-        loginButton = (Button) findViewById(R.id.login);
-        loginButton.setOnClickListener(this);
+        etLoginName = (EditText) findViewById(R.id.userName);
+        etLoginPassword = (EditText) findViewById(R.id.password);
+        butLogin = (Button) findViewById(R.id.login);
+        tvClickWithInvite = (TextView) findViewById(R.id.inviteClick);
+
+
+        butLogin.setOnClickListener(new View.OnClickListener(){
+
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                AtomicBoolean credentinals = new AtomicBoolean(false);
+                new Thread(() -> {
+                    UserService userService = new UserService();
+                    try {
+                        token = (Token) userService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
+                        //Activity will be shown next Intent will be changed
+                        Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
+                        //Map
+                        intent.putExtra("token", token);
+                        //System.out.print(userArrayList.getSuccess());
+                        //TODO
+                        if (token.getSuccess().equals("1")) {
+                            System.out.println(token.getSuccess());
+                            runOnUiThread(() -> {
+                                //Intent will be started
+                                startActivity(intent);
+                            });
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    ShowPopup();
+                                }
+                            });
+                        }
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
+            }
+        });
+
+        tvClickWithInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, CheckForInviteActivity.class));
+            }
+        });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public void onClick(View view) {
-        //assign intend extras to variables
-        givenName = loginName.getText().toString();
-        givenPassword = loginPassword.getText().toString();
-        AtomicBoolean credentinals = new AtomicBoolean(false);
-        new Thread(() -> {
-            UserService userService = new UserService();
-            try {
-                token = (Token) userService.loginOnServer(givenName, givenPassword);
-                //Activity will be shown next Intent will be changed
-                Intent intent = new Intent(this, WelcomeActivity.class);
-                //Map
-                intent.putExtra("token", token);
-                //System.out.print(userArrayList.getSuccess());
-                //TODO
-                if(token.getSuccess().equals("1")) {
-                    System.out.println(token.getSuccess());
-                    runOnUiThread(() -> {
-                        //Intent will be started
-                        startActivity(intent);
-                    });
-                 }else{
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            ShowPopup();
-                        }
-                    });
-                }
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//
+//            case R.id.login:
+//                AtomicBoolean credentinals = new AtomicBoolean(false);
+//                new Thread(() -> {
+//                    UserService userService = new UserService();
+//                    try {
+//                        token = (Token) userService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
+//                        //Activity will be shown next Intent will be changed
+//                        Intent intent = new Intent(this, WelcomeActivity.class);
+//                        //Map
+//                        intent.putExtra("token", token);
+//                        //System.out.print(userArrayList.getSuccess());
+//                        //TODO
+//                        if (token.getSuccess().equals("1")) {
+//                            System.out.println(token.getSuccess());
+//                            runOnUiThread(() -> {
+//                                //Intent will be started
+//                                startActivity(intent);
+//                            });
+//                        } else {
+//                            runOnUiThread(new Runnable() {
+//                                public void run() {
+//                                    ShowPopup();
+//                                }
+//                            });
+//                        }
+//                    } catch (IOException | JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }).start();
+//
+//            case R.id.inviteClick:
+//                startActivity(new Intent(this, CheckForInviteActivity.class));
+//        }
+//    }
 
     public void ShowPopup() {
         TextView txtclose;
         Button btnFollow;
         myDialog.setContentView(R.layout.activity_static_pop_up);
-        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
-        txtclose.setText("M");
+        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose.setText("X");
         btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
