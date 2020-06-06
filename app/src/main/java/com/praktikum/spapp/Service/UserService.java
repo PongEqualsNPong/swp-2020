@@ -126,5 +126,27 @@ public class UserService extends Service {
         return response.body().string();
     }
 
+    public String checkInvitation(String name, String password, String studentID, String inviteKey) throws JSONException, IOException {
+
+        JSONObject data = new JSONObject()
+                .put("name", name)
+                .put("password", password)
+                .put("student ID", studentID)
+                .put("invitation Key", inviteKey);
+
+        String dataString = data.toString();
+
+        RequestBody requestBody = RequestBody.create(dataString, JSON);
+        Request request = new Request.Builder()
+                .url(api)
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return  response.body().string();
+
+    }
+
+
 
 }

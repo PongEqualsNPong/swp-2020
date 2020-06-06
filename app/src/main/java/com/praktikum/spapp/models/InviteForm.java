@@ -10,6 +10,7 @@ public class InviteForm {
     private boolean isHandler;
     private boolean isProcessor;
 
+
     public InviteForm(String email, int projectId, Role role, boolean isHandler, boolean isProcessor) {
         this.email = email;
         this.projectId = projectId;

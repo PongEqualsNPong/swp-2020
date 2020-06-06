@@ -22,6 +22,7 @@ public class ProjectService extends Service {
         super();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public String projectCreate(Project project) throws JSONException, IOException {
 
         String data = new JSONObject()
