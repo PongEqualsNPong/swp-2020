@@ -38,8 +38,6 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
                 //TODO
             }
         }).start();
-
-
     }
 
     private void initRecyclerView() throws IOException {

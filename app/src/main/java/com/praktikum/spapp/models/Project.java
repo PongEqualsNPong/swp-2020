@@ -3,6 +3,7 @@ package com.praktikum.spapp.models;
 import com.praktikum.spapp.models.enums.ProjectType;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Project implements Serializable {
 
@@ -10,6 +11,24 @@ public class Project implements Serializable {
     String name;
     String description;
     ProjectType type;
+    ArrayList<User> handler;
+    ArrayList<User> processor;
+
+    public ArrayList<User> getHandler() {
+        return handler;
+    }
+
+    public void setHandler(ArrayList<User> handler) {
+        this.handler = handler;
+    }
+
+    public ArrayList<User> getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(ArrayList<User> processor) {
+        this.processor = processor;
+    }
 
     public Project(String id, String name, String description, ProjectType type) {
         this.id = id;

@@ -34,10 +34,10 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
         new Thread(() -> {
             ProjectService projectService = new ProjectService();
             try {
-                String responseString = projectService.fetchAllProjects();
-                    Gson gson = new GsonBuilder().create();
-                    projectArrayList = gson.fromJson(responseString, new TypeToken<ArrayList<Project>>() {
-                    }.getType());
+                ArrayList<Project> responseArray = projectService.fetchAllProjects();
+//                    Gson gson = new GsonBuilder().create();
+//                    projectArrayList = gson.fromJson(responseString, new TypeToken<ArrayList<Project>>() {
+//                    }.getType());
 
                 initRecyclerView();
 
@@ -48,8 +48,6 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
             }
 
         }).start();
-
-
     }
 
     private void initRecyclerView() {

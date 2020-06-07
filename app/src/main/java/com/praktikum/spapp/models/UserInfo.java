@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable {
 
-    private String id;
+    private int id;
 
     private String forename;
 
@@ -12,18 +12,18 @@ public class UserInfo implements Serializable {
 
     private int studentNumber;
 
-    public UserInfo(String id, String forename, String surename, int studentNumber) {
+    public UserInfo(int id, String forename, String surename, int studentNumber) {
         this.id = id;
         this.forename = forename;
         this.surename = surename;
         this.studentNumber = studentNumber;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
