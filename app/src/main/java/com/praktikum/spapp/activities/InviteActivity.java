@@ -48,7 +48,6 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
         etInputProjectId = (EditText) findViewById(R.id.inputProjectNo);
         cbIsHandler = (CheckBox) findViewById(R.id.isHandler);
         cbIsProcessor = (CheckBox) findViewById(R.id.isProcessor);
-        switchIsAdmin = (Switch) findViewById(R.id.isAdmin);
 
         confirm = (Button) findViewById(R.id.buttonConfirm);
         cancel = (Button) findViewById(R.id.buttonCancel);

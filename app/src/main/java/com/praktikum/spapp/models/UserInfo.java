@@ -4,26 +4,26 @@ import java.io.Serializable;
 
 public class UserInfo implements Serializable {
 
-    private String id;
+    private int id;
 
     private String forename;
 
     private String surename;
 
-    private String studentNumber;
+    private int studentNumber;
 
-    public UserInfo(String id, String forename, String surename, String studentNumber) {
+    public UserInfo(int id, String forename, String surename, int studentNumber) {
         this.id = id;
         this.forename = forename;
         this.surename = surename;
         this.studentNumber = studentNumber;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class UserInfo implements Serializable {
         this.surename = surename;
     }
 
-    public String getStudentNumber() {
+    public int getStudentNumber() {
         return studentNumber;
     }
 
-    public void setStudentNumber(String studentNumber) {
+    public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
     }
 }
