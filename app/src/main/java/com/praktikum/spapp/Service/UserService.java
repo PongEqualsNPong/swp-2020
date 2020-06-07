@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,7 +92,7 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
+
 
 
         if (Utils.isSuccess(responseString)) {
@@ -100,17 +101,17 @@ public class UserService extends Service {
             JsonObject resultAsJsonObject = element.getAsJsonObject();
             JsonElement isSuccess = resultAsJsonObject.get("result");
             String successString = isSuccess.toString();
-
+            System.out.print(successString);
             Gson gson = new Gson();
             //
             Type listType = new TypeToken<ArrayList<User>>() {
             }.getType();
             ArrayList<User> userArrayList = gson.fromJson(successString, listType);
+
             return userArrayList;
 
         }
         return null;
-
 
 
     }
