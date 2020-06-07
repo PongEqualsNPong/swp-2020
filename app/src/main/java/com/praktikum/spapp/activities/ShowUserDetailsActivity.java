@@ -17,7 +17,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user_details);
 
-        User user = (User) getIntent().getSerializableExtra("user");
+       /* User user = (User) getIntent().getSerializableExtra("user");
 
         tvUsername = (TextView) findViewById(R.id.tvUsername);
         tvRole = (TextView) findViewById(R.id.tvRole);
@@ -26,5 +26,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
         tvUsername.setText(user.getUsername());
         tvRole.setText(user.getRole().toString());
         tvEmail.setText(user.getEmail());
+        */
+
     }
 }
