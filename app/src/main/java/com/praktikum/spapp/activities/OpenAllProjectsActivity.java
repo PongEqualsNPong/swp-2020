@@ -63,7 +63,7 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
 
         txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
-        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
+//        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

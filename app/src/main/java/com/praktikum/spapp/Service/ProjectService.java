@@ -62,8 +62,8 @@ public class ProjectService extends Service {
 //            Project toCompare = iterateProjectArrayList.next();
 //            for(User handler : toCompare.getHandler())
 //
-//            if(iterateUserArrayList.next()!= Token.getUserId()){
-//                iterateUserArrayList.remove();
+//            if(iterateProjectArrayList.next()!= Token.getUserId()){
+//                iterateProjectArrayList.remove();
 //            }
 //        }
 //        return projectArrayList;

@@ -7,7 +7,7 @@ public abstract class Service {
 
     OkHttpClient client;
 
-    final String api = "https://api.solaimani.de";
+    final String api = "http://localhost:8081";
 
     // need this for okhttp
     public static final MediaType JSON

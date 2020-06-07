@@ -84,7 +84,7 @@ public class UserService extends Service {
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
                 .header("Authorization", "Bearer " + UserService.accessToken)
-                .post(RequestBody.create(empty, JSON))
+                .get()
                 .build();
 
         Response response = client.newCall(request).execute();
@@ -123,6 +123,4 @@ public class UserService extends Service {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
-
-
 }
