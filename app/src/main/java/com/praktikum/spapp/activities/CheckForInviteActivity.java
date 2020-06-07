@@ -34,6 +34,8 @@ public class CheckForInviteActivity extends AppCompatActivity implements View.On
         key = (EditText) findViewById(R.id.inputInviteKey);
         fname = (EditText) findViewById(R.id.inputFirstName);
         lname = (EditText) findViewById(R.id.inputLastName);
+
+
         buttonConfirm = (Button) findViewById(R.id.buttonConfirm);
         buttonCancel = (Button) findViewById(R.id.buttonCancel);
 
@@ -46,6 +48,7 @@ public class CheckForInviteActivity extends AppCompatActivity implements View.On
         givenKey = key.getText().toString();
         givenFN = fname.getText().toString();
         givenLN = lname.getText().toString();
+
 
         switch (view.getId()) {
             case R.id.buttonConfirm:
@@ -64,7 +67,13 @@ public class CheckForInviteActivity extends AppCompatActivity implements View.On
     }
 
     public void startCheckForInvite2(View view) {
+        givenFN = fname.getText().toString();
+        givenLN = lname.getText().toString();
         Intent intent = new Intent(this, CheckForInvite2.class);
+        intent.putExtra("first_name", givenFN);
+        intent.putExtra("last_name", givenLN);
+        intent.putExtra("invite_key", givenKey);
+
         startActivity(intent);
 
     }
