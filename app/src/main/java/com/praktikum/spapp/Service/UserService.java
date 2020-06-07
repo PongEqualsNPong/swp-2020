@@ -84,6 +84,7 @@ public class UserService extends Service {
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
                 .header("Authorization", "Bearer " + UserService.accessToken)
+                .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
 
