@@ -77,7 +77,9 @@ public class UserService extends Service {
         return tokenJson;
     }
 
-    public List<User> fetchAllUsers() throws IOException {
+    public ArrayList<User> fetchAllUsers() throws IOException {
+        new Thread(() -> {
+        }).start();
         String empty = "";
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
@@ -89,16 +91,12 @@ public class UserService extends Service {
         String responseString = response.body().string();
 //        System.out.println(responseString);
 
-        if (Utils.isSuccess(responseString)) {
-            Gson gson = new Gson();
-            //
-            Type listType = new TypeToken<ArrayList<User>>() {
-            }.getType();
-            ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
-            return userArrayList;
-        } else {
-            return null;
-        }
+        Gson gson = new Gson();
+        //
+        Type listType = new TypeToken<ArrayList<User>>() {
+        }.getType();
+        ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
+        return userArrayList;
     }
 
     public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
@@ -114,7 +112,7 @@ public class UserService extends Service {
         if (inviteForm.isProcessor()) {
             data.put("projectRights", "processor");
         }
-        String dataString =  data.toString();
+        String dataString = data.toString();
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()

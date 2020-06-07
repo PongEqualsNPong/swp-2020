@@ -1,6 +1,7 @@
 package com.praktikum.spapp.models.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +12,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.User;
 
 import java.util.ArrayList;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAdapterUser.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<Project> projects = new ArrayList<>();
+    private ArrayList<User> users;
     private Context aContext;
 
-    public RecyclerViewAdapter(ArrayList<Project> projectNames, Context aContext) {
-        this.projects = projectNames;
+    public RecyclerViewAdapterUser(ArrayList<User> users, Context aContext) {
+        this.users = users;
         this.aContext = aContext;
     }
 
@@ -38,22 +41,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder:  called.");
 
-        viewHolder.projectName.setText(projects.get(i).getName());
+        viewHolder.projectName.setText(users.get(i).getUsername());
 
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //TODO switch to ProjectDetailsActivity instead of a Toast
-                Toast.makeText(aContext, "No Function", Toast.LENGTH_SHORT).show();
-            }
+        viewHolder.parentLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(aContext, ShowUserDetailsActivity.class);
+            intent.putExtra("user", users.get(i));
+            aContext.startActivity(intent);
         });
 
     }
 
     @Override
     public int getItemCount() {
-        return projects.size();
+        return users.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

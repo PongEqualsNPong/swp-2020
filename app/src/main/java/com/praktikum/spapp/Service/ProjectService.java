@@ -41,26 +41,32 @@ public class ProjectService extends Service {
         }
     }
 
-    public String fetchAllProjects() throws IOException {
+    public ArrayList<Project> fetchAllProjects() throws IOException {
         Request request = new Request.Builder()
                 .url(api)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
-    }
+        String responseString = response.body().string();
 
-    public ArrayList<Project> fetchProjectsOnlyFromUser(User user) throws IOException {
         Gson gson = new GsonBuilder().create();
 
-        String responseString = fetchAllProjects();
-        ArrayList<Project> projectArrayList = gson.fromJson(responseString, new TypeToken<ArrayList<Project>>() {}.getType());
-
-        Iterator<Project> iterateUserArrayList = projectArrayList.iterator();
-        while(iterateUserArrayList.hasNext()) {
-            if(iterateUserArrayList.next().getName()!= Token.getUserId()){
-                iterateUserArrayList.remove();
-            }
-        }
-        return projectArrayList;
+        return gson.fromJson(responseString, new TypeToken<ArrayList<Project>>() {}.getType());
     }
+
+//    public ArrayList<Project> fetchProjectsOnlyFromUser(User user) throws IOException {
+//        Gson gson = new GsonBuilder().create();
+//
+//        ArrayList<Project> projectArrayList = fetchAllProjects();
+//
+//        Iterator<Project> iterateProjectArrayList = projectArrayList.iterator();
+//        while(iterateProjectArrayList.hasNext()) {
+//            Project toCompare = iterateProjectArrayList.next();
+//            for(User handler : toCompare.getHandler())
+//
+//            if(iterateUserArrayList.next()!= Token.getUserId()){
+//                iterateUserArrayList.remove();
+//            }
+//        }
+//        return projectArrayList;
+//    }
 }
