@@ -13,4 +13,4 @@
 .externalNativeBuild
 .cxx
 .idea/
-app/src/main/java/com/praktikum/spapp/Service
+app/src/main/java/com/praktikum/spapp/Service/Service.java

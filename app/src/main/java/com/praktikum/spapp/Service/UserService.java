@@ -72,8 +72,8 @@ public class UserService extends Service {
         }.getType();
         Token tokenJson = gson.fromJson(responseString, listType);
 
-        System.out.print(tokenJson.getAccessToken());
         UserService.accessToken = tokenJson.getAccessToken();
+        System.out.print(UserService.accessToken);
         return tokenJson;
     }
 
@@ -81,6 +81,7 @@ public class UserService extends Service {
         new Thread(() -> {
         }).start();
         String empty = "";
+        System.out.print(UserService.accessToken);
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
                 .header("Authorization", "Bearer " + UserService.accessToken)
@@ -90,7 +91,7 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-//        System.out.println(responseString);
+        System.out.println(responseString);
 
         Gson gson = new Gson();
         //
