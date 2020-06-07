@@ -84,7 +84,7 @@ public class UserService extends Service {
         System.out.print(UserService.accessToken);
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU1ODgxMiwiZXhwIjoxNTkxNjQ1MjEyfQ.dJx_9ijxMHVlLMtwIOnZjM8y-nHfBiR8R33oaYIRv7J_1nDF14rK7ELauH4GpYd8lD9CP4NICTMpt4fVuE-R-g")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU3MTAwMiwiZXhwIjoxNTkxNjU3NDAyfQ.u4uvbmNcvHqB4hthOQnuwUkcLbKxllZZqe_bIH17NICYMrtd6bSPvwFiSHOIiVeVn5rWmdckPVJ3_mwYbl8_eg")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
@@ -115,12 +115,12 @@ public class UserService extends Service {
 
     }
 
-    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
+        public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
 
         JSONObject data = new JSONObject()
                 .put("email", inviteForm.getEmail())
-                .put("projectId", inviteForm.getProjectId())
-                .put("role", inviteForm.getRole().toString());
+                .put("projectId", inviteForm.getProjectId());
+//                .put("role", inviteForm.getRole().toString());
 
         if (inviteForm.isHandler()) {
             data.put("projectRights", "handler");
@@ -132,7 +132,7 @@ public class UserService extends Service {
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/api/user/addUserInvitation")
                 .post(requestBody)
                 .build();
 

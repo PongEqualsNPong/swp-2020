@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.praktikum.spapp">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <activity android:name=".activities.OpenMailActivity">
+        </activity>
         <activity android:name=".activities.ShowUserDetailsActivity"/>
         <activity android:name=".activities.ShowFetchedUsersActivity"/>
         <activity android:name=".activities.InviteActivity"/>
         <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess"/>
         <activity android:name=".activities.CreateProjectActivity"/>
-        <activity android:name=".activities.WelcomeActivity"/>
-        <!-- <activity android:name=".Login"> -->
+        <activity android:name=".activities.WelcomeActivity"/> <!-- <activity android:name=".Login"> -->
         <meta-data
                 android:name="com.google.android.actions"
                 android:resource="@xml/login2"/>
 
-        <activity android:name=".activities.LoginActivity" android:windowSoftInputMode="adjustResize">
+        <activity
+                android:name=".activities.LoginActivity"
+                android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.CheckForInviteActivity" />
-        <activity android:name=".activities.CheckForInvite2" />
-        <activity android:name=".activities.OpenAllProjectsActivity" />
+        <activity android:name=".activities.CheckForInviteActivity"/>
+        <activity android:name=".activities.CheckForInvite2"/>
+        <activity android:name=".activities.OpenAllProjectsActivity"/>
 
         <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/login2" />
+                android:name="com.google.android.actions"
+                android:resource="@xml/login2"/>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>
