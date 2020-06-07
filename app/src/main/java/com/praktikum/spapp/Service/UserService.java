@@ -83,7 +83,7 @@ public class UserService extends Service {
         String empty = "";
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + UserService.accessToken)
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU1ODgxMiwiZXhwIjoxNTkxNjQ1MjEyfQ.dJx_9ijxMHVlLMtwIOnZjM8y-nHfBiR8R33oaYIRv7J_1nDF14rK7ELauH4GpYd8lD9CP4NICTMpt4fVuE-R-g")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
@@ -92,12 +92,26 @@ public class UserService extends Service {
         String responseString = response.body().string();
 //        System.out.println(responseString);
 
-        Gson gson = new Gson();
-        //
-        Type listType = new TypeToken<ArrayList<User>>() {
-        }.getType();
-        ArrayList<User> userArrayList = gson.fromJson(responseString, listType);
-        return userArrayList;
+
+        if (Utils.isSuccess(responseString)) {
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(responseString);
+            JsonObject resultAsJsonObject = element.getAsJsonObject();
+            JsonElement isSuccess = resultAsJsonObject.get("result");
+            String successString = isSuccess.toString();
+
+            Gson gson = new Gson();
+            //
+            Type listType = new TypeToken<ArrayList<User>>() {
+            }.getType();
+            ArrayList<User> userArrayList = gson.fromJson(successString, listType);
+            return userArrayList;
+
+        }
+        return null;
+
+
+
     }
 
     public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {

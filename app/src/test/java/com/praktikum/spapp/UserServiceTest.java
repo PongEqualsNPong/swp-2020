@@ -19,7 +19,7 @@ public class UserServiceTest {
     public void loginOnServerTest() throws JSONException, IOException {
 
         String nameAdmin = "admin";
-        String passwordAdmin = "admin";
+        String passwordAdmin = "password";
         String wrongPasswordAdmin = "wrong";
 
         UserService userService = new UserService();
