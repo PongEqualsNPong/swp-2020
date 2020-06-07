@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.common.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,19 +75,29 @@ public class CheckForInvite2 extends AppCompatActivity implements View.OnClickLi
         givenMJ = major.getText().toString();
         givenPO = po.getText().toString();
 
-        UserService userService = new UserService();
 
         switch (view.getId()){
 
             case R.id.checkInvite2_Confirm:
 
+            new Thread(() -> {
                 try {
-                    userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
+                    UserService userService = new UserService();
+                    String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
+                    if(Utils.isSuccess(res)) {
+                       startActivity(new Intent(this, StaticPopUp.class));
+                    }
+                    runOnUiThread(() -> {
+                        startActivity(new Intent(this, CheckForInviteActivity.class));
+                    });
+                } catch (IOException e) {
+                    //TODO
+                } catch (Exception e) {
+                    //TODO
                 }
-                break;
+            }).start();
 
+                break;
             case R.id.checkInvite2_Cancel:
                 uname.setText(" ");
                 pwd.setText(" ");

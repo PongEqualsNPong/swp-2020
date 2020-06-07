@@ -162,11 +162,12 @@ public class UserService extends Service {
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
-                .url(api + "/api/user/byInvitation/" +inviteKey)
+                .url(api + "/api/user/byInvitation/" + inviteKey)
                 .post(requestBody)
                 .build();
 
         Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
         return  response.body().string();
 
     }

@@ -12,6 +12,8 @@ import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.enums.ProjectType;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     // UI Elements
     EditText textFieldEnterProjectName;
     EditText textFieldEnterProjectDescription;
+    EditText enterProjectType;
     Button buttonCreate;
     Snackbar snackbar;
 
@@ -34,6 +37,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         // assign UI Elements
         textFieldEnterProjectName = (EditText) findViewById(R.id.enterProjectName);
         textFieldEnterProjectDescription = (EditText) findViewById(R.id.enterProjectDescription);
+        enterProjectType = (EditText) findViewById(R.id.inputProjectType);
         buttonCreate = (Button) findViewById(R.id.buttonCreateProject);
 
         buttonCreate.setOnClickListener(this);
@@ -42,12 +46,14 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     //    @Override
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onClick(View v) {
-
+        ProjectType type = ProjectType.valueOf(enterProjectType.getText().toString()) ;
 
         Project project = new Project() {
         };
         project.setName(textFieldEnterProjectName.getText().toString());
         project.setName(textFieldEnterProjectDescription.getText().toString());
+        project.setType(type);
+
 
         new Thread(() -> {
 
