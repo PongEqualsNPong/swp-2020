@@ -32,7 +32,7 @@ public class UserServiceTest {
         UserService userService = new UserService();
         ArrayList<User> userArrayList = (ArrayList<User>) userService.fetchAllUsers();
         for(User element : userArrayList ){
-        System.out.println(element.getUsername());}
+        System.out.println((element.getRole()));}
     }
 
 

@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,7 +92,7 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
+
 
 
         if (Utils.isSuccess(responseString)) {
@@ -100,17 +101,17 @@ public class UserService extends Service {
             JsonObject resultAsJsonObject = element.getAsJsonObject();
             JsonElement isSuccess = resultAsJsonObject.get("result");
             String successString = isSuccess.toString();
-
+            System.out.print(successString);
             Gson gson = new Gson();
             //
             Type listType = new TypeToken<ArrayList<User>>() {
             }.getType();
             ArrayList<User> userArrayList = gson.fromJson(successString, listType);
+
             return userArrayList;
 
         }
         return null;
-
 
 
     }
@@ -139,4 +140,39 @@ public class UserService extends Service {
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
+
+    public String checkInvitation(String fname,
+                                  String lname,
+                                  String password,
+                                  String studentID,
+                                  String inviteKey,
+                                  String username,
+                                  String courseOfStudy,
+                                  String examRegulation) throws JSONException, IOException {
+
+        JSONObject data = new JSONObject()
+                .put("first name", fname)
+                .put("last name", lname)
+                .put("username", username)
+                .put("password", password)
+                .put("student ID", studentID)
+                .put("course of study", courseOfStudy)
+                .put("exam regulation", examRegulation);
+
+        String dataString = data.toString();
+
+        RequestBody requestBody = RequestBody.create(dataString, JSON);
+        Request request = new Request.Builder()
+                .url(api + "/api/user/byInvitation/" + inviteKey)
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+        return  response.body().string();
+
+    }
+
+
+
 }
