@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // hardcoded rn
-        getSupportActionBar().setTitle("Login");
+        //getSupportActionBar().setTitle("Login");
         myDialog = new Dialog(this);
         Intent intent = getIntent();
         password = intent.getStringExtra("password");
@@ -101,8 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Button btnFollow;
         myDialog.setContentView(R.layout.activity_static_pop_up);
         txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
-        txtclose.setText("M");
-        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
+        /*txtclose.setText("X");*/
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

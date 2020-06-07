@@ -23,7 +23,7 @@ public class RegisterWithInviteActivity extends AppCompatActivity implements Vie
         textFieldEnterForename = (EditText) findViewById(R.id.forename);
         textFieldEnterSurname = (EditText) findViewById(R.id.surname);
         textFieldEnterPassword = (EditText)findViewById(R.id.password);
-        textFieldEnterUsername = (EditText)findViewById(R.id.userName);
+        textFieldEnterUsername = (EditText)findViewById(R.id.username);
         sendData = (Button) findViewById(R.id.buttonSendData);
 
     }
