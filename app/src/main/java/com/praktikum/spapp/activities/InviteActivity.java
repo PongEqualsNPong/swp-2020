@@ -23,12 +23,6 @@ import java.io.IOException;
 
 public class InviteActivity extends AppCompatActivity implements View.OnClickListener {
 
-    //string from xml elems
-    String inputEmail;
-    Role inputRole;
-    int inputProject;
-    boolean handler;
-    boolean processor;
 
     //XML elems
     private EditText etInputEmail;
@@ -38,6 +32,7 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
     private Switch switchIsAdmin;
     private Button confirm;
     private Button cancel;
+    private Switch isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +46,7 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
 
         confirm = (Button) findViewById(R.id.buttonConfirm);
         cancel = (Button) findViewById(R.id.buttonCancel);
+        isAdmin = (Switch) findViewById(R.id.isAdmin);
 
         confirm.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -66,14 +62,14 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.buttonConfirm:
                 new Thread(() -> {
                     InviteForm inviteForm = createInviteForm();
-
-
                     UserService userService = new UserService();
+
                     try {
                         String responseString = userService.addUserInvitation(inviteForm);
                         System.out.println(responseString);
+
+
 //                        if (Utils.isSuccess(responseString)) {
-                        //TODO get invite url, start email app
                         startOpenMailView(view);
 
 //                        } else {
@@ -98,15 +94,17 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
         inviteForm.setEmail(etInputEmail.getText().toString());
         inviteForm.setProjectId(Integer.parseInt(etInputProjectId.getText().toString()));
         if (cbIsHandler.isChecked()) {
-            inviteForm.setHandler(true);
-        } else {
-            inviteForm.setHandler(false);
+            inviteForm.setProjectRights("handler");
         }
-        if (cbIsProcessor.isChecked()) {
-            inviteForm.setProcessor(true);
-        } else {
-            inviteForm.setProcessor(false);
+        if(cbIsProcessor.isChecked()) {
+            inviteForm.setProjectRights("processor");
         }
+        if(!isAdmin.isChecked()) {
+            inviteForm.setRole(Role.ROLE_USER);
+        } else {
+            inviteForm.setRole(Role.ROLE_ADMIN);
+        }
+
         return inviteForm;
     }
 
@@ -115,7 +113,7 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
         Intent email = new Intent(Intent.ACTION_SENDTO);
         email.setData(Uri.parse("mailto:" + etInputEmail.getText().toString()));
         email.putExtra(Intent.EXTRA_SUBJECT, "Invite");
-        email.putExtra(Intent.EXTRA_TEXT, "My Email message");
+        email.putExtra(Intent.EXTRA_TEXT, "text");
         startActivity(email);
 
 //        Intent intent = new Intent(Intent.ACTION_VIEW)

@@ -1,5 +1,6 @@
 package com.praktikum.spapp.Service;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -74,7 +75,8 @@ public class UserService extends Service {
         Token tokenJson = gson.fromJson(responseString, listType);
 
         UserService.accessToken = tokenJson.getAccessToken();
-        System.out.print(UserService.accessToken);
+//        System.out.print(UserService.accessToken);
+
         return tokenJson;
     }
 
@@ -85,14 +87,13 @@ public class UserService extends Service {
         System.out.print(UserService.accessToken);
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU3MTAwMiwiZXhwIjoxNTkxNjU3NDAyfQ.u4uvbmNcvHqB4hthOQnuwUkcLbKxllZZqe_bIH17NICYMrtd6bSPvwFiSHOIiVeVn5rWmdckPVJ3_mwYbl8_eg")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYxNzA4MCwiZXhwIjoxNTkxNzAzNDgwfQ.oyHirz6PtALYSG4tbkGg1KI9txWiqs111qI6eKBnn5jrksVUPbJBb7C8TVbVqGD_ijevdCpkroY-qfw9bKCJ7Q")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-
 
 
         if (Utils.isSuccess(responseString)) {
@@ -116,24 +117,21 @@ public class UserService extends Service {
 
     }
 
-        public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
+    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
 
         JSONObject data = new JSONObject()
                 .put("email", inviteForm.getEmail())
-                .put("projectId", inviteForm.getProjectId());
-//                .put("role", inviteForm.getRole().toString());
+                .put("projectId", inviteForm.getProjectId())
+                .put("role", inviteForm.getRole().toString())
+                .put("projectRights", inviteForm.getProjectRights());
 
-        if (inviteForm.isHandler()) {
-            data.put("projectRights", "handler");
-        }
-        if (inviteForm.isProcessor()) {
-            data.put("projectRights", "processor");
-        }
         String dataString = data.toString();
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
                 .url(api + "/api/user/addUserInvitation")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYxNzA4MCwiZXhwIjoxNTkxNzAzNDgwfQ.oyHirz6PtALYSG4tbkGg1KI9txWiqs111qI6eKBnn5jrksVUPbJBb7C8TVbVqGD_ijevdCpkroY-qfw9bKCJ7Q")
+                .header("Access-Control-Allow-Origin", "*")
                 .post(requestBody)
                 .build();
 
@@ -169,10 +167,9 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
-        return  response.body().string();
+        return response.body().string();
 
     }
-
 
 
 }

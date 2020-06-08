@@ -87,8 +87,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_openproject:
                 startActivityOpenProject();
                 break;
+            case R.id.button_viewprojects:
+                startActivityOpenMyProjects();
         }
     }
+
+
 
     //     on click of toolbar item
     @Override
@@ -114,7 +118,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startViewProfile() {
+    private void startViewProfile() {
         startActivity( new Intent(this, ShowFetchedUsersActivity.class));
     }
 
@@ -128,9 +132,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startActivityInvite() {
+    private void startActivityInvite() {
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
+    }
+    private void startActivityOpenMyProjects() {
+        startActivity(new Intent(this, OpenMyProjectsActivity.class));
     }
 
 }

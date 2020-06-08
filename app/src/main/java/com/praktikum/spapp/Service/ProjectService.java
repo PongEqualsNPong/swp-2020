@@ -73,7 +73,35 @@ public class ProjectService extends Service {
         return null;
     }
 
-//    public ArrayList<Project> fetchProjectsOnlyFromUser(User user) throws IOException {
+    public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
+        Request request = new Request.Builder()
+                .url(api + "/api/project/")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0X21vZCIsImlhdCI6MTU5MTYxMzI0MywiZXhwIjoxNTkxNjk5NjQzfQ.vMTN-TftGV1A4gJGh9NDKxRtMS3ndpyMrJcjhjsNjHHvmnYFWx3fEwDfBF_qeZqv2N3XPo4XB-XtBQwSSOf69Q")
+                .build();
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        System.out.println(responseString);
+
+        if (Utils.isSuccess(responseString)) {
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(responseString);
+            JsonObject resultAsJsonObject = element.getAsJsonObject();
+            JsonElement isSuccess = resultAsJsonObject.get("result");
+            String successString = isSuccess.toString();
+            System.out.print(successString);
+            Gson gson = new Gson();
+            //
+            Type listType = new TypeToken<ArrayList<Project>>() {
+            }.getType();
+            ArrayList<Project> projectArrayList = gson.fromJson(successString, listType);
+
+            return projectArrayList;
+        }
+        return null;
+    }
+
+
 //        Gson gson = new GsonBuilder().create();
 //
 //        ArrayList<Project> projectArrayList = fetchAllProjects();
@@ -89,5 +117,4 @@ public class ProjectService extends Service {
 //        }
 //        return projectArrayList;
 //    }
-
 }

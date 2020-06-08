@@ -18,13 +18,15 @@ import java.util.ArrayList;
 public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerViewAdapterProject.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<Project> projects = new ArrayList<>();
+    private ArrayList<Project> projects;
     private Context aContext;
 
     public RecyclerViewAdapterProject(ArrayList<Project> projectNames, Context aContext) {
         this.projects = projectNames;
         this.aContext = aContext;
     }
+
+
 
     @NonNull
     @Override

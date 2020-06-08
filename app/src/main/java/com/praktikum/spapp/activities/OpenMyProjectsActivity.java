@@ -29,12 +29,12 @@ public class OpenMyProjectsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_all_projects);
+        setContentView(R.layout.activity_open_my_projects);
 
         new Thread(() -> {
             try {
                 ProjectService projectService = new ProjectService();
-                this.projectArrayList = projectService.fetchAllProjects();
+                this.projectArrayList = projectService.fetchProjectsOnlyFromUser();
 
                 runOnUiThread(() -> {try {
                     initRecyclerView();
