@@ -65,6 +65,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
+
+        buttonProjectDetails  = (Button) findViewById(R.id.button_detailprojects);
+        buttonProjectDetails.setOnClickListener(this);
     }
 
     //    @Override
@@ -86,6 +89,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.button_openproject:
                 startActivityOpenProject();
+                break;
+                case R.id.button_viewprojects:
+                startActivityViewProject();
+                break;
+            case R.id.button_detailprojects:
+                startActivityDetailProject();
                 break;
         }
     }
@@ -132,6 +141,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
-
+    public void startActivityViewProject() {
+        Intent intent = new Intent(this, ViewProjectActivity.class);
+        startActivity(intent);
+    }
+    public void startActivityDetailProject() {
+        Intent intent = new Intent(this, DetailProjectActivity.class);
+        startActivity(intent);
+    }
 }
 
