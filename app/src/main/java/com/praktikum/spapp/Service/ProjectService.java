@@ -43,6 +43,8 @@ public class ProjectService extends Service {
         }
     }
 
+
+
     public ArrayList<Project> fetchAllProjects() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/project")

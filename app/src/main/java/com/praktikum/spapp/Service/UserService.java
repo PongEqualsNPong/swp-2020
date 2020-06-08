@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,8 +73,8 @@ public class UserService extends Service {
         }.getType();
         Token tokenJson = gson.fromJson(responseString, listType);
 
-        System.out.print(tokenJson.getAccessToken());
         UserService.accessToken = tokenJson.getAccessToken();
+        System.out.print(UserService.accessToken);
         return tokenJson;
     }
 
@@ -81,16 +82,17 @@ public class UserService extends Service {
         new Thread(() -> {
         }).start();
         String empty = "";
+        System.out.print(UserService.accessToken);
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYwNzY5MSwiZXhwIjoxNTkxNjk0MDkxfQ.eL-F5RuYkPIGU1Xi_iDe7AS7V1yaB7rOnWrYagKfKogRRf9661R7s9sxFh0xAD2Rl5mAMxPLj14j-EbvDmoR6A")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU3MTAwMiwiZXhwIjoxNTkxNjU3NDAyfQ.u4uvbmNcvHqB4hthOQnuwUkcLbKxllZZqe_bIH17NICYMrtd6bSPvwFiSHOIiVeVn5rWmdckPVJ3_mwYbl8_eg")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-//        System.out.println(responseString);
+
 
 
         if (Utils.isSuccess(responseString)) {
@@ -99,27 +101,27 @@ public class UserService extends Service {
             JsonObject resultAsJsonObject = element.getAsJsonObject();
             JsonElement isSuccess = resultAsJsonObject.get("result");
             String successString = isSuccess.toString();
-
+            System.out.print(successString);
             Gson gson = new Gson();
             //
             Type listType = new TypeToken<ArrayList<User>>() {
             }.getType();
             ArrayList<User> userArrayList = gson.fromJson(successString, listType);
+
             return userArrayList;
 
         }
         return null;
 
 
-
     }
 
-    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
+        public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
 
         JSONObject data = new JSONObject()
                 .put("email", inviteForm.getEmail())
-                .put("projectId", inviteForm.getProjectId())
-                .put("role", inviteForm.getRole().toString());
+                .put("projectId", inviteForm.getProjectId());
+//                .put("role", inviteForm.getRole().toString());
 
         if (inviteForm.isHandler()) {
             data.put("projectRights", "handler");
@@ -131,11 +133,46 @@ public class UserService extends Service {
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/api/user/addUserInvitation")
                 .post(requestBody)
                 .build();
 
         Response response = client.newCall(request).execute();
         return response.body().string();
     }
+
+    public String checkInvitation(String fname,
+                                  String lname,
+                                  String password,
+                                  String studentID,
+                                  String inviteKey,
+                                  String username,
+                                  String courseOfStudy,
+                                  String examRegulation) throws JSONException, IOException {
+
+        JSONObject data = new JSONObject()
+                .put("first name", fname)
+                .put("last name", lname)
+                .put("username", username)
+                .put("password", password)
+                .put("student ID", studentID)
+                .put("course of study", courseOfStudy)
+                .put("exam regulation", examRegulation);
+
+        String dataString = data.toString();
+
+        RequestBody requestBody = RequestBody.create(dataString, JSON);
+        Request request = new Request.Builder()
+                .url(api + "/api/user/byInvitation/" + inviteKey)
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+        return  response.body().string();
+
+    }
+
+
+
 }

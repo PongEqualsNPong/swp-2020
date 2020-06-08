@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.common.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,11 +29,11 @@ import java.net.URL;
 public class CheckForInvite2 extends AppCompatActivity implements View.OnClickListener {
 
     //string from intent
-    String userName, userPassword, studentNumber;
+    String userName, userPassword, studentNumber, firstName, lastName, invitationLink;
     //string from xml elems
-    String givenName, givenPWD, givenSN;
+    String givenName, givenPWD, givenSN, givenMJ, givenPO;
     //XML elems
-    EditText uname, pwd, matnr;
+    EditText uname, pwd, matnr, major, po;
     Button buttonConfirm, buttonCancel;
 
     @Override
@@ -43,11 +46,16 @@ public class CheckForInvite2 extends AppCompatActivity implements View.OnClickLi
         userName = intent.getStringExtra("invite Key");
         userPassword = intent.getStringExtra("first Name");
         studentNumber = intent.getStringExtra("last name");
+        firstName = intent.getStringExtra("first_name");
+        lastName = intent.getStringExtra("last_name");
+        invitationLink = intent.getStringExtra("invite_key");
 
         //assign XML
         uname = (EditText) findViewById(R.id.inputUserAccount);
         pwd = (EditText) findViewById(R.id.inputUserPassword);
         matnr = (EditText) findViewById(R.id.inputStudentNumber);
+        major = (EditText) findViewById(R.id.inputMajor);
+        po = (EditText) findViewById(R.id.inputPO);
 
         buttonConfirm = (Button) findViewById(R.id.checkInvite2_Confirm);
         buttonCancel = (Button) findViewById(R.id.checkInvite2_Cancel);
@@ -64,20 +72,32 @@ public class CheckForInvite2 extends AppCompatActivity implements View.OnClickLi
         givenName = uname.getText().toString();
         givenPWD = pwd.getText().toString();
         givenSN = matnr.getText().toString();
-        String server = "dummyserver@server";
-        String invitationLink = "invitation@link";
+        givenMJ = major.getText().toString();
+        givenPO = po.getText().toString();
+
 
         switch (view.getId()){
 
             case R.id.checkInvite2_Confirm:
 
+            new Thread(() -> {
                 try {
-                    startCheckForInvite3(server);
+                    UserService userService = new UserService();
+                    String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
+                    if(Utils.isSuccess(res)) {
+                       startActivity(new Intent(this, StaticPopUp.class));
+                    }
+                    runOnUiThread(() -> {
+                        startActivity(new Intent(this, CheckForInviteActivity.class));
+                    });
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //TODO
+                } catch (Exception e) {
+                    //TODO
                 }
-                break;
+            }).start();
 
+                break;
             case R.id.checkInvite2_Cancel:
                 uname.setText(" ");
                 pwd.setText(" ");
@@ -88,47 +108,4 @@ public class CheckForInvite2 extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void startCheckForInvite3(String request) throws IOException {
-        givenName = uname.getText().toString();
-        givenPWD = pwd.getText().toString();
-        givenSN = matnr.getText().toString();
-        String inviteKey = "invite Key";
-
-            //I will try to write a hard-coded function. Without access to server, we can not validate if the function works or not
-            URL url = new URL(request);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("POST");
-            //set request header properties
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            //set response format type
-            con.setRequestProperty("Accept", "application/json");
-            //makes sure that connection is used to send content
-            con.setDoOutput(true);
-            //create request body
-            String jsonInputString= "{ \"name\": \"" + givenName + "\", \"password\": \"" + givenPWD + "\", \"student number\": \"" + givenSN +  "\", \"inviteKey\": \"" + inviteKey+  "\"}";
-
-
-            //read the response
-             try(BufferedReader br = new BufferedReader(
-                new InputStreamReader(con.getInputStream(), "utf-8")))
-             {
-            StringBuilder response = new StringBuilder();
-            String responseLine = null;
-            while ((responseLine = br.readLine()) != null) {
-                response.append(responseLine.trim());
-                }
-            System.out.println(response.toString());
-                //will implement the alert notice once the access to server is possible for testing
-             }
-
-
-
-
-
-
-
-
-
-    }
 }

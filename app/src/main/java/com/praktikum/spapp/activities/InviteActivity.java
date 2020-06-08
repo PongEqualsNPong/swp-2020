@@ -64,18 +64,21 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId()) {
 
             case R.id.buttonConfirm:
-                InviteForm inviteForm = createInviteForm();
-                new Thread (() -> {
+                new Thread(() -> {
+                    InviteForm inviteForm = createInviteForm();
+
 
                     UserService userService = new UserService();
                     try {
-
                         String responseString = userService.addUserInvitation(inviteForm);
-                        if(Utils.isSuccess(responseString)) {
-                            //TODO get invite url, start email app
-                        } else {
-                            //TODO cancel activity
-                        }
+                        System.out.println(responseString);
+//                        if (Utils.isSuccess(responseString)) {
+                        //TODO get invite url, start email app
+                        startOpenMailView(view);
+
+//                        } else {
+                        //TODO cancel activity
+//                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -84,24 +87,22 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
                 }).start();
 
 
-
             case R.id.buttonCancel:
 
         }
     }
 
-    public InviteForm createInviteForm(){
+    public InviteForm createInviteForm() {
 
         InviteForm inviteForm = new InviteForm();
         inviteForm.setEmail(etInputEmail.getText().toString());
         inviteForm.setProjectId(Integer.parseInt(etInputProjectId.getText().toString()));
-        if(cbIsHandler.isChecked()){
+        if (cbIsHandler.isChecked()) {
             inviteForm.setHandler(true);
-        } else{
+        } else {
             inviteForm.setHandler(false);
         }
-        if(cbIsProcessor.isChecked())
-        {
+        if (cbIsProcessor.isChecked()) {
             inviteForm.setProcessor(true);
         } else {
             inviteForm.setProcessor(false);
@@ -109,14 +110,22 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
         return inviteForm;
     }
 
+    public void startOpenMailView(View view) {
 
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setData(Uri.parse("mailto:" + etInputEmail.getText().toString()));
+        email.putExtra(Intent.EXTRA_SUBJECT, "Invite");
+        email.putExtra(Intent.EXTRA_TEXT, "My Email message");
+        startActivity(email);
 
-
-
-//    public void startOpenMailView(View view) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW)
+//                .setType("plain/text")
+//                .setData(Uri.parse(etInputEmail.toString()));
+//        startActivity(intent);
 //        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        Uri data = Uri.parse("mailto:?subject=" + givenEmail + "&body"+ "hello");
+//
+//        Uri data = Uri.parse("mailto:?subject=" + etInputEmail + "&body"+ "hello");
 //        intent.setData(data);
 //        startActivity(intent);
-//    }
+    }
 }

@@ -40,6 +40,7 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
         }).start();
     }
 
+
     private void initRecyclerView() throws IOException {
         UserService userService = new UserService();
         RecyclerView recyclerView = findViewById(R.id.user_recycler_view);
