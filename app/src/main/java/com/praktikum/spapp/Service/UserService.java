@@ -83,7 +83,7 @@ public class UserService extends Service {
         String empty = "";
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU1ODgxMiwiZXhwIjoxNTkxNjQ1MjEyfQ.dJx_9ijxMHVlLMtwIOnZjM8y-nHfBiR8R33oaYIRv7J_1nDF14rK7ELauH4GpYd8lD9CP4NICTMpt4fVuE-R-g")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYwNzY5MSwiZXhwIjoxNTkxNjk0MDkxfQ.eL-F5RuYkPIGU1Xi_iDe7AS7V1yaB7rOnWrYagKfKogRRf9661R7s9sxFh0xAD2Rl5mAMxPLj14j-EbvDmoR6A")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();

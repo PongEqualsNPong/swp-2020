@@ -31,18 +31,23 @@ public class ProjectService extends Service {
 
         RequestBody requestBody = RequestBody.create(data, JSON);
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/api/project/init")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU3MzIzNCwiZXhwIjoxNTkxNjU5NjM0fQ.b4hxTAeww8biGC-MjHbqBiCTSN-UL_5cWxSiWWrxRoqqFMAlsARTgbcbHD8iyAjblvJv5QwUnkSMKHJvdFHZ1A")
                 .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             // create the response string
-            return response.body().string();
+            String responseString =  response.body().string();
+            System.out.println(responseString);
+            return responseString;
         }
     }
 
     public ArrayList<Project> fetchAllProjects() throws IOException {
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/project")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYwNzY5MSwiZXhwIjoxNTkxNjk0MDkxfQ.eL-F5RuYkPIGU1Xi_iDe7AS7V1yaB7rOnWrYagKfKogRRf9661R7s9sxFh0xAD2Rl5mAMxPLj14j-EbvDmoR6A")
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
