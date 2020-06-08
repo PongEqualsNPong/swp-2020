@@ -31,14 +31,17 @@ public class ProjectService extends Service {
 
         RequestBody requestBody = RequestBody.create(data, JSON);
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/api/project/init")
                 .post(requestBody)
                 .build();
         try (Response response = client.newCall(request).execute()) {
             // create the response string
+            System.out.println(response.body().string());
             return response.body().string();
         }
     }
+
+
 
     public ArrayList<Project> fetchAllProjects() throws IOException {
         Request request = new Request.Builder()
