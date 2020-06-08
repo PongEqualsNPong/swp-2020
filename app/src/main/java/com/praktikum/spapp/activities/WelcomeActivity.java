@@ -51,8 +51,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
-        CheckForInvite = (Button) findViewById(R.id.button_invitecheck);
-        CheckForInvite.setOnClickListener(this);
+
 
         buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
         buttonCreateProject.setOnClickListener(this);
@@ -80,9 +79,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.button_invite:
                 startActivityInvite();
-                break;
-            case R.id.button_invitecheck:
-                startActivityCheckForInvite();
                 break;
             case R.id.button_openproject:
                 startActivityOpenProject();
