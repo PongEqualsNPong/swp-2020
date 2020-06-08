@@ -27,13 +27,12 @@ public class ViewProjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_project);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_fetched_users);
-
         new Thread(() -> {
             try {
                 ProjectService projectService = new ProjectService();
-                this.projectArrayList = projectService.fetchAllProjects();
+                //this.projectArrayList = projectService.fetchAllProjects();
+                this.projectArrayList = projectService.fetchProjectsDetail();
+
 
                 runOnUiThread(() -> {
                     try {
@@ -51,7 +50,7 @@ public class ViewProjectActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() throws IOException {
-        RecyclerView recyclerView = findViewById(R.id.user_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.project_recycler_view);
         RecyclerViewAdapterProject adapter = new RecyclerViewAdapterProject(projectArrayList,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

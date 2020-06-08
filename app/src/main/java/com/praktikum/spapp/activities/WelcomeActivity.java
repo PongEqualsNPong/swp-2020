@@ -66,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
 
-        buttonProjectDetails  = (Button) findViewById(R.id.button_detailprojects);
+        buttonProjectDetails = (Button) findViewById(R.id.button_detailprojects);
         buttonProjectDetails.setOnClickListener(this);
     }
 
@@ -90,7 +90,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_openproject:
                 startActivityOpenProject();
                 break;
-                case R.id.button_viewprojects:
+            case R.id.button_viewprojects:
                 startActivityViewProject();
                 break;
             case R.id.button_detailprojects:
@@ -124,7 +124,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void startViewProfile() {
-        startActivity( new Intent(this, ShowFetchedUsersActivity.class));
+        startActivity(new Intent(this, ShowFetchedUsersActivity.class));
     }
 
     private void startActivityCheckForInvite() {
@@ -141,10 +141,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
+
     public void startActivityViewProject() {
         Intent intent = new Intent(this, ViewProjectActivity.class);
         startActivity(intent);
     }
+
     public void startActivityDetailProject() {
         Intent intent = new Intent(this, DetailProjectActivity.class);
         startActivity(intent);

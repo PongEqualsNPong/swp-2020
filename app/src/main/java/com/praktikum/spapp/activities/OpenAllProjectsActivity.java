@@ -34,7 +34,7 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
         new Thread(() -> {
             ProjectService projectService = new ProjectService();
             try {
-                ArrayList<Project> responseArray = projectService.fetchAllProjects();
+                ArrayList<Project> responseArray = projectService.fetchProjectsDetail();
 //                    Gson gson = new GsonBuilder().create();
 //                    projectArrayList = gson.fromJson(responseString, new TypeToken<ArrayList<Project>>() {
 //                    }.getType());
