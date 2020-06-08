@@ -33,9 +33,10 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
                     }
                 });
             } catch (IOException e) {
-                //TODO
+                               e.printStackTrace();
             } catch (Exception e) {
-                //TODO
+                e.printStackTrace();
+
             }
         }).start();
     }

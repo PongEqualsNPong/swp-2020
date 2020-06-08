@@ -22,7 +22,7 @@ import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class OpenAllProjectsActivity extends AppCompatActivity {
+public class OpenMyProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
     Dialog myDialog;
 
