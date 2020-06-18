@@ -53,6 +53,7 @@ public class ProjectService extends Service {
         Request request = new Request.Builder()
                 .url(api + "/api/project")
                 .header("Authorization", "Bearer " + "")
+
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();

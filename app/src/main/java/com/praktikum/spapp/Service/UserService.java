@@ -31,6 +31,8 @@ public class UserService extends Service {
         new Thread(() -> {
         }).start();
 
+        Utils.silentTokenRefresh(responseString);
+
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
                 .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
@@ -54,6 +56,7 @@ public class UserService extends Service {
         } else {
             return gson.fromJson(successString, listType);
         }
+
 
     }
 
