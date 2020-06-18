@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.AuthenticationService;
 import com.praktikum.spapp.Service.UserService;
 import com.praktikum.spapp.models.Token;
 
@@ -35,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     Button butLogin;
     Dialog myDialog;
     TextView tvClickWithInvite;
-    static Token token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // hardcoded rn
-        //getSupportActionBar().setTitle("Login");
         myDialog = new Dialog(this);
 
         // assign xml to variables
@@ -56,28 +55,20 @@ public class LoginActivity extends AppCompatActivity {
         tvClickWithInvite = (TextView) findViewById(R.id.inviteClick);
 
 
-        butLogin.setOnClickListener(new View.OnClickListener(){
+        butLogin.setOnClickListener(new View.OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                AtomicBoolean credentinals = new AtomicBoolean(false);
                 new Thread(() -> {
-                    UserService userService = new UserService();
+                    AuthenticationService authenticationService = new AuthenticationService();
                     try {
-                        token = (Token) userService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
+                        //save static token
+                        authenticationService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
                         //Activity will be shown next Intent will be changed
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        //Map
-                        intent.putExtra("token", token);
-                        //System.out.print(userArrayList.getSuccess());
-                        //TODO
+                        if (AuthenticationService.getTokten().getSuccess().equals("1")) {
 
-
-
-                        if (token.getSuccess().equals("1")) {
-
-                            System.out.println(token.getSuccess());
                             runOnUiThread(() -> {
                                 //Intent will be started
                                 startActivity(intent);
@@ -89,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    } catch (IOException | JSONException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }).start();
@@ -110,9 +101,8 @@ public class LoginActivity extends AppCompatActivity {
         Button btnFollow;
         myDialog.setContentView(R.layout.activity_static_pop_up);
 
-        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose = myDialog.findViewById(R.id.txtclose);
         txtclose.setText("X");
-//        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,5 +114,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
+
 
 
