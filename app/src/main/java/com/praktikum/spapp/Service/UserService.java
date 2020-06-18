@@ -33,29 +33,27 @@ public class UserService extends Service {
 
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + AuthenticationService.getTokten().getAccessToken())
+                .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
                 .get()
                 .build();
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
+        //these static methods must be called on every other service method u baboon
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
 
-        if (Utils.isSuccess(responseString)) {
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(responseString);
-            JsonObject resultAsJsonObject = element.getAsJsonObject();
-            JsonElement isSuccess = resultAsJsonObject.get("result");
-            String successString = isSuccess.toString();
-            System.out.print(successString);
-            Gson gson = new Gson();
-            //
-            Type listType = new TypeToken<ArrayList<User>>() {
-            }.getType();
+        String successString = Utils.jsonCleaner(responseString);
+
+        Gson gson = new Gson();
+
+        Type listType = new TypeToken<ArrayList<User>>() {
+        }.getType();
+        if (isRefreshed) {
+            return fetchAllUsers();
+        } else {
             return gson.fromJson(successString, listType);
         }
-        return null;
-
 
     }
 
@@ -72,8 +70,7 @@ public class UserService extends Service {
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
                 .url(api + "/api/user/addUserInvitation")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYxNzA4MCwiZXhwIjoxNTkxNzAzNDgwfQ.oyHirz6PtALYSG4tbkGg1KI9txWiqs111qI6eKBnn5jrksVUPbJBb7C8TVbVqGD_ijevdCpkroY-qfw9bKCJ7Q")
-                .header("Access-Control-Allow-Origin", "*")
+                .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
                 .post(requestBody)
                 .build();
 

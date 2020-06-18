@@ -7,15 +7,34 @@ import java.io.Serializable;
 public class Token implements Serializable {
 
 
-    public String tokenType;
-    public String accessToken;
-    public String success;
-    public static String userId;
+    private String tokenType;
+    private String accessToken;
+    private String success;
+    private String userId;
+    private String username;
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Token(String tokenType, String accessToken, String success) {
         this.tokenType = tokenType;
         this.accessToken = accessToken;
         this.success = success;
+
     }
 
     public Token() {
@@ -45,11 +64,11 @@ public class Token implements Serializable {
         return success;
     }
 
-    public static String getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public static void setUserId(String userId) {
-        Token.userId = userId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

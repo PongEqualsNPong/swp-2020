@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                         authenticationService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
                         //Activity will be shown next Intent will be changed
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        if (AuthenticationService.getTokten().getSuccess().equals("1")) {
+                        if (AuthenticationService.getToken().getSuccess().equals("1")) {
 
                             runOnUiThread(() -> {
                                 //Intent will be started

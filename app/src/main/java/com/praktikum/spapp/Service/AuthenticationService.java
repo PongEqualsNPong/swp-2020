@@ -17,11 +17,15 @@ public class AuthenticationService extends Service {
 
     private static Token token;
 
-    public static Token getTokten(){
+    public static Token getToken() {
         return token;
     }
 
-    public void loginOnServer(String nameOrEmail, String password) throws IOException {
+    public static void setToken(Token token) {
+        AuthenticationService.token = token;
+    }
+
+    public static void loginOnServer(String nameOrEmail, String password) throws IOException {
 
         // create jsonString GSON by map
         Map<String, String> map = new HashMap<String, String>();
@@ -43,9 +47,6 @@ public class AuthenticationService extends Service {
 
         Type listType = new TypeToken<Token>() {
         }.getType();
-         this.token = gson.fromJson(responseString, listType);
+        setToken(gson.fromJson(responseString, listType));
     }
-
-
-
 }
