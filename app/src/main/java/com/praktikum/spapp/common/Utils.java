@@ -20,6 +20,7 @@ public class Utils {
         JsonObject resultAsJsonObject = element.getAsJsonObject();
         // finally jsonobject can use .get method and check success
         String isSuccess = resultAsJsonObject.get("success").getAsString();
+        // if the json does not have success with 1 log in again
         if (!(isSuccess.equals("1"))) {
             AuthenticationService.loginOnServer(AuthenticationService.getToken().getUsername(), AuthenticationService.getToken().getPassword());
             return true;
@@ -36,11 +37,4 @@ public class Utils {
         return isSuccess.toString();
     }
 
-    public static String jsonCleaner(String responseString) {
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(responseString);
-        JsonObject resultAsJsonObject = element.getAsJsonObject();
-        JsonElement isSuccess = resultAsJsonObject.get("result");
-        return isSuccess.toString();
-    }
 }

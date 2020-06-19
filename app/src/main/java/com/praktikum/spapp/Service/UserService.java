@@ -2,6 +2,7 @@ package com.praktikum.spapp.Service;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.User;
@@ -31,24 +32,17 @@ public class UserService extends Service {
         new Thread(() -> {
         }).start();
 
-        Utils.silentTokenRefresh(responseString);
-
-        Request request = new Request.Builder()
-                .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
-                .get()
-                .build();
+        Request request = HttpClient.httpRequestMaker("/api/user/fetchall", "get");
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
         //these static methods must be called on every other service method u baboon
         boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-
         String successString = Utils.jsonCleaner(responseString);
 
-        Gson gson = new Gson();
 
+        Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<User>>() {
         }.getType();
         if (isRefreshed) {

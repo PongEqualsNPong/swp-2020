@@ -84,9 +84,9 @@ public class CheckForInvite2 extends AppCompatActivity implements View.OnClickLi
                 try {
                     UserService userService = new UserService();
                     String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
-                    if(Utils.isSuccess(res)) {
-                       startActivity(new Intent(this, StaticPopUp.class));
-                    }
+//                    if(Utils.isSuccess(res)) {
+//                       startActivity(new Intent(this, StaticPopUp.class));
+//                    }
                     runOnUiThread(() -> {
                         startActivity(new Intent(this, CheckForInviteActivity.class));
                     });

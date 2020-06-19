@@ -23,28 +23,27 @@ public class ProjectService extends Service {
         super();
     }
 
-//    public String projectCreate(Project project) throws JSONException, IOException {
-//
-//        String data = new JSONObject()
-//                .put("name", project.getName())
-//                .put("description", project.getDescription())
-//                .toString();
-//
-//        RequestBody requestBody = RequestBody.create(data, JSON);
-//        Request request = new Request.Builder()
-//                .url(api + "/api/project/init")
-//                .header("Authorization", "Bearer " + "..--")
-//                .post(requestBody)
-//                .build();
-//
-//        methode(path, string jsonobject)
-//        try (Response response = client.newCall(request).execute()) {
-//            // create the response string
-//            String responseString = response.body().string();
-//            System.out.println(responseString);
-//            return responseString;
-//        }
-//    }
+    public String projectCreate(Project project) throws JSONException, IOException {
+
+        String data = new JSONObject()
+                .put("name", project.getName())
+                .put("description", project.getDescription())
+                .toString();
+
+        RequestBody requestBody = RequestBody.create(data, JSON);
+        Request request = new Request.Builder()
+                .url(api + "/api/project/init")
+                .header("Authorization", "Bearer " + "..--")
+                .post(requestBody)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            // create the response string
+            String responseString = response.body().string();
+            System.out.println(responseString);
+            return responseString;
+        }
+    }
 
 
     public ArrayList<Project> fetchAllProjects() throws IOException {
@@ -57,7 +56,7 @@ public class ProjectService extends Service {
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
+        String successString = Utils.jsonCleaner(responseString);
 
 
             Gson gson = new Gson();
@@ -68,8 +67,7 @@ public class ProjectService extends Service {
 
             return projectArrayList;
         }
-        return null;
-    }
+
 //TODO GIGA TODO MOTHERFUCKER KYS SPAß NEIN TUS NICHT ;)))))) DOCH TUS JKgit
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
@@ -79,16 +77,11 @@ public class ProjectService extends Service {
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
 
-        if (Utils.isSuccess(responseString)) {
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(responseString);
-            JsonObject resultAsJsonObject = element.getAsJsonObject();
-            JsonElement isSuccess = resultAsJsonObject.get("result");
-            String successString = isSuccess.toString();
-            System.out.print(successString);
-            Gson gson = new Gson();
+        String successString = Utils.jsonCleaner(responseString);
+
+
+        Gson gson = new Gson();
             //
             Type listType = new TypeToken<ArrayList<Project>>() {
             }.getType();
@@ -96,9 +89,6 @@ public class ProjectService extends Service {
 
             return projectArrayList;
         }
-        return null;
-    }
-
 
 //        Gson gson = new GsonBuilder().create();
 //
