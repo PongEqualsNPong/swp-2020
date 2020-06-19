@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.ShowUserDetailsActivity;
-import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.User;
 
 import java.util.ArrayList;

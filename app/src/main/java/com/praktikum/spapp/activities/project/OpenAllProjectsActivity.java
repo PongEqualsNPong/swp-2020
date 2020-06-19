@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,19 +22,19 @@ import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class OpenMyProjectsActivity extends AppCompatActivity {
+public class OpenAllProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
     Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_my_projects);
+        setContentView(R.layout.activity_open_all_projects);
 
         new Thread(() -> {
             try {
                 ProjectService projectService = new ProjectService();
-                this.projectArrayList = projectService.fetchProjectsOnlyFromUser();
+                this.projectArrayList = projectService.fetchAllProjects();
 
                 runOnUiThread(() -> {try {
                     initRecyclerView();

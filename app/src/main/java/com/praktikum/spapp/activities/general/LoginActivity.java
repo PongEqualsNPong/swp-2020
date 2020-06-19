@@ -1,10 +1,7 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.general;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -20,13 +17,9 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.AuthenticationService;
-import com.praktikum.spapp.Service.UserService;
-import com.praktikum.spapp.models.Token;
-
-import org.json.JSONException;
+import com.praktikum.spapp.activities.user.CheckForInviteActivity;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class LoginActivity extends AppCompatActivity {
 

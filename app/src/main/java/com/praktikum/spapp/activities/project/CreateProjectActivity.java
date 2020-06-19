@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import android.content.Intent;
 import android.os.Build;
@@ -10,14 +10,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.ProjectService;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.enums.ProjectType;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 
 public class CreateProjectActivity extends AppCompatActivity implements View.OnClickListener {
 

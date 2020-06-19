@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,6 @@ import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.ProjectType;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class createProject2 extends AppCompatActivity implements View.OnClickListener {

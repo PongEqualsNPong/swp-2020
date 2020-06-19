@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.general;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,19 +6,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.UserService;
-import com.praktikum.spapp.models.Token;
+import com.praktikum.spapp.activities.project.CreateProjectActivity;
+import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
+import com.praktikum.spapp.activities.project.OpenMyProjectsActivity;
+import com.praktikum.spapp.activities.user.CheckForInviteActivity;
+import com.praktikum.spapp.activities.user.InviteActivity;
+import com.praktikum.spapp.activities.user.ShowFetchedUsersActivity;
 import com.praktikum.spapp.models.User;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener {

@@ -1,5 +1,5 @@
 
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 

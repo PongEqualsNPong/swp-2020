@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.user;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
