@@ -55,9 +55,9 @@ public class createProject2 extends AppCompatActivity implements View.OnClickLis
 
 
         Project project = new Project();
-        project.setType(ProjectType.valueOf(project_type_string));
+//        project.setType(ProjectType.valueOf(project_type_string));
         project.setDescription(project_description);
-        project.setHandler(handlerList);
+//        project.setHandler(handlerList);
 
         switch (view.getId()) {
             case R.id.createProject2_button_confirm:

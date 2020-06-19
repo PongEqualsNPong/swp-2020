@@ -15,15 +15,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class UserService extends Service {
 
-    private final static String TAG = "UserService";
 
-    //
     public UserService() {
         super();
     }
@@ -35,23 +33,18 @@ public class UserService extends Service {
         Request request = HttpClient.httpRequestMaker("/api/user/fetchall", "get");
 
         Response response = client.newCall(request).execute();
-        String responseString = response.body().string();
+        String responseString = Objects.requireNonNull(response.body()).string();
 
         //these static methods must be called on every other service method u baboon
         boolean isRefreshed = Utils.silentTokenRefresh(responseString);
         String successString = Utils.jsonCleaner(responseString);
 
-
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<User>>() {
-        }.getType();
         if (isRefreshed) {
             return fetchAllUsers();
         } else {
-            return gson.fromJson(successString, listType);
+            return new Gson().fromJson(successString, new TypeToken<ArrayList<User>>() {
+            }.getType());
         }
-
-
     }
 
     public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {

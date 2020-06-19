@@ -37,4 +37,20 @@ public class Utils {
         return isSuccess.toString();
     }
 
+    public static void isSuccess(String responseString) throws Exception {
+        // create a parser instance
+        JsonParser parser = new JsonParser();
+        // string to jsonelement, then
+        JsonElement element = parser.parse(responseString);
+        // jsonelement to jsonobject
+        JsonObject resultAsJsonObject = element.getAsJsonObject();
+        // finally jsonobject can use .get method and check success
+        String isSuccess = resultAsJsonObject.get("success").getAsString();
+        // if the json does not have success with 1 log in again
+        if (isSuccess.equals("1")) {
+        } else {
+            throw new Exception("urgay");
+        }
+    }
+
 }

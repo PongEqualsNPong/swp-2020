@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.models.Token;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -28,7 +29,7 @@ public class AuthenticationService extends Service {
     public static void loginOnServer(String nameOrEmail, String password) throws IOException {
 
         // create jsonString GSON by map
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("username", nameOrEmail);
         map.put("password", password);
         Gson gson = new GsonBuilder().create();
@@ -42,11 +43,14 @@ public class AuthenticationService extends Service {
                 .post(requestBody)
                 .build();
 
-        Response response = client.newCall(request).execute();
+        Response response = new OkHttpClient().newCall(request).execute();
         String responseString = response.body().string();
 
         Type listType = new TypeToken<Token>() {
         }.getType();
         setToken(gson.fromJson(responseString, listType));
+        token.setUsername(nameOrEmail);
+        token.setPassword(password);
+
     }
 }

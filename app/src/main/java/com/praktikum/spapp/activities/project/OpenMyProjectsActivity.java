@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 public class OpenMyProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
-    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

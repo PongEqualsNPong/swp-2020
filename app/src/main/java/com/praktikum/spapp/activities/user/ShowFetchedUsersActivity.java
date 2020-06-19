@@ -24,26 +24,17 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
             try {
                 UserService userService = new UserService();
                 this.userArrayList = userService.fetchAllUsers();
-
-                runOnUiThread(() -> {
-                    try {
-                        initRecyclerView();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+                runOnUiThread(this::initRecyclerView);
             } catch (IOException e) {
-                               e.printStackTrace();
+                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }).start();
     }
 
 
-    private void initRecyclerView() throws IOException {
-        UserService userService = new UserService();
+    private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.user_recycler_view);
         RecyclerViewAdapterUser adapter = new RecyclerViewAdapterUser(userArrayList, this);
         recyclerView.setAdapter(adapter);

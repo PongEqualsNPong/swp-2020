@@ -13,8 +13,9 @@ public abstract class Service {
     // need this for okhttp
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
+
     // constructor
-    public Service(){
+    public Service() {
         client = new OkHttpClient();
     }
 }

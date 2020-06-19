@@ -1,21 +1,18 @@
 package com.praktikum.spapp.Service;
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.Token;
-import com.praktikum.spapp.models.User;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Map;
 
 public class ProjectService extends Service {
 
@@ -23,24 +20,26 @@ public class ProjectService extends Service {
         super();
     }
 
-    public String projectCreate(Project project) throws JSONException, IOException {
+    public String projectCreate(Project project) throws Exception {
 
-        String data = new JSONObject()
-                .put("name", project.getName())
-                .put("description", project.getDescription())
-                .toString();
+        Gson gson = new GsonBuilder().create();
 
-        RequestBody requestBody = RequestBody.create(data, JSON);
-        Request request = new Request.Builder()
-                .url(api + "/api/project/init")
-                .header("Authorization", "Bearer " + "..--")
-                .post(requestBody)
-                .build();
+        JSONObject data = new JSONObject(gson.toJson(project));
+        System.out.println(gson.toJson(project));
 
-        try (Response response = client.newCall(request).execute()) {
-            // create the response string
-            String responseString = response.body().string();
-            System.out.println(responseString);
+
+        Request request = HttpClient.httpRequestMaker("/api/project/init", "post", data);
+        Response response = client.newCall(request).execute();
+
+        String responseString = response.body().string();
+
+        //these static methods must be called on every other service method u baboon
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        Utils.isSuccess(responseString);
+
+        if (isRefreshed) {
+            return projectCreate(project);
+        } else {
             return responseString;
         }
     }
@@ -49,30 +48,27 @@ public class ProjectService extends Service {
     public ArrayList<Project> fetchAllProjects() throws IOException {
 
 
-        Request request = new Request.Builder()
-                .url(api + "/api/project")
-                .header("Authorization", "Bearer " + "")
-
-                .build();
+        Request request = HttpClient.httpRequestMaker("/api/project", "get");
         Response response = client.newCall(request).execute();
+
         String responseString = response.body().string();
+
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
         String successString = Utils.jsonCleaner(responseString);
 
-
-            Gson gson = new Gson();
-            //
-            Type listType = new TypeToken<ArrayList<Project>>() {
-            }.getType();
-            ArrayList<Project> projectArrayList = gson.fromJson(successString, listType);
-
-            return projectArrayList;
+        if (isRefreshed) {
+            return fetchAllProjects();
+        } else {
+            return new Gson().fromJson(successString, new TypeToken<ArrayList<Project>>() {
+            }.getType());
         }
 
-//TODO GIGA TODO MOTHERFUCKER KYS SPAß NEIN TUS NICHT ;)))))) DOCH TUS JKgit
+    }
+
+    //TODO GIGA TODO MOTHERFUCKER KYS SPAß NEIN TUS NICHT ;)))))) DOCH TUS JKgit
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/api/project/")
-                .header("Access-Control-Allow-Origin", "*")
                 .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0X21vZCIsImlhdCI6MTU5MTYxMzI0MywiZXhwIjoxNTkxNjk5NjQzfQ.vMTN-TftGV1A4gJGh9NDKxRtMS3ndpyMrJcjhjsNjHHvmnYFWx3fEwDfBF_qeZqv2N3XPo4XB-XtBQwSSOf69Q")
                 .build();
         Response response = client.newCall(request).execute();
@@ -82,13 +78,11 @@ public class ProjectService extends Service {
 
 
         Gson gson = new Gson();
-            //
-            Type listType = new TypeToken<ArrayList<Project>>() {
-            }.getType();
-            ArrayList<Project> projectArrayList = gson.fromJson(successString, listType);
+        //
+        return gson.fromJson(successString, new TypeToken<ArrayList<Project>>() {
+        }.getType());
 
-            return projectArrayList;
-        }
+    }
 
 //        Gson gson = new GsonBuilder().create();
 //

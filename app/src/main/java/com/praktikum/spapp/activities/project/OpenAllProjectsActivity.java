@@ -46,17 +46,9 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
 
-//                runOnUiThread(() -> {
-//                    ;
-//                    startActivity(new Intent(this, WelcomeActivity.class));
-//                });
             } catch (Exception e) {
                 e.printStackTrace();
 
-//                runOnUiThread(() -> {
-//                    ;
-//                    startActivity(new Intent(this, WelcomeActivity.class));
-//                });
             }
 
         }).start();
