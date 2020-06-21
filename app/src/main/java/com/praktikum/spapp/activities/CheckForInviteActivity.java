@@ -25,10 +25,10 @@ public class CheckForInviteActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_invite);
 
-        Intent intent = getIntent();
-        inviteKey = intent.getStringExtra("invite Key");
-        firstName = intent.getStringExtra("first Name");
-        lastName = intent.getStringExtra("last name");
+//        Intent intent = getIntent();
+//        inviteKey = intent.getStringExtra("invite Key");
+//        firstName = intent.getStringExtra("first Name");
+//        lastName = intent.getStringExtra("last name");
 
         //assign XML
         key = (EditText) findViewById(R.id.inputInviteKey);
