@@ -69,7 +69,7 @@ public class CheckForInviteActivity extends AppCompatActivity implements View.On
     public void startCheckForInvite2(View view) {
         givenFN = fname.getText().toString();
         givenLN = lname.getText().toString();
-        Intent intent = new Intent(this, CheckForInvite2.class);
+        Intent intent = new Intent(this, CheckForInviteActivity_Page2.class);
         intent.putExtra("first_name", givenFN);
         intent.putExtra("last_name", givenLN);
         intent.putExtra("invite_key", givenKey);

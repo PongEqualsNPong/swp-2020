@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme">
         <activity android:name=".activities.OpenMyProjectsActivity">
         </activity>
-        <activity android:name=".activities.createProject2"/>
+        <activity android:name=".activities.createProjectActivity_Page2"/>
         <activity android:name=".activities.OpenMailActivity"/>
         <activity android:name=".activities.ShowUserDetailsActivity"/>
         <activity android:name=".activities.ShowFetchedUsersActivity"/>
@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CheckForInviteActivity"/>
-        <activity android:name=".activities.CheckForInvite2"/>
+        <activity android:name=".activities.CheckForInviteActivity_Page2"/>
         <activity android:name=".activities.OpenAllProjectsActivity"/>
 
         <meta-data

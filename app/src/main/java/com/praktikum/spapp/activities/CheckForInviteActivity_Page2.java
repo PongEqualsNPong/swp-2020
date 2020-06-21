@@ -26,7 +26,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CheckForInvite2 extends AppCompatActivity implements View.OnClickListener {
+public class CheckForInviteActivity_Page2 extends AppCompatActivity implements View.OnClickListener {
 
     //string from intent
     String userName, userPassword, studentNumber, firstName, lastName, invitationLink;

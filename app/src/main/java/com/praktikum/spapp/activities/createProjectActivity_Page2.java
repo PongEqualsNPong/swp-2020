@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class createProject2 extends AppCompatActivity implements View.OnClickListener {
+public class createProjectActivity_Page2 extends AppCompatActivity implements View.OnClickListener {
     String project_name, project_description, project_type_string, project_status;
     EditText projectCoordinator, projectWorker;
     String givenPC, givenPW;
