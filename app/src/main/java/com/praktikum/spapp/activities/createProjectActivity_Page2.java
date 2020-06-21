@@ -9,10 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.ProjectType;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +67,17 @@ public class createProjectActivity_Page2 extends AppCompatActivity implements Vi
         switch (view.getId()) {
             case R.id.createProject2_button_confirm:
 
-                //TODO
-                //create a JSON GET request, with full body and send to server
+
+                //POST REQUEST with project details as body.
+                //To ask Tutor on how to test successfully.
+                ProjectService ps = new ProjectService();
+                try {
+                    ps.projectCreate(project);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.createProject2_button_cancel:
                 //return to the createProject window
