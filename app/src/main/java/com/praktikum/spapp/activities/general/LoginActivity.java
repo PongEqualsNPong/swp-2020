@@ -15,9 +15,11 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.AuthenticationService;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;
+import com.praktikum.spapp.common.Utils;
 
 import java.io.IOException;
 
@@ -42,38 +44,38 @@ public class LoginActivity extends AppCompatActivity {
         myDialog = new Dialog(this);
 
         // assign xml to variables
-        etLoginName = (EditText) findViewById(R.id.userName);
-        etLoginPassword = (EditText) findViewById(R.id.password);
-        butLogin = (Button) findViewById(R.id.login);
-        tvClickWithInvite = (TextView) findViewById(R.id.inviteClick);
+        etLoginName = findViewById(R.id.userName);
+        etLoginPassword = findViewById(R.id.password);
+        butLogin = findViewById(R.id.login);
+        tvClickWithInvite = findViewById(R.id.inviteClick);
 
 
         butLogin.setOnClickListener(new View.OnClickListener() {
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 new Thread(() -> {
-                    AuthenticationService authenticationService = new AuthenticationService();
                     try {
+//                        if(etLoginName.getText().toString().contains("@"))
                         //save static token
-                        authenticationService.loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
+                        String responseBody = new AuthenticationService().loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
                         //Activity will be shown next Intent will be changed
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        if (AuthenticationService.getToken().getSuccess().equals("1")) {
+                        if (AuthenticationService.getToken()!=null) {
 
                             runOnUiThread(() -> {
                                 //Intent will be started
                                 startActivity(intent);
                             });
                         } else {
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    ShowPopup();
-                                }
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, Utils.jsonGetErrorMessage(responseBody) ,Snackbar.LENGTH_SHORT).show();
                             });
                         }
+
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }).start();

@@ -9,16 +9,14 @@ public class Token implements Serializable {
     private String tokenType;
     private String accessToken;
     private String success;
-    private String username;
     private String password;
-
+    private User currentUser;
 
 
     public Token(String tokenType, String accessToken, String success) {
         this.tokenType = tokenType;
         this.accessToken = accessToken;
         this.success = success;
-
     }
 
     public Token() {
@@ -48,12 +46,12 @@ public class Token implements Serializable {
         return success;
     }
 
-    public String getUsername() {
-        return username;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.currentUser = user;
     }
 
     public String getPassword() {
@@ -64,5 +62,7 @@ public class Token implements Serializable {
         this.password = password;
     }
 
-
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
 }

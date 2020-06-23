@@ -1,5 +1,8 @@
 package com.praktikum.spapp.Service;
 
+import android.accounts.AuthenticatorException;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -45,7 +48,8 @@ public class ProjectService extends Service {
     }
 
 
-    public ArrayList<Project> fetchAllProjects() throws IOException {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ArrayList<Project> fetchAllProjects() throws Exception {
 
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");

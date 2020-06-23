@@ -30,11 +30,11 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
 
         // assign UI Elements
-        textFieldEnterProjectName = (EditText) findViewById(R.id.enterProjectName);
-        textFieldEnterProjectDescription = (EditText) findViewById(R.id.enterProjectDescription);
-        enterProjectType = (EditText) findViewById(R.id.inputProjectType);
-        enterProjectStatus = (EditText) findViewById(R.id.inputProjectStatus);
-        buttonCreate = (Button) findViewById(R.id.buttonCreateProject);
+        textFieldEnterProjectName = findViewById(R.id.enterProjectName);
+        textFieldEnterProjectDescription = findViewById(R.id.enterProjectDescription);
+        enterProjectType = findViewById(R.id.inputProjectType);
+        enterProjectStatus = findViewById(R.id.inputProjectStatus);
+        buttonCreate = findViewById(R.id.buttonCreateProject);
 
         buttonCreate.setOnClickListener(this);
     }

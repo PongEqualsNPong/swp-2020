@@ -3,30 +3,26 @@ package com.praktikum.spapp.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Token;
+import com.praktikum.spapp.models.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.praktikum.spapp.common.HttpClient.httpRequestMaker;
 
 public class AuthenticationService extends Service {
 
     private static Token token;
 
-    public static Token getToken() {
-        return token;
-    }
 
-    public static void setToken(Token token) {
-        AuthenticationService.token = token;
-    }
-
-    public static void loginOnServer(String nameOrEmail, String password) throws IOException {
+    public static String loginOnServer(String nameOrEmail, String password) throws Exception {
 
         // create jsonString GSON by map
         Map<String, String> map = new HashMap<>();
@@ -46,11 +42,26 @@ public class AuthenticationService extends Service {
         Response response = new OkHttpClient().newCall(request).execute();
         String responseString = response.body().string();
 
-        Type listType = new TypeToken<Token>() {
-        }.getType();
-        setToken(gson.fromJson(responseString, listType));
-        token.setUsername(nameOrEmail);
-        token.setPassword(password);
+        //if login successful then set token with the currentUser
+        if(Utils.isSuccess(responseString)){
+            setToken(gson.fromJson(responseString, new TypeToken<Token>() {
+            }.getType()));
+            AuthenticationService.getToken().setPassword(password);
+//            if (!isEmail) {}
 
+               Response getCurrentUserResponse = new OkHttpClient().newCall(httpRequestMaker("/api/user/getUserByUserName/"+nameOrEmail, "get")).execute();
+               token.setUser(gson.fromJson(getCurrentUserResponse.body().string(), new TypeToken<User>() {
+               }.getType()));
+        }
+        return responseString;
+
+    }
+
+    public static Token getToken() {
+        return token;
+    }
+
+    public static void setToken(Token token) {
+        AuthenticationService.token = token;
     }
 }

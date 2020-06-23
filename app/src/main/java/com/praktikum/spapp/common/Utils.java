@@ -1,5 +1,9 @@
 package com.praktikum.spapp.common;
 
+import android.accounts.AuthenticatorException;
+import android.app.AuthenticationRequiredException;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,22 +14,33 @@ import java.io.IOException;
 public class Utils {
 
     // parse a string to check if the response is a json with a 'success' key and which value it has
-    public static boolean silentTokenRefresh(String responseString) throws IOException {
+    public static boolean silentTokenRefresh(String responseString) throws Exception {
 
         // create a parser instance
         JsonParser parser = new JsonParser();
         // string to jsonelement, then
         JsonElement element = parser.parse(responseString);
+        System.out.println(responseString);
+
         // jsonelement to jsonobject
         JsonObject resultAsJsonObject = element.getAsJsonObject();
         // finally jsonobject can use .get method and check success
-        String isSuccess = resultAsJsonObject.get("success").getAsString();
-        // if the json does not have success with 1 log in again
-        if (!(isSuccess.equals("1"))) {
-            AuthenticationService.loginOnServer(AuthenticationService.getToken().getUsername(), AuthenticationService.getToken().getPassword());
-            return true;
 
+        try {
+            String status = resultAsJsonObject.get("status").getAsString();
+            switch (status) {
+
+                case "401":
+                    AuthenticationService.loginOnServer(AuthenticationService.getToken().getCurrentUser().getUsername(), AuthenticationService.getToken().getPassword());
+                    return true;
+
+                case "403":
+            }
+        } catch (NullPointerException | IOException e) {
+            //do nothing
         }
+        String isSuccess = resultAsJsonObject.get("success").getAsString();
+
         return false;
     }
 
@@ -36,8 +51,15 @@ public class Utils {
         JsonElement isSuccess = resultAsJsonObject.get("result");
         return isSuccess.toString();
     }
+    public static String jsonGetErrorMessage(String responseString) {
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(responseString);
+        JsonObject resultAsJsonObject = element.getAsJsonObject();
+        JsonElement isSuccess = resultAsJsonObject.get("Error");
+        return isSuccess.toString();
+    }
 
-    public static void isSuccess(String responseString) throws Exception {
+    public static boolean isSuccess(String responseString) throws Exception {
         // create a parser instance
         JsonParser parser = new JsonParser();
         // string to jsonelement, then
@@ -48,8 +70,9 @@ public class Utils {
         String isSuccess = resultAsJsonObject.get("success").getAsString();
         // if the json does not have success with 1 log in again
         if (isSuccess.equals("1")) {
+            return true;
         } else {
-            throw new Exception("urgay");
+            return false;
         }
     }
 

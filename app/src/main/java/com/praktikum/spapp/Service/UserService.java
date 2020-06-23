@@ -1,5 +1,6 @@
 package com.praktikum.spapp.Service;
 
+import android.accounts.AuthenticatorException;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
@@ -26,7 +27,7 @@ public class UserService extends Service {
         super();
     }
 
-    public ArrayList<User> fetchAllUsers() throws IOException {
+    public ArrayList<User> fetchAllUsers() throws Exception {
         new Thread(() -> {
         }).start();
 
@@ -36,7 +37,10 @@ public class UserService extends Service {
         String responseString = Objects.requireNonNull(response.body()).string();
 
         //these static methods must be called on every other service method u baboon
-        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        boolean isRefreshed = false;
+
+        isRefreshed = Utils.silentTokenRefresh(responseString);
+
         String successString = Utils.jsonCleaner(responseString);
 
         if (isRefreshed) {
