@@ -2,14 +2,10 @@ package com.praktikum.spapp.activities.general;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -37,12 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // custom toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // hardcoded rn
-        myDialog = new Dialog(this);
-
         // assign xml to variables
         etLoginName = findViewById(R.id.userName);
         etLoginPassword = findViewById(R.id.password);
@@ -50,10 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         tvClickWithInvite = findViewById(R.id.inviteClick);
 
 
-        butLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
+        butLogin.setOnClickListener((View view) -> {
                 new Thread(() -> {
                     try {
 //                        if(etLoginName.getText().toString().contains("@"))
@@ -61,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                         String responseBody = new AuthenticationService().loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
                         //Activity will be shown next Intent will be changed
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        if (AuthenticationService.getToken()!=null) {
+                        if (AuthenticationService.getToken() != null) {
 
                             runOnUiThread(() -> {
                                 //Intent will be started
@@ -69,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         } else {
                             runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.jsonGetErrorMessage(responseBody) ,Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(view, Utils.jsonCleaner(responseBody,"Error"), Snackbar.LENGTH_SHORT).show();
                             });
                         }
 
@@ -80,34 +67,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }).start();
 
-            }
-        });
+            });
 
-        tvClickWithInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, CheckForInviteActivity.class));
-            }
+        tvClickWithInvite.setOnClickListener((View view) -> {
+            startActivity(new Intent(LoginActivity.this, CheckForInviteActivity.class));
         });
     }
-
-    public void ShowPopup() {
-        TextView txtclose;
-        Button btnFollow;
-        myDialog.setContentView(R.layout.activity_static_pop_up);
-
-        txtclose = myDialog.findViewById(R.id.txtclose);
-        txtclose.setText("X");
-        txtclose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDialog.dismiss();
-            }
-        });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
-    }
-
 }
 
 

@@ -41,7 +41,7 @@ public class UserService extends Service {
 
         isRefreshed = Utils.silentTokenRefresh(responseString);
 
-        String successString = Utils.jsonCleaner(responseString);
+        String successString = Utils.jsonCleaner(responseString,"result");
 
         if (isRefreshed) {
             return fetchAllUsers();

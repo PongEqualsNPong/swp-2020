@@ -58,7 +58,7 @@ public class ProjectService extends Service {
         String responseString = response.body().string();
 
         boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-        String successString = Utils.jsonCleaner(responseString);
+        String successString = Utils.jsonCleaner(responseString,"result");
 
         if (isRefreshed) {
             return fetchAllProjects();
@@ -78,7 +78,7 @@ public class ProjectService extends Service {
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
-        String successString = Utils.jsonCleaner(responseString);
+        String successString = Utils.jsonCleaner(responseString,"result");
 
 
         Gson gson = new Gson();

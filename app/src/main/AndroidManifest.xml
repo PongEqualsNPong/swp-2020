@@ -20,7 +20,6 @@
         <activity android:name=".activities.user.ShowUserDetailsActivity"/>
         <activity android:name=".activities.user.ShowFetchedUsersActivity"/>
         <activity android:name=".activities.user.InviteActivity"/>
-        <activity android:name=".activities.dummies.DUMMY_CreateProjectSuccess"/>
         <activity android:name=".activities.project.CreateProjectActivity"/>
         <activity android:name=".activities.general.WelcomeActivity"/> <!-- <activity android:name=".Login"> -->
         <meta-data

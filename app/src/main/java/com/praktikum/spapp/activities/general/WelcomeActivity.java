@@ -43,12 +43,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        // custom toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // hardcoded rn
-        getSupportActionBar().setTitle("Welcome back ");
-
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 

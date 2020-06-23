@@ -44,18 +44,11 @@ public class Utils {
         return false;
     }
 
-    public static String jsonCleaner(String responseString) {
+    public static String jsonCleaner(String responseString, String jsonObject) {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(responseString);
         JsonObject resultAsJsonObject = element.getAsJsonObject();
-        JsonElement isSuccess = resultAsJsonObject.get("result");
-        return isSuccess.toString();
-    }
-    public static String jsonGetErrorMessage(String responseString) {
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(responseString);
-        JsonObject resultAsJsonObject = element.getAsJsonObject();
-        JsonElement isSuccess = resultAsJsonObject.get("Error");
+        JsonElement isSuccess = resultAsJsonObject.get(jsonObject);
         return isSuccess.toString();
     }
 
