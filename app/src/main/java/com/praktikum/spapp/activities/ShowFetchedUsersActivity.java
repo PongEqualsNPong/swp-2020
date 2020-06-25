@@ -33,12 +33,14 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
                     }
                 });
             } catch (IOException e) {
-                //TODO
+                               e.printStackTrace();
             } catch (Exception e) {
-                //TODO
+                e.printStackTrace();
+
             }
         }).start();
     }
+
 
     private void initRecyclerView() throws IOException {
         UserService userService = new UserService();

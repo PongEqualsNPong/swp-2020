@@ -1,5 +1,6 @@
 package com.praktikum.spapp.Service;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -16,6 +17,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,7 +75,8 @@ public class UserService extends Service {
         Token tokenJson = gson.fromJson(responseString, listType);
 
         UserService.accessToken = tokenJson.getAccessToken();
-        System.out.print(UserService.accessToken);
+//        System.out.print(UserService.accessToken);
+
         return tokenJson;
     }
 
@@ -84,14 +87,13 @@ public class UserService extends Service {
         System.out.print(UserService.accessToken);
         Request request = new Request.Builder()
                 .url(api + "/api/user/fetchall")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU1ODgxMiwiZXhwIjoxNTkxNjQ1MjEyfQ.dJx_9ijxMHVlLMtwIOnZjM8y-nHfBiR8R33oaYIRv7J_1nDF14rK7ELauH4GpYd8lD9CP4NICTMpt4fVuE-R-g")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYxNzA4MCwiZXhwIjoxNTkxNzAzNDgwfQ.oyHirz6PtALYSG4tbkGg1KI9txWiqs111qI6eKBnn5jrksVUPbJBb7C8TVbVqGD_ijevdCpkroY-qfw9bKCJ7Q")
                 .header("Access-Control-Allow-Origin", "*")
                 .get()
                 .build();
 
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
-        System.out.println(responseString);
 
 
         if (Utils.isSuccess(responseString)) {
@@ -100,17 +102,17 @@ public class UserService extends Service {
             JsonObject resultAsJsonObject = element.getAsJsonObject();
             JsonElement isSuccess = resultAsJsonObject.get("result");
             String successString = isSuccess.toString();
-
+            System.out.print(successString);
             Gson gson = new Gson();
             //
             Type listType = new TypeToken<ArrayList<User>>() {
             }.getType();
             ArrayList<User> userArrayList = gson.fromJson(successString, listType);
+
             return userArrayList;
 
         }
         return null;
-
 
 
     }
@@ -120,19 +122,16 @@ public class UserService extends Service {
         JSONObject data = new JSONObject()
                 .put("email", inviteForm.getEmail())
                 .put("projectId", inviteForm.getProjectId())
-                .put("role", inviteForm.getRole().toString());
+                .put("role", inviteForm.getRole().toString())
+                .put("projectRights", inviteForm.getProjectRights());
 
-        if (inviteForm.isHandler()) {
-            data.put("projectRights", "handler");
-        }
-        if (inviteForm.isProcessor()) {
-            data.put("projectRights", "processor");
-        }
         String dataString = data.toString();
 
         RequestBody requestBody = RequestBody.create(dataString, JSON);
         Request request = new Request.Builder()
-                .url(api)
+                .url(api + "/api/user/addUserInvitation")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYxNzA4MCwiZXhwIjoxNTkxNzAzNDgwfQ.oyHirz6PtALYSG4tbkGg1KI9txWiqs111qI6eKBnn5jrksVUPbJBb7C8TVbVqGD_ijevdCpkroY-qfw9bKCJ7Q")
+                .header("Access-Control-Allow-Origin", "*")
                 .post(requestBody)
                 .build();
 
@@ -168,10 +167,9 @@ public class UserService extends Service {
 
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
-        return  response.body().string();
+        return response.body().string();
 
     }
-
 
 
 }

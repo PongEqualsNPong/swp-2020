@@ -51,8 +51,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
-        CheckForInvite = (Button) findViewById(R.id.button_invitecheck);
-        CheckForInvite.setOnClickListener(this);
+
 
         buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
         buttonCreateProject.setOnClickListener(this);
@@ -65,9 +64,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
-
-        buttonProjectDetails = (Button) findViewById(R.id.button_detailprojects);
-        buttonProjectDetails.setOnClickListener(this);
     }
 
     //    @Override
@@ -84,20 +80,15 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_invite:
                 startActivityInvite();
                 break;
-            case R.id.button_invitecheck:
-                startActivityCheckForInvite();
-                break;
             case R.id.button_openproject:
                 startActivityOpenProject();
                 break;
             case R.id.button_viewprojects:
-                startActivityViewProject();
-                break;
-            case R.id.button_detailprojects:
-                startActivityDetailProject();
-                break;
+                startActivityOpenMyProjects();
         }
     }
+
+
 
     //     on click of toolbar item
     @Override
@@ -123,8 +114,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startViewProfile() {
-        startActivity(new Intent(this, ShowFetchedUsersActivity.class));
+    private void startViewProfile() {
+        startActivity( new Intent(this, ShowFetchedUsersActivity.class));
     }
 
     private void startActivityCheckForInvite() {
@@ -137,19 +128,13 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    public void startActivityInvite() {
+    private void startActivityInvite() {
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
-
-    public void startActivityViewProject() {
-        Intent intent = new Intent(this, ViewProjectActivity.class);
-        startActivity(intent);
+    private void startActivityOpenMyProjects() {
+        startActivity(new Intent(this, OpenMyProjectsActivity.class));
     }
 
-    public void startActivityDetailProject() {
-        Intent intent = new Intent(this, DetailProjectActivity.class);
-        startActivity(intent);
-    }
 }
 

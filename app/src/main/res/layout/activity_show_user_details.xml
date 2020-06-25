@@ -17,6 +17,7 @@
                 android:text="Username"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/username"
                 android:text="Username"
                 android:padding="3dip" />
         </TableRow>
@@ -26,6 +27,7 @@
                 android:text="Email"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/email"
                 android:text="Email"
                 android:padding="3dip" />
         </TableRow>
@@ -35,6 +37,7 @@
                 android:text="Rolle"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/rolle"
                 android:text="Rolle"
                 android:padding="3dip" />
         </TableRow>
@@ -44,6 +47,7 @@
                 android:text="Vorname"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/vorname"
                 android:text="Vorname"
                 android:padding="3dip" />
         </TableRow>
@@ -53,6 +57,7 @@
                 android:text="Nachname"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/nachname"
                 android:text="Nachname"
                 android:padding="3dip" />
         </TableRow>
@@ -62,6 +67,7 @@
                 android:text="Matrikelnummer"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/matrikelnummer"
                 android:text="Matrikelnummer"
                 android:padding="3dip" />
         </TableRow>
@@ -71,7 +77,18 @@
                 android:text="Studiengang"
                 android:padding="3dip" />
             <TextView
+                android:id="@+id/studiengang"
                 android:text="Studiengang"
+                android:padding="3dip" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Prüfungsordnung"
+                android:padding="3dip" />
+            <TextView
+                android:id="@+id/pruefungsordnung"
+                android:text="Pruefungsordnung"
                 android:padding="3dip" />
         </TableRow>
 

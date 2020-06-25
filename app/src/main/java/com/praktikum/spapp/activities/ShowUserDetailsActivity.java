@@ -8,25 +8,43 @@ import com.praktikum.spapp.models.User;
 
 public class ShowUserDetailsActivity extends AppCompatActivity {
 
-    TextView tvUsername;
-    TextView tvEmail;
-    TextView tvRole;
+    private TextView username;
+    private TextView email;
+    private TextView vorname;
+    private TextView nachname;
+    private TextView matrikelnummer;
+    private TextView studiengang;
+    private TextView pruefungsordnung;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user_details);
 
-       /* User user = (User) getIntent().getSerializableExtra("user");
+        User user = (User) getIntent().getSerializableExtra("user");
 
-        tvUsername = (TextView) findViewById(R.id.tvUsername);
-        tvRole = (TextView) findViewById(R.id.tvRole);
-        tvEmail = (TextView) findViewById(R.id.tvEmail);
+        username = (TextView) findViewById(R.id.username);
+        username.setText(user.getUsername());
 
-        tvUsername.setText(user.getUsername());
-        tvRole.setText(user.getRole().toString());
-        tvEmail.setText(user.getEmail());
-        */
+        email = (TextView) findViewById(R.id.email);
+        email.setText(user.getEmail());
+
+        vorname = (TextView) findViewById(R.id.vorname);
+        vorname.setText(user.getUserInfo().getForename());
+
+        nachname = (TextView) findViewById(R.id.nachname);
+        nachname.setText(user.getUserInfo().getSurename());
+
+       matrikelnummer = (TextView) findViewById(R.id.matrikelnummer);
+       matrikelnummer.setText("" + user.getUserInfo().getStudentNumber());
+
+
+        studiengang = (TextView) findViewById(R.id.studiengang);
+        studiengang.setText(user.getUserInfo().getCourseOfStudy());
+
+        pruefungsordnung = (TextView) findViewById(R.id.pruefungsordnung);
+        pruefungsordnung.setText(user.getUserInfo().getExaminationRegulations());
+
 
     }
 }

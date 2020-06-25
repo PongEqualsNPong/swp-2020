@@ -10,9 +10,9 @@ public enum Role {
         switch (this)
         {
             case ROLE_USER:
-                return "User";
+                return "ROLE_USER";
             case ROLE_ADMIN:
-                return "Admin";
+                return "ROLE_ADMIN";
             default:
                 return "Asshole";
         }

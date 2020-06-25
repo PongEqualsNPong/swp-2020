@@ -1,5 +1,6 @@
 package com.praktikum.spapp.models;
 
+import com.praktikum.spapp.models.enums.ProjectStatus;
 import com.praktikum.spapp.models.enums.ProjectType;
 
 import java.io.Serializable;
@@ -7,12 +8,16 @@ import java.util.ArrayList;
 
 public class Project implements Serializable {
 
-    String id;
+    int id;
     String name;
     String description;
-    ProjectType type;
+    ArrayList<Comment> comments;
+    ArrayList<Appointment> appointments;
     ArrayList<User> handler;
     ArrayList<User> processor;
+    ProjectType type;
+    ProjectStatus projectStatus;
+
 
     public ArrayList<User> getHandler() {
         return handler;
@@ -30,7 +35,7 @@ public class Project implements Serializable {
         this.processor = processor;
     }
 
-    public Project(String id, String name, String description, ProjectType type) {
+    public Project(int id, String name, String description, ProjectType type) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -46,11 +51,11 @@ public class Project implements Serializable {
 
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

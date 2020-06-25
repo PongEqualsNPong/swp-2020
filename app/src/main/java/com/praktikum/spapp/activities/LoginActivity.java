@@ -2,7 +2,9 @@ package com.praktikum.spapp.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -70,7 +72,11 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("token", token);
                         //System.out.print(userArrayList.getSuccess());
                         //TODO
+
+
+
                         if (token.getSuccess().equals("1")) {
+
                             System.out.println(token.getSuccess());
                             runOnUiThread(() -> {
                                 //Intent will be started
