@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 public class OpenAllProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
-    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,22 +59,6 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-//    public void ShowPopup() {
-//        TextView txtclose;
-//        Button btnFollow;
-//        myDialog.setContentView(R.layout.activity_static_pop_up);
-//
-//        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
-//        txtclose.setText("X");
-////        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
-//        txtclose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                myDialog.dismiss();
-//            }
-//        });
-//        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        myDialog.show();
-//    }
+
 
 }

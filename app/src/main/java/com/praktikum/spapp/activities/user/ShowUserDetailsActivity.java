@@ -97,12 +97,6 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
                                 if (Utils.isSuccess(responseString)) {
                                     runOnUiThread(() -> {
 
-                                        username.setText(editUserForm.getUsername());
-                                        email.setText(editUserForm.getEmail());
-                                        vorname.setText(editUserForm.getForename());
-                                        nachname.setText(editUserForm.getSurname());
-                                        matrikelnummer.setText(editUserForm.getStudentNumber());
-
                                         editMode.set(false);
                                         username.setEnabled(false);
                                         email.setEnabled(false);
@@ -112,7 +106,14 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
                                         buttonEaC.setText("Edit");
                                         buttonEditSave.setVisibility(View.GONE);
 
+                                        username.setText(editUserForm.getUsername());
+                                        email.setText(editUserForm.getEmail());
+                                        vorname.setText(editUserForm.getForename());
+                                        nachname.setText(editUserForm.getSurname());
+                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
                                         Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
+
+
                                     });
                                 } else {
                                     runOnUiThread(() -> {
