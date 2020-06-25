@@ -44,7 +44,7 @@ public class Utils {
         return false;
     }
 
-    public static String jsonCleaner(String responseString, String jsonObject) {
+    public static String parseForJsonObject(String responseString, String jsonObject) {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(responseString);
         JsonObject resultAsJsonObject = element.getAsJsonObject();
@@ -53,16 +53,9 @@ public class Utils {
     }
 
     public static boolean isSuccess(String responseString) throws Exception {
-        // create a parser instance
-        JsonParser parser = new JsonParser();
-        // string to jsonelement, then
-        JsonElement element = parser.parse(responseString);
-        // jsonelement to jsonobject
-        JsonObject resultAsJsonObject = element.getAsJsonObject();
-        // finally jsonobject can use .get method and check success
-        String isSuccess = resultAsJsonObject.get("success").getAsString();
-        // if the json does not have success with 1 log in again
-        if (isSuccess.equals("1")) {
+
+        String isSuccess = parseForJsonObject(responseString, "success");
+        if (isSuccess.contains("1")) {
             return true;
         } else {
             return false;

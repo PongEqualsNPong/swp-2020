@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                             });
                         } else {
                             runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.jsonCleaner(responseBody,"Error"), Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(view, Utils.parseForJsonObject(responseBody,"Error"), Snackbar.LENGTH_SHORT).show();
                             });
                         }
 

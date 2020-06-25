@@ -26,10 +26,7 @@ public class ProjectService extends Service {
     public String projectCreate(Project project) throws Exception {
 
         Gson gson = new GsonBuilder().create();
-
         JSONObject data = new JSONObject(gson.toJson(project));
-        System.out.println(gson.toJson(project));
-
 
         Request request = HttpClient.httpRequestMaker("/api/project/init", "post", data);
         Response response = client.newCall(request).execute();
@@ -47,8 +44,6 @@ public class ProjectService extends Service {
         }
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
 
@@ -58,7 +53,7 @@ public class ProjectService extends Service {
         String responseString = response.body().string();
 
         boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-        String successString = Utils.jsonCleaner(responseString,"result");
+        String successString = Utils.parseForJsonObject(responseString,"result");
 
         if (isRefreshed) {
             return fetchAllProjects();
@@ -78,7 +73,7 @@ public class ProjectService extends Service {
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
-        String successString = Utils.jsonCleaner(responseString,"result");
+        String successString = Utils.parseForJsonObject(responseString,"result");
 
 
         Gson gson = new Gson();

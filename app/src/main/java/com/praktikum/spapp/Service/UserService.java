@@ -1,10 +1,10 @@
 package com.praktikum.spapp.Service;
 
-import android.accounts.AuthenticatorException;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.User;
 
@@ -41,7 +41,7 @@ public class UserService extends Service {
 
         isRefreshed = Utils.silentTokenRefresh(responseString);
 
-        String successString = Utils.jsonCleaner(responseString,"result");
+        String successString = Utils.parseForJsonObject(responseString, "result");
 
         if (isRefreshed) {
             return fetchAllUsers();
@@ -101,6 +101,16 @@ public class UserService extends Service {
         Response response = client.newCall(request).execute();
         System.out.println(response.body().string());
         return response.body().string();
+
+    }
+
+    public String editUser(EditUserForm editUserForm) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editUserForm));
+        Request request = HttpClient.httpRequestMaker("/api/user/editUser/", "post", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
 
     }
 

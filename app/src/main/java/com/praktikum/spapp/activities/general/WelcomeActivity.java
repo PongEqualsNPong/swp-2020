@@ -43,21 +43,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
-        buttonViewProfile = (Button) findViewById(R.id.button_viewprofile);
+        buttonViewProfile = findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
 
-
-        buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
+        buttonCreateProject = findViewById(R.id.buttonCreateProject);
         buttonCreateProject.setOnClickListener(this);
 
-        buttonInviteUser = (Button) findViewById(R.id.button_invite);
+        buttonInviteUser = findViewById(R.id.button_invite);
         buttonInviteUser.setOnClickListener(this);
 
-        buttonOpenProject = (Button) findViewById(R.id.button_openproject);
+        buttonOpenProject = findViewById(R.id.button_openproject);
         buttonOpenProject.setOnClickListener(this);
 
-        buttonViewProjects = (Button) findViewById(R.id.button_viewprojects);
+        buttonViewProjects = findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
     }
 
@@ -82,7 +81,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityOpenMyProjects();
         }
     }
-
 
 
     //     on click of toolbar item
@@ -110,7 +108,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void startViewProfile() {
-        startActivity( new Intent(this, ShowFetchedUsersActivity.class));
+        startActivity(new Intent(this, ShowFetchedUsersActivity.class));
     }
 
     private void startActivityCheckForInvite() {
@@ -127,6 +125,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent(this, InviteActivity.class);
         startActivity(intent);
     }
+
     private void startActivityOpenMyProjects() {
         startActivity(new Intent(this, OpenMyProjectsActivity.class));
     }
