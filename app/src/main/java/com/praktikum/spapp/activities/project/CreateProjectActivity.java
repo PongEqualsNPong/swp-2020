@@ -54,7 +54,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
 
     public void startCreateProject2(View view) {
-        Intent intent = new Intent(this, createProject2.class);
+        Intent intent = new Intent(this, CreateProjectActivity2.class);
         intent.putExtra("project_name", textFieldEnterProjectName.getText().toString());
         intent.putExtra("project_description", textFieldEnterProjectDescription.getText().toString());
         intent.putExtra("project_type_string", enterProjectType.getText().toString());

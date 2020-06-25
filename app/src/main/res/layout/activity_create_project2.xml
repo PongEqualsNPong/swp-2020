@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.project.createProject2">
+    tools:context=".activities.project.CreateProjectActivity2">
 
     <TextView
         android:id="@+id/textView4"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="95dp"
         android:layout_marginRight="95dp"
         android:ems="10"
-        android:hint="Enter Project Coordinator"
+        android:hint="Project Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -51,7 +51,7 @@
         android:layout_marginRight="96dp"
         android:layout_marginBottom="304dp"
         android:ems="10"
-        android:hint="Enter Project Worker"
+        android:hint="Project Description"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/createProject2_button_cancel"
         app:layout_constraintEnd_toEndOf="parent"

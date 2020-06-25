@@ -15,7 +15,7 @@
             android:theme="@style/AppTheme">
         <activity android:name=".activities.project.OpenMyProjectsActivity">
         </activity>
-        <activity android:name=".activities.project.createProject2"/>
+        <activity android:name=".activities.project.CreateProjectActivity2"/>
         <activity android:name=".activities.project.OpenMailActivity"/>
         <activity android:name=".activities.user.ShowUserDetailsActivity"/>
         <activity android:name=".activities.user.ShowFetchedUsersActivity"/>

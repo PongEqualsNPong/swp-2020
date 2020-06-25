@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.project.CreateProjectActivity;
+import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
 import com.praktikum.spapp.activities.project.OpenMyProjectsActivity;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;
@@ -103,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     // start Activities
     public void startActivityCreateProject(View view) {
-        Intent intent = new Intent(this, CreateProjectActivity.class);
+        Intent intent = new Intent(this, CreateProjectActivity2.class);
         startActivity(intent);
     }
 

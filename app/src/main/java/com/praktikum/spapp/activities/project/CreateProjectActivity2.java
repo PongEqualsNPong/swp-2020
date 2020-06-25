@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.ProjectType;
@@ -16,10 +17,10 @@ import com.praktikum.spapp.models.enums.ProjectType;
 import java.util.ArrayList;
 
 
-public class createProject2 extends AppCompatActivity implements View.OnClickListener {
-    String project_name, project_description, project_type_string, project_status;
-    EditText projectCoordinator, projectWorker;
-    String givenPC, givenPW;
+public class CreateProjectActivity2 extends AppCompatActivity implements View.OnClickListener {
+
+    EditText projectName, projectDesc;
+    String givenPN, givenPD;
     Button confirm, cancel;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,17 +30,13 @@ public class createProject2 extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_create_project2);
 
 
-        //initialise variable passed from createProject 1
 
-        Intent intent = getIntent();
-        project_name = intent.getStringExtra("project_name");
-        project_description = intent.getStringExtra("project_description");
-        project_type_string = intent.getStringExtra("project_type_string");
-        project_status = intent.getStringExtra("project_status");
+
+
 
         //assign xml elems
-        projectCoordinator = findViewById(R.id.inputProjectCoordinator);
-        projectWorker = findViewById(R.id.inputProjectWorker);
+        projectName = findViewById(R.id.inputProjectCoordinator);
+        projectDesc = findViewById(R.id.inputProjectWorker);
         confirm = findViewById(R.id.createProject2_button_confirm);
         cancel = findViewById(R.id.createProject2_button_cancel);
 
@@ -47,23 +44,32 @@ public class createProject2 extends AppCompatActivity implements View.OnClickLis
 
     public void onClick(View view) {
         ArrayList<User> handlerList = new ArrayList<>();
-        givenPC = projectCoordinator.getText().toString();
-        givenPW = projectWorker.getText().toString();
+        givenPN = projectName.getText().toString();
+        givenPD = projectDesc.getText().toString();
 
         //ask Tutor about this, not sure where to create UserList base on the inputText
         //prerequisites: already have a serializable User class, not sure how to pass that into a ArrayList here
 
 
         Project project = new Project();
+        project.setName(givenPN);
+        project.setDescription(givenPD);
 //        project.setType(ProjectType.valueOf(project_type_string));
-        project.setDescription(project_description);
+//       project.setDescription(project_description);
 //        project.setHandler(handlerList);
 
         switch (view.getId()) {
             case R.id.createProject2_button_confirm:
 
                 //TODO
-                //create a JSON GET request, with full body and send to server
+                ProjectService projectService = new ProjectService();
+                try {
+                    projectService.projectCreate(project);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
                 break;
             case R.id.createProject2_button_cancel:
                 //return to the createProject window
