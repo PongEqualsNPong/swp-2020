@@ -71,6 +71,10 @@ public class Project implements Serializable {
         return description;
     }
 
+    public ProjectStatus getStatus() {
+        return projectStatus;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

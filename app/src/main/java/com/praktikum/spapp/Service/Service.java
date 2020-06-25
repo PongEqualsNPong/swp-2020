@@ -8,7 +8,7 @@ public abstract class Service {
 
     OkHttpClient client;
 
-    final String api = "http://192.168.178.176:8081";
+    final String api = "http://192.168.2.100:8081";
 
     // need this for okhttp
     public static final MediaType JSON

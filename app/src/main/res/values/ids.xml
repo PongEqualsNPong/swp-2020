@@ -2,4 +2,5 @@
 <resources>
     <item name="projectName" type="id" />
     <item name="projectNr" type="id" />
+    <item name="username" type="id" />
 </resources>

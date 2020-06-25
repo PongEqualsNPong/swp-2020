@@ -30,8 +30,8 @@ public class ViewProjectActivity extends AppCompatActivity {
         new Thread(() -> {
             try {
                 ProjectService projectService = new ProjectService();
-                //this.projectArrayList = projectService.fetchAllProjects();
-                this.projectArrayList = projectService.fetchProjectsDetail();
+                this.projectArrayList = projectService.fetchAllProjects();
+                //this.projectArrayList = projectService.fetchProjectsDetail();
 
 
                 runOnUiThread(() -> {
@@ -41,8 +41,6 @@ public class ViewProjectActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 });
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }

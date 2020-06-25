@@ -49,7 +49,7 @@ public class ProjectService extends Service {
         Request request = new Request.Builder()
                 .url(api + "/api/project")
                 .header("Access-Control-Allow-Origin", "*")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTYwODk4NCwiZXhwIjoxNTkxNjk1Mzg0fQ.3MPkfn4jc1G2EvgCP4OcjincRvn9-A7oPfOWbjplo8zCy5tmL5bvIzwjDeGsQ8LxNxeoDZtYskyYOo6PQO7cvw")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MzEyMTI3MCwiZXhwIjoxNTkzMjA3NjcwfQ.Sa3hwv41gEpvhMQsM2fnt-QEZ-w79xha1p6X4hMQj2zy7bXTi-3oyblecrPFKiglbmhGk4Z4O-aOBy9TkVxK7w")
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
