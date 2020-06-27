@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.EditProjectForm;
+import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.Project;
 import okhttp3.*;
 import org.json.JSONException;
@@ -69,7 +71,7 @@ public class ProjectService extends Service {
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/api/project/")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0X21vZCIsImlhdCI6MTU5MTYxMzI0MywiZXhwIjoxNTkxNjk5NjQzfQ.vMTN-TftGV1A4gJGh9NDKxRtMS3ndpyMrJcjhjsNjHHvmnYFWx3fEwDfBF_qeZqv2N3XPo4XB-XtBQwSSOf69Q")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MzI3NzgzMiwiZXhwIjoxNTkzMzY0MjMyfQ.zokUEwUi1dMafpn-xWon4IgKV0lsPVRJIc2VXCi7C7YlKTbyw1UA8XJjsOynl2UN6X-DG6vX14p1MfgPbyZqHQ")
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
@@ -84,6 +86,23 @@ public class ProjectService extends Service {
 
     }
 
+    public String updateProject(EditProjectForm editProjectFormForm, int projectNr) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectFormForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/update/" + projectNr, "post", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+    }
+
+    public String deleteProject(EditProjectForm editProjectFormForm, int projectNr) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectFormForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/delete/" + projectNr, "delete", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+    }
 //        Gson gson = new GsonBuilder().create();
 //
 //        ArrayList<Project> projectArrayList = fetchAllProjects();

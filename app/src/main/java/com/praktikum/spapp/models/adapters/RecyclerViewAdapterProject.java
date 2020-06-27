@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.DetailProjectActivity;
 import com.praktikum.spapp.activities.ProjectDetailActivity;
 import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.Project;
@@ -44,7 +45,7 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
         viewHolder.projectName.setText(projects.get(i).getName());
 
         viewHolder.parentLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(aContext, ProjectDetailActivity.class);
+            Intent intent = new Intent(aContext, DetailProjectActivity.class);
             intent.putExtra("project", projects.get(i));
             aContext.startActivity(intent);
         });
