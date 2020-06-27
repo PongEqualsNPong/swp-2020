@@ -6,26 +6,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.ShowUserDetailsActivity;
-import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAdapterUser.ViewHolder> {
+public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAdapterUser.ViewHolder> implements Filterable {
 
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<User> users;
+    private ArrayList<User> usersAll;
+
+
     private Context aContext;
 
     public RecyclerViewAdapterUser(ArrayList<User> users, Context aContext) {
         this.users = users;
+        this.usersAll= new ArrayList<>(users);
         this.aContext = aContext;
     }
 
@@ -55,6 +60,42 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
     public int getItemCount() {
         return users.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return userFilter;
+    }
+
+    public Filter userFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<User> filterdList = new ArrayList<>();
+            if(constraint == null || constraint.length() == 0) {
+                filterdList.addAll(usersAll);
+            } else {
+                String filterPattern= constraint.toString().toLowerCase().trim();
+                for(User user : usersAll) {
+                    if(user.getUsername().toLowerCase().contains(filterPattern) || user.getEmail().toLowerCase().contains(filterPattern)){
+                        filterdList.add(user);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filterdList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            users.clear();
+            users.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

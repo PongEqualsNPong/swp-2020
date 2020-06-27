@@ -6,7 +6,7 @@
         android:id="@+id/show_fetched_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.ShowFetchedUsersActivity">
+        tools:context=".activities.user.ShowFetchedUsersActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView

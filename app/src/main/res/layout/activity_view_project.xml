@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ViewProjectActivity">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Number" />
+
+            <TextView
+                android:id="@+id/username"
+                android:padding="3dip"
+                android:text="Project Number" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Name" />
+
+            <TextView
+                android:id="@+id/email"
+                android:padding="3dip"
+                android:text="Project Name" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Description" />
+
+            <TextView
+                android:id="@+id/projectDescription"
+                android:padding="3dip"
+                android:text="Project Description" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="3dip"
+                android:text="Status" />
+
+            <TextView
+                android:id="@+id/vorname"
+                android:padding="3dip"
+                android:text="Project Status" />
+        </TableRow>
+
+
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

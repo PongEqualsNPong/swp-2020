@@ -1,22 +1,21 @@
 package com.praktikum.spapp.Service;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
+        import android.content.SharedPreferences;
+        import okhttp3.MediaType;
+        import okhttp3.OkHttpClient;
 
 public abstract class Service {
 
-    OkHttpClient client;
+    public static OkHttpClient client;
 
-    final String api = "https://api.solaimani.de";
+    public static final String api = "http://192.168.2.100:8081";
 
     // need this for okhttp
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
+
     // constructor
-    public Service(){
+    public Service() {
         client = new OkHttpClient();
     }
-
-
-
 }

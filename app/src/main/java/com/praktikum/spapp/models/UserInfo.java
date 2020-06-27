@@ -12,6 +12,35 @@ public class UserInfo implements Serializable {
 
     private int studentNumber;
 
+    private String courseOfStudy;
+
+    public UserInfo(int id, String forename, String surename, int studentNumber, String courseOfStudy, String examinationRegulations) {
+        this.id = id;
+        this.forename = forename;
+        this.surename = surename;
+        this.studentNumber = studentNumber;
+        this.courseOfStudy = courseOfStudy;
+        this.examinationRegulations = examinationRegulations;
+    }
+
+    public String getCourseOfStudy() {
+        return courseOfStudy;
+    }
+
+    public void setCourseOfStudy(String courseOfStudy) {
+        this.courseOfStudy = courseOfStudy;
+    }
+
+    public String getExaminationRegulations() {
+        return examinationRegulations;
+    }
+
+    public void setExaminationRegulations(String examinationRegulations) {
+        this.examinationRegulations = examinationRegulations;
+    }
+
+    private String examinationRegulations;
+
     public UserInfo(int id, String forename, String surename, int studentNumber) {
         this.id = id;
         this.forename = forename;

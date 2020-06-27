@@ -1,16 +1,17 @@
 package com.praktikum.spapp.models;
 
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
 public class Token implements Serializable {
 
 
-    public String tokenType;
-    public String accessToken;
-    public String success;
-    public static String userId;
+    private String tokenType;
+    private String accessToken;
+    private String success;
+    private String password;
+    private User currentUser;
+
 
     public Token(String tokenType, String accessToken, String success) {
         this.tokenType = tokenType;
@@ -45,11 +46,23 @@ public class Token implements Serializable {
         return success;
     }
 
-    public static String getUserId() {
-        return userId;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public static void setUserId(String userId) {
-        Token.userId = userId;
+    public void setUser(User user) {
+        this.currentUser = user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }
