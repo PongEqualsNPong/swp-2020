@@ -1,6 +1,5 @@
 package com.praktikum.spapp.Service;
 
-        import android.content.SharedPreferences;
         import okhttp3.MediaType;
         import okhttp3.OkHttpClient;
 
