@@ -7,48 +7,56 @@
                                                    tools:context=".activities.general.WelcomeActivity">
 
     <Button
-            android:id="@+id/button_viewprojects"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View My Projects"
-            app:layout_constraintBottom_toTopOf="@+id/button_invite"
-            android:layout_marginBottom="88dp" app:layout_constraintStart_toEndOf="@+id/button_openproject"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.426" app:layout_constraintVertical_bias="0.993"/>
-    <Button
-            android:id="@+id/buttonCreateProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Project"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button_invite"
-            app:layout_constraintTop_toBottomOf="@+id/button_openproject" android:layout_marginTop="24dp"
-            app:layout_constraintHorizontal_bias="0.526" app:layout_constraintBottom_toBottomOf="parent"/>
+        android:id="@+id/button_viewprojects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="View My Projects"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_viewprofile" />
 
     <Button
-            android:id="@+id/button_openproject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Open Project"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="48dp" android:layout_marginStart="48dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="484dp"/>
+        android:id="@+id/buttonCreateProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="New Project"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_openproject" />
+
     <Button
-            android:id="@+id/button_invite"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:text="Invite another user"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="28dp" android:layout_marginRight="28dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="60dp"/>
+        android:id="@+id/button_openproject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Open Project"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_invite" />
+
     <Button
-            android:id="@+id/button_viewprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonShowAllUser"
-            app:layout_constraintBottom_toTopOf="@+id/button_openproject" app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/button_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:text="Invite another user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_viewprojects" />
+
+    <Button
+        android:id="@+id/button_viewprofile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="View Profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonShowAllUser" />
+
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -63,11 +71,25 @@
     />
 
     <Button
-            android:id="@+id/buttonShowAllUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show All User"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="44dp" android:layout_marginRight="44dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_viewprojects" app:layout_constraintTop_toTopOf="parent"/>
+        android:id="@+id/buttonShowAllUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Show All User"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <Button
+        android:id="@+id/buttonAppointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Appointments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCreateProject" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

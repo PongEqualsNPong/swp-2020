@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.appointment.UpdateAppointmentActicity"></activity>
+        <activity android:name=".activities.appointment.NavigateAppointmentActivity"></activity>
+        <activity android:name=".activities.appointment.UpdateAppointmentActicity" />
         <activity android:name=".activities.appointment.OpenProjectAppointmentActivity" />
         <activity android:name=".activities.appointment.CreateAppointmentActivity" />
         <activity android:name=".activities.project.OpenMyProjectsActivity" />

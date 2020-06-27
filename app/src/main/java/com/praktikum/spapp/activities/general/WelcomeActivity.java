@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.appointment.NavigateAppointmentActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
@@ -38,6 +39,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     Button buttonCreateProject;
     Button buttonProjectDetails;
     Button buttonViewProjects;
+    Button buttonAppointment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonViewProjects = findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
+
+        buttonAppointment = findViewById(R.id.buttonAppointment);
+        buttonAppointment.setOnClickListener(this);
     }
 
     //    @Override
@@ -80,6 +85,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.button_viewprojects:
                 startActivityOpenMyProjects();
+            case R.id.buttonAppointment:
+                startActivityAppointments();
         }
     }
 
@@ -93,7 +100,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
         }
         return true;
-    }
+}
 
     // create the menu
     @Override
@@ -129,6 +136,10 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private void startActivityOpenMyProjects() {
         startActivity(new Intent(this, OpenMyProjectsActivity.class));
+    }
+
+    private void startActivityAppointments() {
+        startActivity(new Intent(this, NavigateAppointmentActivity.class));
     }
 
 }
