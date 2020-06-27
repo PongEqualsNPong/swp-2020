@@ -22,5 +22,22 @@
         <u>Got an Invite? Click here!</u>
     </string>
 
+    <string-array name="project_status_array">
+        <item>APPLICATION STAGE</item>
+        <item>REGISTERED</item>
+        <item>EVALUATED</item>
+        <item>FINISHED</item>
+    </string-array>
+
+    <string-array name="project_type_array">
+        <item>FOPRA</item>
+        <item>SEMINARARBEIT</item>
+        <item>BACHELORARBEIT</item>
+        <item>MASTERARBEIT</item>
+        <item>PROJEKTARBEIT</item>
+        <item>SWA</item>
+
+    </string-array>
+
 
 </resources>
