@@ -38,9 +38,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.user.CheckForInviteActivity" />
-        <activity android:name=".activities.user.CheckForInvite2" />
-        <activity android:name=".activities.project.OpenAllProjectsActivity" />
+
+        <activity android:name=".activities.user.CheckForInviteActivity"/>
+        <activity android:name=".activities.user.CheckForInvite2"/>
+        <activity android:name=".activities.project.OpenAllProjectsActivity"/>
+        <activity android:name=".activities.ProjectDetailActivity"/>
 
         <meta-data
             android:name="com.google.android.actions"

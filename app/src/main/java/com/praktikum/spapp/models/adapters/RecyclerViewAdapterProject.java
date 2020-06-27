@@ -1,6 +1,7 @@
 package com.praktikum.spapp.models.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.ProjectDetailActivity;
+import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.Project;
 
 import java.util.ArrayList;
@@ -26,8 +29,6 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
         this.aContext = aContext;
     }
 
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -42,13 +43,10 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
 
         viewHolder.projectName.setText(projects.get(i).getName());
 
-        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //TODO switch to ProjectDetailsActivity instead of a Toast
-                Toast.makeText(aContext, "No Function", Toast.LENGTH_SHORT).show();
-            }
+        viewHolder.parentLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(aContext, ProjectDetailActivity.class);
+            intent.putExtra("project", projects.get(i));
+            aContext.startActivity(intent);
         });
 
     }
@@ -58,7 +56,7 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
         return projects.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView projectName;
         RelativeLayout parentLayout;
