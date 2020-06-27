@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activities.general;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.ProjectDetailActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
@@ -47,7 +49,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonViewProfile = findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
-
         buttonCreateProject = findViewById(R.id.buttonCreateProject);
         buttonCreateProject.setOnClickListener(this);
 
@@ -59,6 +60,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         buttonViewProjects = findViewById(R.id.button_viewprojects);
         buttonViewProjects.setOnClickListener(this);
+
+//        buttonProjectDetails = findViewById(R.id.button_v)
     }
 
     //    @Override
@@ -79,7 +82,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityOpenProject();
                 break;
             case R.id.button_viewprojects:
-                startActivityOpenMyProjects();
+                startActivityProjectDetail();
         }
     }
 
@@ -127,8 +130,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    private void startActivityOpenMyProjects() {
-        startActivity(new Intent(this, OpenMyProjectsActivity.class));
+    private void startActivityProjectDetail() {
+        startActivity(new Intent(this, ProjectDetailActivity.class));
     }
 
 }

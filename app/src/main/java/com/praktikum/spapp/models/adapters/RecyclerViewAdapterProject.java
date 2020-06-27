@@ -25,9 +25,6 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
         this.projects = projectNames;
         this.aContext = aContext;
     }
-
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
