@@ -3,28 +3,16 @@ package com.praktikum.spapp.models;
 import com.praktikum.spapp.models.enums.Role;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
 
     private String username;
     private String password;
     private String email;
-    private String role[];
+    private ArrayList<Role> roles;
     private UserInfo userInfo;
 
-    public User(String username, String password, String email, String role[]) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-        this.userInfo = userInfo;
-    }
-
-    public User(String username, String email, String role[]) {
-        this.username = username;
-        this.email = email;
-        this.role = role;
-    }
 
     public String getUsername() {
         return username;
@@ -50,14 +38,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String[] getRole() {
-        return role;
-    }
-
-    public void setRole(String role[]) {
-        this.role = role;
-    }
-
     public UserInfo getUserInfo() {
         return userInfo;
     }
@@ -65,5 +45,6 @@ public class User implements Serializable {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
+
 }
 

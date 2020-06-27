@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import android.content.Intent;
 import android.os.Build;
@@ -30,11 +30,11 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
 
         // assign UI Elements
-        textFieldEnterProjectName = (EditText) findViewById(R.id.enterProjectName);
-        textFieldEnterProjectDescription = (EditText) findViewById(R.id.enterProjectDescription);
-        enterProjectType = (EditText) findViewById(R.id.inputProjectType);
-        enterProjectStatus = (EditText) findViewById(R.id.inputProjectStatus);
-        buttonCreate = (Button) findViewById(R.id.buttonCreateProject);
+        textFieldEnterProjectName = findViewById(R.id.enterProjectName);
+        textFieldEnterProjectDescription = findViewById(R.id.enterProjectDescription);
+        enterProjectType = findViewById(R.id.inputProjectType);
+        enterProjectStatus = findViewById(R.id.inputProjectStatus);
+        buttonCreate = findViewById(R.id.buttonCreateProject);
 
         buttonCreate.setOnClickListener(this);
     }
@@ -48,13 +48,13 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         };
         project.setName(textFieldEnterProjectName.getText().toString());
         project.setName(textFieldEnterProjectDescription.getText().toString());
-        project.setType(type);
+//        project.setType(type);
         startCreateProject2(v);
     }
 
 
     public void startCreateProject2(View view) {
-        Intent intent = new Intent(this, createProjectActivity_Page2.class);
+        Intent intent = new Intent(this, CreateProjectActivity2.class);
         intent.putExtra("project_name", textFieldEnterProjectName.getText().toString());
         intent.putExtra("project_description", textFieldEnterProjectDescription.getText().toString());
         intent.putExtra("project_type_string", enterProjectType.getText().toString());

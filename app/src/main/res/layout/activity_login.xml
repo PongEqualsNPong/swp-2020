@@ -6,7 +6,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.WelcomeActivity">
+        tools:context=".activities.general.WelcomeActivity">
 
     <Button
         android:id="@+id/login"
@@ -58,16 +58,7 @@
         app:layout_constraintVertical_bias="0.956"
         tools:ignore="MissingConstraints" />
 
-    <androidx.appcompat.widget.Toolbar
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/Platform.ThemeOverlay.AppCompat.Dark"
-            android:minHeight="?attr/actionBarSize"
-            android:id="@+id/toolbar"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toTopOf="parent"/>
     <TextView
             android:text="@string/click_with_invite"
             android:layout_width="wrap_content"

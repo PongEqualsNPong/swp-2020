@@ -18,37 +18,7 @@ public class Project implements Serializable {
     ProjectType type;
     ProjectStatus projectStatus;
 
-
-    public ArrayList<User> getHandler() {
-        return handler;
-    }
-
-    public void setHandler(ArrayList<User> handler) {
-        this.handler = handler;
-    }
-
-    public ArrayList<User> getProcessor() {
-        return processor;
-    }
-
-    public void setProcessor(ArrayList<User> processor) {
-        this.processor = processor;
-    }
-
-    public Project(int id, String name, String description, ProjectType type) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.type = type;
-    }
-
-    public Project(String name, String description){
-        this.name = name;
-        this.description = description;
-    }
-
     public Project() {
-
     }
 
     public int getId() {
@@ -79,6 +49,22 @@ public class Project implements Serializable {
         this.description = description;
     }
 
+    public ArrayList<User> getHandler() {
+        return handler;
+    }
+
+    public void setHandler(ArrayList<User> handler) {
+        this.handler = handler;
+    }
+
+    public ArrayList<User> getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(ArrayList<User> processor) {
+        this.processor = processor;
+    }
+
     public ProjectType getType() {
         return type;
     }
@@ -86,6 +72,31 @@ public class Project implements Serializable {
     public void setType(ProjectType type) {
         this.type = type;
     }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(ArrayList<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
+    public ProjectStatus getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(ProjectStatus projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
 }
 
 

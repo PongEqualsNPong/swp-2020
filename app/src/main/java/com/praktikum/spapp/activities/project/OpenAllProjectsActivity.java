@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,19 +22,18 @@ import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class OpenMyProjectsActivity extends AppCompatActivity {
+public class OpenAllProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
-    Dialog myDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_my_projects);
+        setContentView(R.layout.activity_open_all_projects);
 
         new Thread(() -> {
             try {
                 ProjectService projectService = new ProjectService();
-                this.projectArrayList = projectService.fetchProjectsOnlyFromUser();
+                this.projectArrayList = projectService.fetchAllProjects();
 
                 runOnUiThread(() -> {try {
                     initRecyclerView();
@@ -46,17 +45,9 @@ public class OpenMyProjectsActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
 
-//                runOnUiThread(() -> {
-//                    ;
-//                    startActivity(new Intent(this, WelcomeActivity.class));
-//                });
             } catch (Exception e) {
                 e.printStackTrace();
 
-//                runOnUiThread(() -> {
-//                    ;
-//                    startActivity(new Intent(this, WelcomeActivity.class));
-//                });
             }
 
         }).start();
@@ -68,22 +59,6 @@ public class OpenMyProjectsActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-//    public void ShowPopup() {
-//        TextView txtclose;
-//        Button btnFollow;
-//        myDialog.setContentView(R.layout.activity_static_pop_up);
-//
-//        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
-//        txtclose.setText("X");
-////        btnFollow = (Button) myDialog.findViewById(R.id.btnfollow);
-//        txtclose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                myDialog.dismiss();
-//            }
-//        });
-//        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        myDialog.show();
-//    }
+
 
 }

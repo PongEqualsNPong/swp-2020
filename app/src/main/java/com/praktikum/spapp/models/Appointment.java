@@ -81,4 +81,7 @@ public class Appointment implements Serializable {
     public void setReminders(ArrayList<Reminder> reminders) {
         this.reminders = reminders;
     }
+
+    public void prettyPrint(){}
+
 }

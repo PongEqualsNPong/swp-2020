@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.user;
 
 import android.content.Intent;
 import android.net.Uri;

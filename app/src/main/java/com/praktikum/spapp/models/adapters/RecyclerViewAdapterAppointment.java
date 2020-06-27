@@ -14,30 +14,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
+import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAdapterUser.ViewHolder> implements Filterable {
+public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<RecyclerViewAdapterAppointment.ViewHolder> implements Filterable {
 
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<User> users;
-    private ArrayList<User> usersAll;
+    private ArrayList<Appointment> appointments;
+    private ArrayList<Appointment> appointmentsAll;
 
 
     private Context aContext;
 
-    public RecyclerViewAdapterUser(ArrayList<User> users, Context aContext) {
-        this.users = users;
-        this.usersAll= new ArrayList<>(users);
+    public RecyclerViewAdapterAppointment(ArrayList<Appointment> appointments, Context aContext) {
+        this.appointments = appointments;
+        this.appointmentsAll = new ArrayList<>();
         this.aContext = aContext;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_list_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_list_appointment, viewGroup, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -46,11 +47,13 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder:  called.");
 
-        viewHolder.projectName.setText(users.get(i).getUsername());
+        viewHolder.appointmentName.setText(appointments.get(i).getName());
+//        viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
+        viewHolder.appointmentDate.setText(appointments.get(i).getStartDate() + " - " + appointments.get(i).getEndDate());
 
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(aContext, ShowUserDetailsActivity.class);
-            intent.putExtra("user", users.get(i));
+            intent.putExtra("appointment", appointments.get(i));
             aContext.startActivity(intent);
         });
 
@@ -58,7 +61,7 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return appointments.size();
     }
 
     @Override
@@ -69,14 +72,14 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
     public Filter userFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<User> filterdList = new ArrayList<>();
-            if(constraint == null || constraint.length() == 0) {
-                filterdList.addAll(usersAll);
+            List<Appointment> filterdList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filterdList.addAll(appointmentsAll);
             } else {
-                String filterPattern= constraint.toString().toLowerCase().trim();
-                for(User user : usersAll) {
-                    if(user.getUsername().toLowerCase().contains(filterPattern) || user.getEmail().toLowerCase().contains(filterPattern)){
-                        filterdList.add(user);
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Appointment appointment : appointmentsAll) {
+                    if (appointment.getName().toLowerCase().contains(filterPattern)) {
+                        filterdList.add(appointment);
                     }
                 }
             }
@@ -87,24 +90,27 @@ public class RecyclerViewAdapterUser extends RecyclerView.Adapter<RecyclerViewAd
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            users.clear();
-            users.addAll((List)results.values);
+            appointments.clear();
+            appointments.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
-        TextView projectName;
+        TextView appointmentName;
+        TextView appointmentType;
+        TextView appointmentDate;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            projectName = itemView.findViewById(R.id.name_project);
+            appointmentName = itemView.findViewById(R.id.appointment_adapter_name);
+            appointmentType = itemView.findViewById(R.id.appointment_adapter_type);
+            appointmentDate = itemView.findViewById(R.id.appointment_adapter_date);
+
+
+
             parentLayout = itemView.findViewById(R.id.parent_layout);
 
         }

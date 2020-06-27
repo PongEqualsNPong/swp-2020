@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.user;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.activities.general.StaticPopUp;
 import com.praktikum.spapp.common.Utils;
 
 import org.json.JSONException;
@@ -80,22 +81,22 @@ public class CheckForInviteActivity_Page2 extends AppCompatActivity implements V
 
             case R.id.checkInvite2_Confirm:
 
-            new Thread(() -> {
-                try {
-                    UserService userService = new UserService();
-                    String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
-                    if(Utils.isSuccess(res)) {
-                       startActivity(new Intent(this, StaticPopUp.class));
+                new Thread(() -> {
+                    try {
+                        UserService userService = new UserService();
+                        String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
+                        if(Utils.isSuccess(res)) {
+                            startActivity(new Intent(this, StaticPopUp.class));
+                        }
+                        runOnUiThread(() -> {
+                            startActivity(new Intent(this, com.praktikum.spapp.activities.user.CheckForInviteActivity.class));
+                        });
+                    } catch (IOException e) {
+                        //TODO
+                    } catch (Exception e) {
+                        //TODO
                     }
-                    runOnUiThread(() -> {
-                        startActivity(new Intent(this, CheckForInviteActivity.class));
-                    });
-                } catch (IOException e) {
-                    //TODO
-                } catch (Exception e) {
-                    //TODO
-                }
-            }).start();
+                }).start();
 
                 break;
             case R.id.checkInvite2_Cancel:

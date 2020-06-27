@@ -4,5 +4,5 @@ public enum AppointmentType {
     DEADLINE,
     MEETING,
     GROUP,
-    TEMPLATE
+    TEMPLATE,
 }
