@@ -11,9 +11,9 @@
         android:icon="@drawable/ic_comments"
         android:title="Comments"/>
     <item
-        android:id="@+id/nav_project_participants"
-        android:icon="@drawable/ic_person"
-        android:title="Participants"/>
+        android:id="@+id/nav_project_appointments"
+        android:icon="@drawable/ic_pd_appointment"
+        android:title="Appointments"/>
 
 
 </menu>
