@@ -1,6 +1,5 @@
 package com.praktikum.spapp.activities.general;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,14 +9,11 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.ProjectDetailActivity;
-import com.praktikum.spapp.activities.project.CreateProjectActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
-import com.praktikum.spapp.activities.project.OpenMyProjectsActivity;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;
 import com.praktikum.spapp.activities.user.InviteActivity;
 import com.praktikum.spapp.activities.user.ShowFetchedUsersActivity;
@@ -42,6 +38,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     Button buttonViewProjects;
     Button buttonAppointment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +62,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         CheckForInvite = findViewById(R.id.button_acceptInvite);
         CheckForInvite.setOnClickListener(this);
 
+
     }
 
     //    @Override
@@ -87,6 +85,8 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_acceptInvite:
                 startActivityCheckForInvite();
                 break;
+
+
             case R.id.button_viewprojects:
 
                 startActivityProjectDetail();
@@ -141,6 +141,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private void startActivityProjectDetail() {
         startActivity(new Intent(this, ProjectDetailActivity.class));
     }
+
 
 
 }

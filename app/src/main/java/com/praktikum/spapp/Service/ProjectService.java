@@ -46,6 +46,23 @@ public class ProjectService extends Service {
         }
     }
 
+    public String projectDelete(Project project) throws Exception {
+
+       Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(),"delete");
+       Response response = client.newCall(request).execute();
+
+       String responseString = response.body().string();
+
+       boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+       Utils.isSuccess(responseString);
+
+       if (isRefreshed) {
+           return projectDelete(project);
+       } else  {
+           return responseString;
+       }
+
+    }
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");
