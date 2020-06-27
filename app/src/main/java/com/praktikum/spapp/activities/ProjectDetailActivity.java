@@ -88,7 +88,7 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Project project = (Project) getIntent().getSerializableExtra("project");
-                        
+
                         new Thread(() -> {
                             try {
                                 String resultString = projectService.projectDelete(project);
