@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.AppointmentsService;
 import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.EditAppointmentForm;
@@ -45,11 +46,15 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         et_name = findViewById(R.id.et_name);
         et_name.setText(appointment.getName());
 
+        String startDate = appointment.getStartDate();
+
         et_startDate = findViewById(R.id.et_startDate);
-        et_startDate.setText(appointment.getStartDate());
+        et_startDate.setText(DateStringSplitter.datePrettyPrint(startDate));
+
+        String endDate = appointment.getEndDate();
 
         et_endDate = findViewById(R.id.et_endDate);
-        et_endDate.setText(appointment.getEndDate());
+        et_endDate.setText(DateStringSplitter.datePrettyPrint(endDate));
 
         et_description = findViewById(R.id.et_description);
         et_description.setText(appointment.getDescription());
@@ -132,10 +137,10 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
 
                 editMode.set(false);
-                et_name.setEnabled(true);
-                et_startDate.setEnabled(true);
-                et_endDate.setEnabled(true);
-                et_description.setEnabled(true);
+                et_name.setEnabled(false);
+                et_startDate.setEnabled(false);
+                et_endDate.setEnabled(false);
+                et_description.setEnabled(false);
                 buttonEaC.setText("Edit");
                 buttonEditSave.setVisibility(View.GONE);
 
