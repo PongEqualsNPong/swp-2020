@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
@@ -33,6 +35,15 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_details);
+        Spinner spinner = (Spinner) findViewById(R.id.et_types);
+        spinner.setEnabled(false);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.appointment_types, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
         AtomicBoolean editMode = new AtomicBoolean(false);
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
@@ -46,15 +57,11 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         et_name = findViewById(R.id.et_name);
         et_name.setText(appointment.getName());
 
-        String startDate = appointment.getStartDate();
-
         et_startDate = findViewById(R.id.et_startDate);
-        et_startDate.setText(DateStringSplitter.datePrettyPrint(startDate));
-
-        String endDate = appointment.getEndDate();
+        et_startDate.setText(DateStringSplitter.datePrettyPrint(appointment.getStartDate()));
 
         et_endDate = findViewById(R.id.et_endDate);
-        et_endDate.setText(DateStringSplitter.datePrettyPrint(endDate));
+        et_endDate.setText(DateStringSplitter.datePrettyPrint(appointment.getEndDate()));
 
         et_description = findViewById(R.id.et_description);
         et_description.setText(appointment.getDescription());
@@ -68,6 +75,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 et_startDate.setEnabled(true);
                 et_endDate.setEnabled(true);
                 et_description.setEnabled(true);
+                spinner.setEnabled(true);
 
                 buttonEaC.setText("Cancel");
                 buttonEditSave.setVisibility(View.VISIBLE);
@@ -131,8 +139,8 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
             } else {
 
                 et_name.setText(appointment.getName());
-                et_startDate.setText(appointment.getStartDate());
-                et_endDate.setText(appointment.getEndDate());
+                et_startDate.setText(DateStringSplitter.datePrettyPrint(appointment.getStartDate()));
+                et_endDate.setText(DateStringSplitter.datePrettyPrint(appointment.getEndDate()));
                 et_description.setText(appointment.getDescription());
 
 
@@ -141,6 +149,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 et_startDate.setEnabled(false);
                 et_endDate.setEnabled(false);
                 et_description.setEnabled(false);
+                spinner.setEnabled(false);
                 buttonEaC.setText("Edit");
                 buttonEditSave.setVisibility(View.GONE);
 
