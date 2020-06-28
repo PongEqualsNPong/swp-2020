@@ -18,16 +18,16 @@ class AuthenticationServiceTest {
     String PASSWORD_NOONE = "incorrect";
 
     @Test
-    void loginOnServerAdmin() throws IOException {
+    void loginOnServerAdmin() throws Exception {
 
         AuthenticationService.loginOnServer(USERNAME_ADMIN, PASSWORD_ADMIN);
         assertNotNull(AuthenticationService.getToken().getAccessToken());
-        assertEquals(USERNAME_ADMIN, AuthenticationService.getToken().getUsername());
+        assertEquals(USERNAME_ADMIN, AuthenticationService.getToken().getCurrentUser().getUsername());
 
     }
 
     @Test
-    void loginOnServerFalse() throws IOException {
+    void loginOnServerFalse() throws Exception {
 
         AuthenticationService.loginOnServer(USERNAME_USER, PASSWORD_NOONE);
         assertNull(AuthenticationService.getToken().getAccessToken());

@@ -31,7 +31,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    void fetchAllProjects() throws IOException {
+    void fetchAllProjects() throws Exception {
 
         AuthenticationService.loginOnServer(USERNAME_USER, PASSWORD_ADMIN);
 
@@ -40,7 +40,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    void fetchAllProjectsDenied() throws IOException {
+    void fetchAllProjectsDenied() throws Exception {
         AuthenticationService.loginOnServer(USERNAME_USER,PASSWORD_ADMIN);
 
         ArrayList<Project> result = new ProjectService().fetchAllProjects();
