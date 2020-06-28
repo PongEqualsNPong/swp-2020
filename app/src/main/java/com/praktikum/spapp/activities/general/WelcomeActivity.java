@@ -47,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonViewProfile = findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
-        buttonCreateProject = findViewById(R.id.buttonCreateProject);
+        buttonCreateProject = findViewById(R.id.createFullProject_buttonCreate);
         buttonCreateProject.setOnClickListener(this);
 
         buttonInviteUser = findViewById(R.id.button_invite);
@@ -73,7 +73,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_viewprofile:
                 startViewProfile();
                 break;
-            case R.id.buttonCreateProject:
+            case R.id.createFullProject_buttonCreate:
                 startActivityCreateProject(view);
                 break;
             case R.id.button_invite:

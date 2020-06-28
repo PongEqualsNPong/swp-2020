@@ -8,9 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.ProjectService;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.enums.ProjectStatus;
 import com.praktikum.spapp.models.enums.ProjectType;
 
 public class CreateProjectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,8 +23,9 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     EditText textFieldEnterProjectName;
     EditText textFieldEnterProjectDescription;
     EditText enterProjectType, enterProjectStatus;
-    Button buttonCreate;
-    Snackbar snackbar;
+    EditText enterProjectWorker, enterProjectCoordinator;
+    Button buttonCreate, buttonCancel;
+
 
 
     @Override
@@ -30,37 +35,69 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
 
         // assign UI Elements
-        textFieldEnterProjectName = findViewById(R.id.enterProjectName);
-        textFieldEnterProjectDescription = findViewById(R.id.enterProjectDescription);
-        enterProjectType = findViewById(R.id.inputProjectType);
-        enterProjectStatus = findViewById(R.id.inputProjectStatus);
-        buttonCreate = findViewById(R.id.buttonCreateProject);
+        textFieldEnterProjectName = findViewById(R.id.createFullProject_inputProjectName);
+        textFieldEnterProjectDescription = findViewById(R.id.createFullProject_inputProjectDescription);
+        enterProjectType = findViewById(R.id.createFullProject_inputProjectType);
+        enterProjectStatus = findViewById(R.id.createFullProject_inputProjectStatus);
+        enterProjectCoordinator = findViewById(R.id.createFullProject_inputProjectCoordinator);
+        enterProjectWorker = findViewById(R.id.createFullProject_inputProjectWorker);
+
+        buttonCancel = findViewById(R.id.createFullProject_buttonCancel);
+        buttonCreate = findViewById(R.id.createFullProject_buttonCreate);
 
         buttonCreate.setOnClickListener(this);
+        buttonCancel.setOnClickListener(this);
     }
 
     //    @Override
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void onClick(View v) {
-        ProjectType type = ProjectType.valueOf(enterProjectType.getText().toString());
+    public void onClick(View view) {
 
-        Project project = new Project() {
-        };
-        project.setName(textFieldEnterProjectName.getText().toString());
-        project.setName(textFieldEnterProjectDescription.getText().toString());
-//        project.setType(type);
-        startCreateProject2(v);
+        Project project = new Project();
+
+        switch (view.getId()) {
+            case R.id.createFullProject_buttonCreate:
+                project.setName(textFieldEnterProjectName.getText().toString());
+                project.setDescription(textFieldEnterProjectDescription.getText().toString());
+                project.setType(ProjectType.valueOf(enterProjectType.getText().toString()));
+                project.setProjectStatus(ProjectStatus.valueOf(enterProjectStatus.getText().toString()));
+                //todo
+                //enter the handler and coordinator array to project
+                ProjectService projectService = new ProjectService();
+
+                new Thread(() -> {
+                    try {
+                        String resultString = projectService.projectCreateFull(project);
+                        System.out.println(resultString);
+                        if(Utils.isSuccess(resultString)){
+                            runOnUiThread(() -> Snackbar.make(view, "Project Created, now get out", Snackbar.LENGTH_LONG).show());
+                        } else {
+                            runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(() ->  Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show());
+                    }
+
+                }).start();
+                break;
+
+            case R.id.createFullProject_buttonCancel:
+                textFieldEnterProjectDescription.setText("");
+                textFieldEnterProjectName.setText("");
+                enterProjectWorker.setText("");
+                enterProjectCoordinator.setText("");
+                enterProjectStatus.setText("");
+                enterProjectType.setText("");
+
+                break;
+        }
+
+
     }
 
 
-    public void startCreateProject2(View view) {
-        Intent intent = new Intent(this, CreateProjectActivity2.class);
-        intent.putExtra("project_name", textFieldEnterProjectName.getText().toString());
-        intent.putExtra("project_description", textFieldEnterProjectDescription.getText().toString());
-        intent.putExtra("project_type_string", enterProjectType.getText().toString());
-        intent.putExtra("project_status", enterProjectStatus.getText().toString());
-        startActivity(intent);
-    }
+
 
 
 

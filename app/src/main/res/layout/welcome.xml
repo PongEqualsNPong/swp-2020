@@ -18,7 +18,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_viewprofile" />
 
     <Button
-        android:id="@+id/buttonCreateProject"
+        android:id="@+id/createFullProject_buttonCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -81,7 +81,7 @@
         android:text="Accept Invite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCreateProject" />
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_buttonCreate" />
 
     <Button
         android:id="@+id/button_deleteProject"
