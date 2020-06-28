@@ -9,9 +9,11 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.AppointmentsService;
 import com.praktikum.spapp.Service.UserService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
+import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.User;
 
@@ -32,7 +34,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_details);
         AtomicBoolean editMode = new AtomicBoolean(false);
 
-        Appointment user = (Appointment) getIntent().getSerializableExtra("appointment");
+        Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
 
         //set button
         Button buttonEaC = findViewById(R.id.button_edit_appointment_and_cancel);
@@ -41,25 +43,106 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
         //set bind ETs and set values
         et_name = findViewById(R.id.et_name);
-        et_name.setText(user.getUsername());
+        et_name.setText(appointment.getName());
 
         et_startDate = findViewById(R.id.et_startDate);
-        et_startDate.setText(user.getEmail());
+        et_startDate.setText(appointment.getStartDate());
 
         et_endDate = findViewById(R.id.et_endDate);
-        et_endDate.setText(user.getUserInfo().getForename());
+        et_endDate.setText(appointment.getEndDate());
 
         et_description = findViewById(R.id.et_description);
-        et_description.setText(user.getUserInfo().getSurename());
+        et_description.setText(appointment.getDescription());
 
-        matrikelnummer = findViewById(R.id.et_student_number);
-        matrikelnummer.setText("" + user.getUserInfo().getStudentNumber());
+        // on clicklisteners
+        buttonEaC.setOnClickListener((View view) -> {
 
-        studiengang = findViewById(R.id.et_course);
-        studiengang.setText(user.getUserInfo().getCourseOfStudy());
+            if (!editMode.get()) {
+                editMode.set(true);
+                et_name.setEnabled(true);
+                et_startDate.setEnabled(true);
+                et_endDate.setEnabled(true);
+                et_description.setEnabled(true);
 
-        pruefungsordnung = findViewById(R.id.et_ex_regulations);
-        pruefungsordnung.setText(user.getUserInfo().getExaminationRegulations());
+                buttonEaC.setText("Cancel");
+                buttonEditSave.setVisibility(View.VISIBLE);
+
+
+                buttonEditSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditAppointmentForm editAppointForm = new EditAppointmentForm();
+                        editAppointForm.setName(et_name.getText().toString());
+                        editAppointForm.setDescription(et_startDate.getText().toString());
+                        editAppointForm.setStartDate(et_endDate.getText().toString());
+                        editAppointForm.setEndDate(et_description.getText().toString());
+
+
+
+                        new Thread(() -> {
+                            try {
+                               // String responseString = new AppointmentsService().editUser(editAppointForm);
+                               // if (Utils.isSuccess(responseString)) {
+                                    runOnUiThread(() -> {
+
+                                        editMode.set(false);
+                                        et_name.setEnabled(false);
+                                        et_startDate.setEnabled(false);
+                                        et_endDate.setEnabled(false);
+                                        et_description.setEnabled(false);
+
+                                        buttonEaC.setText("Edit");
+                                        buttonEditSave.setVisibility(View.GONE);
+
+                                      /*  username.setText(editUserForm.getUsername());
+                                        email.setText(editUserForm.getEmail());
+                                        vorname.setText(editUserForm.getForename());
+                                        nachname.setText(editUserForm.getSurname());
+                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
+                                        Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();*/
+
+
+                                    });
+                               /* } else {
+                                    runOnUiThread(() -> {
+                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+                                    });
+
+                                }*/
+
+                            } catch (Exception e) {
+                                runOnUiThread(() -> {
+                                    Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+                                });
+                            }
+
+
+                        }).start();
+                    }
+
+                });
+
+
+            } else {
+
+                et_name.setText(appointment.getName());
+                et_startDate.setText(appointment.getStartDate());
+                et_endDate.setText(appointment.getEndDate());
+                et_description.setText(appointment.getDescription());
+
+
+                editMode.set(false);
+                et_name.setEnabled(true);
+                et_startDate.setEnabled(true);
+                et_endDate.setEnabled(true);
+                et_description.setEnabled(true);
+                buttonEaC.setText("Edit");
+                buttonEditSave.setVisibility(View.GONE);
+
+
+            }
+
+        });
 
     }
 }
