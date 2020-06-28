@@ -32,7 +32,11 @@ public class FragmentProjectOverview extends Fragment {
         pdDescription = view.findViewById(R.id.pd_description);
         pdDescription.setText(project.getDescription());
         pdStatus = view.findViewById(R.id.pd_status);
-        pdStatus.setText(project.getProjectStatus().toString());
+        if(project.getProjectStatus() != null) {
+            pdStatus.setText(project.getProjectStatus().toString());
+        }else{
+            pdStatus.setText("None");
+        }
         pdType = view.findViewById(R.id.pd_type);
         pdType.setText(project.getType().toString());
 
