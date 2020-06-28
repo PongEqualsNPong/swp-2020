@@ -4,32 +4,55 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/parent_layout">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:text="AppointmentName"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/startDate"
+        android:layout_width="390dp"
+        android:layout_height="123dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
             android:id="@+id/appointment_adapter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="30sp">
+            android:text="AppointmentName"
+            android:textSize="25sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"></TextView>
 
-    </TextView>
+        <TextView
+            android:id="@+id/appointment_adapter_type"
+            android:layout_width="83dp"
+            android:layout_height="52dp"
+            android:layout_below="@id/appointment_adapter_name"
+            android:layout_marginTop="45dp"
+            android:text="No Type"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"></TextView>
 
-    <TextView android:layout_width="100dp" android:layout_height="100dp"
-              android:text="Type"
-              android:id="@+id/appointment_adapter_type"
-              android:textSize="30dp"
-              android:layout_below="@id/appointment_adapter_name"
-    >
-    </TextView>
-
-    <TextView android:layout_width="match_parent" android:layout_height="100dp"
-              android:text="Date"
-              android:id="@+id/appointment_adapter_date"
-              android:textSize="25dp"
-              android:layout_toRightOf="@id/appointment_adapter_type"
-              android:layout_below="@id/appointment_adapter_name">
+        <TextView
+            android:id="@+id/appointment_adapter_date"
+            android:layout_width="295dp"
+            android:layout_height="77dp"
+            android:layout_below="@id/appointment_adapter_name"
+            android:layout_gravity="right"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="45dp"
+            android:layout_toRightOf="@id/appointment_adapter_type"
+            android:text="Date"
+            android:textSize="20dp">
 
 
-    </TextView>
+        </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </RelativeLayout>

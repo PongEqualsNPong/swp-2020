@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="appointment_types">
+        <item>None</item>
+        <item>Deadline</item>
+        <item>Meeting</item>
+        <item>Group</item>
+        <item>Template</item>
+    </string-array>
+</resources>

@@ -38,12 +38,7 @@ public class FragmentProjectAppointments extends Fragment {
         adapter = new RecyclerViewAdapterAppointment(appointments, view.getContext());
         recyclerView.setAdapter(adapter);
 
-//        initRecyclerView();
         return view;
     }
 
-//    private void initRecyclerView() {
-//
-//
-//    }
 }
