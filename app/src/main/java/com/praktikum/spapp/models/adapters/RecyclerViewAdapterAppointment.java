@@ -13,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.AppointmentDetailsActivity;
 import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
+import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.User;
 
@@ -49,10 +51,10 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
 
         viewHolder.appointmentName.setText(appointments.get(i).getName());
 //        viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
-        viewHolder.appointmentDate.setText(appointments.get(i).getStartDate() + " - " + appointments.get(i).getEndDate());
+        viewHolder.appointmentDate.setText("Start: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getStartDate()) + "\nEnd: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getEndDate()));
 
         viewHolder.parentLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(aContext, ShowUserDetailsActivity.class);
+            Intent intent = new Intent(aContext, AppointmentDetailsActivity.class);
             intent.putExtra("appointment", appointments.get(i));
             aContext.startActivity(intent);
         });

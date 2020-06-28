@@ -86,15 +86,16 @@ public class CheckForInviteActivity_Page2 extends AppCompatActivity implements V
                         UserService userService = new UserService();
                         String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
                         if(Utils.isSuccess(res)) {
-                            startActivity(new Intent(this, StaticPopUp.class));
+                            runOnUiThread(() -> Snackbar.make(view, "Accepted the Invitation, now get out", Snackbar.LENGTH_LONG).show());
                         }
-                        runOnUiThread(() -> {
-                            startActivity(new Intent(this, com.praktikum.spapp.activities.user.CheckForInviteActivity.class));
-                        });
+                        else {
+                            runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
+                        }
+
                     } catch (IOException e) {
-                        //TODO
+                        runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
                     } catch (Exception e) {
-                        //TODO
+                        runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
                     }
                 }).start();
 
