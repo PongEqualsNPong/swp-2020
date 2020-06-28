@@ -50,7 +50,7 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         Log.d(TAG, "onBindViewHolder:  called.");
 
         viewHolder.appointmentName.setText(appointments.get(i).getName());
-//        viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
+        viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
         viewHolder.appointmentDate.setText("Start: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getStartDate()) + "\nEnd: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getEndDate()));
 
         viewHolder.parentLayout.setOnClickListener(view -> {
