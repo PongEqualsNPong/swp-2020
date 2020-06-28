@@ -23,6 +23,7 @@
     </string>
 
     <string-array name="project_status_array">
+        <item>NONE</item>
         <item>APPLICATION STAGE</item>
         <item>REGISTERED</item>
         <item>EVALUATED</item>
@@ -30,13 +31,21 @@
     </string-array>
 
     <string-array name="project_type_array">
+        <item>NONE</item>
         <item>FOPRA</item>
         <item>SEMINARARBEIT</item>
         <item>BACHELORARBEIT</item>
         <item>MASTERARBEIT</item>
         <item>PROJEKTARBEIT</item>
         <item>SWA</item>
+    </string-array>
 
+    <string-array name="appointment_types">
+        <item>None</item>
+        <item>Deadline</item>
+        <item>Meeting</item>
+        <item>Group</item>
+        <item>Template</item>
     </string-array>
 
 

@@ -10,16 +10,18 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
 
-public class FragmentProjectOverview extends Fragment implements AdapterView.OnItemSelectedListener {
+public class FragmentProjectOverview extends Fragment {
     View view;
 
     EditText pdTitle;
     EditText pdDescription;
-    EditText pdStatus;
-    EditText pdType;
+
 
     Button editProject;
     Button editSave;
@@ -29,35 +31,39 @@ public class FragmentProjectOverview extends Fragment implements AdapterView.OnI
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_overview, container, false);
         Project project = (Project) getArguments().getSerializable("project");
-        pdTitle = view.findViewById(R.id.pd_title);
+        pdTitle = view.findViewById(R.id.pd_overview_et_title);
         pdTitle.setText(project.getName());
-        pdDescription = view.findViewById(R.id.pd_description);
+        pdDescription = view.findViewById(R.id.pd_overview_et_description);
         pdDescription.setText(project.getDescription());
-//        pdStatus = view.findViewById(R.id.pd_status);
-//        pdStatus.setText(project.getProjectStatus().toString());
-//        pdType = view.findViewById(R.id.pd_type);
-//        pdType.setText(project.getType().toString());
 
 
-        Spinner spinner = view.findViewById(R.id.project_status_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.project_status_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        // SPINNER
+        Spinner spinnerType = view.findViewById(R.id.pd_overview_spinner_type);
+        ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(getContext(),
+                R.array.project_type_array, android.R.layout.simple_spinner_item);
+        adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapterType);
 
+        Spinner spinnerStatus = view.findViewById(R.id.pd_overview_spinner_status);
+        ArrayAdapter<CharSequence> adapterStatus = ArrayAdapter.createFromResource(getContext(),
+                R.array.project_status_array, android.R.layout.simple_spinner_item);
+        adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(adapterStatus);
+
+        // RECYCLER
+        RecyclerView recyclerViewHandler = view.findViewById(R.id.pd_overview_recycler_handlers);
+        RecyclerViewAdapterUser adapterHandler = new RecyclerViewAdapterUser(project.getHandler(), getContext());
+        recyclerViewHandler.setAdapter(adapterHandler);
+        recyclerViewHandler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        RecyclerView recyclerViewProcessor = view.findViewById(R.id.pd_overview_recycler_processors);
+        RecyclerViewAdapterUser adapterProcessor = new RecyclerViewAdapterUser(project.getProcessor(), getContext());
+        recyclerViewProcessor.setAdapter(adapterProcessor);
+        recyclerViewProcessor.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        parent.getItemAtPosition(position);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }
 
