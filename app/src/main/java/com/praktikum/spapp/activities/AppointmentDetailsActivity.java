@@ -2,12 +2,18 @@ package com.praktikum.spapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
@@ -20,6 +26,7 @@ import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.User;
 
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Integer.parseInt;
@@ -30,6 +37,12 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private EditText et_startDate;
     private EditText et_endDate;
     private EditText et_description;
+    private EditText eText;
+    private TextView tvw;
+    private DatePickerDialog picker;
+    private  TextView tvwT;
+    private EditText eTextT;
+    private TimePickerDialog pickerT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,55 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+
+        tvw = (TextView) findViewById(R.id.textView1);
+        eText = (EditText) findViewById(R.id.et_startDate);
+        eText.setInputType(InputType.TYPE_NULL);
+        eText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(AppointmentDetailsActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                eText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        tvwT = (TextView) findViewById(R.id.timeView);
+        EditText eTextT = (EditText) findViewById(R.id.et_startTime);
+        eTextT.setInputType(InputType.TYPE_NULL);
+        eTextT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                // time picker dialog
+                pickerT = new TimePickerDialog(AppointmentDetailsActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                eTextT.setText(sHour + ":" + sMinute);
+                            }
+                        }, hour, minutes, true);
+                pickerT.show();
+            }
+        });
+
+
+
+
+
         AtomicBoolean editMode = new AtomicBoolean(false);
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");

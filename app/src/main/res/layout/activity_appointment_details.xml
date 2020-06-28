@@ -72,7 +72,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="100dp"
             android:enabled="false"
-            android:padding="3dip"
+
             android:text="Name" />
     </androidx.cardview.widget.CardView>
 
@@ -140,8 +140,37 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="100dp"
             android:enabled="false"
-            android:padding="3dip"
+
             android:text="Start Date" />
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
+        <EditText
+            android:id="@+id/et_startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="120dp"
+
+            android:hint="Time" />
+
+        <TextView
+            android:id="@+id/timeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button1"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="18dp"/>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -169,7 +198,7 @@
             android:layout_marginStart="100dp"
             android:layout_marginLeft="100dp"
             android:enabled="false"
-            android:padding="3dip"
+
             android:text="End Date" />
     </androidx.cardview.widget.CardView>
 
@@ -196,7 +225,7 @@
             android:layout_marginLeft="100dp"
             android:layout_marginTop="8dp"
             android:enabled="false"
-            android:padding="3dip"
+
             android:text="Description" />
     </androidx.cardview.widget.CardView>
 
