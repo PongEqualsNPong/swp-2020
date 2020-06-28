@@ -45,6 +45,15 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private TimePickerDialog timeEndPicker;
 
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // perform your action here
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +72,10 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
 
+        if(appointment.getType() != null) {
+            int spinnerPosition = adapter.getPosition(appointment.getType().toString());
+            et_types.setSelection(spinnerPosition);
+        }
         //set button
         Button buttonEaC = findViewById(R.id.button_edit_appointment_and_cancel);
         Button buttonEditSave = findViewById(R.id.button_save_appointment);
@@ -154,6 +167,8 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         et_name = findViewById(R.id.et_name);
         et_name.setText(appointment.getName());
 
+
+
         et_startDate = findViewById(R.id.et_startDate);
         et_startDate.setText(DateStringSplitter.datePrettyPrint(appointment.getStartDate()));
 
@@ -220,7 +235,9 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                                         et_startDate.setEnabled(false);
                                         et_endDate.setEnabled(false);
                                         et_description.setEnabled(false);
-
+                                        et_endTime.setEnabled(false);
+                                        et_startTime.setEnabled(false);
+                                        et_types.setEnabled(false);
                                         buttonEaC.setText("Edit");
                                         buttonEditSave.setVisibility(View.GONE);
 

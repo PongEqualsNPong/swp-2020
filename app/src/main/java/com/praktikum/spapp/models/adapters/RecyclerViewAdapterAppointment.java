@@ -45,17 +45,31 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView appointmentName;
+        TextView appointmentType;
+        TextView appointmentDate;
+        RelativeLayout parentLayout;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            appointmentName = itemView.findViewById(R.id.appointment_adapter_name);
+            appointmentType = itemView.findViewById(R.id.appointment_adapter_type);
+            appointmentDate = itemView.findViewById(R.id.appointment_adapter_date);
+            parentLayout = itemView.findViewById(R.id.parent_layout);
+
+        }
+    }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder:  called.");
 
         viewHolder.appointmentName.setText(appointments.get(i).getName());
-//        viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
-        viewHolder.appointmentDate.setText("Start: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getStartDate()) + "\nEnd: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getEndDate()));
-        AppointmentType type = appointments.get(i).getType();
-        if(type != null) {
-            System.out.print(type.toString());
+        viewHolder.appointmentDate.setText("Start: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getStartDate()) + " " + DateStringSplitter.timePrettyPrint(appointments.get(i).getStartDate()) + "\nEnd: " + DateStringSplitter.datePrettyPrint(appointments.get(i).getEndDate()) + " " + DateStringSplitter.timePrettyPrint(appointments.get(i).getEndDate()));
+        if( appointments.get(i).getType() != null) {
+           viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
         }
                 viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(aContext, AppointmentDetailsActivity.class);
@@ -102,23 +116,5 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         }
     };
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView appointmentName;
-        TextView appointmentType;
-        TextView appointmentDate;
-        RelativeLayout parentLayout;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            appointmentName = itemView.findViewById(R.id.appointment_adapter_name);
-            appointmentType = itemView.findViewById(R.id.appointment_adapter_type);
-            appointmentDate = itemView.findViewById(R.id.appointment_adapter_date);
-
-
-
-            parentLayout = itemView.findViewById(R.id.parent_layout);
-
-        }
-    }
 }
