@@ -45,7 +45,7 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
         viewHolder.projectName.setText(projects.get(i).getName());
 
         viewHolder.parentLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(aContext, DetailProjectActivity.class);
+            Intent intent = new Intent(aContext, ProjectDetailActivity.class);
             intent.putExtra("project", projects.get(i));
             aContext.startActivity(intent);
         });
