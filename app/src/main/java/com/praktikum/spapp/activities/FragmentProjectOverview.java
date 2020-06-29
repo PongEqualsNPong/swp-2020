@@ -156,6 +156,8 @@ public class FragmentProjectOverview extends Fragment {
                 spinnerType.setPrompt(project.getType().toString());
 
                 editMode.set(false);
+                editAndSaveButton.setText("EDIT");
+                deleteAndCancelButton.setText("DELETE");
                 pdTitle.setEnabled(false);
                 pdDescription.setEnabled(false);
                 spinnerType.setEnabled(false);

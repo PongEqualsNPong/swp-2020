@@ -1,9 +1,8 @@
 package com.praktikum.spapp.models.enums;
 
 public enum ProjectStatus {
-
-    APPLICATION,
-    STAGE,
+    NONE,
+    APPLICATION_STAGE,
     REGISTERED,
     EVALUATED,
     FINISHED
