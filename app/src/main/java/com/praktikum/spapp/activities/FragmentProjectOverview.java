@@ -166,7 +166,12 @@ public class FragmentProjectOverview extends Fragment {
 
                 });
 
-
+                deleteAndCancelButton.setOnClickListener((View view1) -> {
+                    pdTitle.setEnabled(false);
+                    pdDescription.setEnabled(false);
+                    spinnerType.setEnabled(false);
+                    spinnerStatus.setEnabled(false);
+                });
             } else {
                 pdTitle.setText(project.getName());
                 pdDescription.setText(project.getDescription());
