@@ -15,6 +15,10 @@ import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static java.lang.Integer.parseInt;
+
 public class ProjectDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     Bundle bundle = new Bundle();
