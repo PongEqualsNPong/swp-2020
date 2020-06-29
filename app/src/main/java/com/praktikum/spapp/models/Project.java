@@ -13,8 +13,8 @@ public class Project implements Serializable {
     String description;
     ArrayList<Comment> comments;
     ArrayList<Appointment> appointments;
-    ArrayList<User> handler;
-    ArrayList<User> processor;
+    ArrayList<User> handlers;
+    ArrayList<User> processors;
     ProjectType type;
     ProjectStatus projectStatus;
 
@@ -50,19 +50,19 @@ public class Project implements Serializable {
     }
 
     public ArrayList<User> getHandler() {
-        return handler;
+        return handlers;
     }
 
     public void setHandler(ArrayList<User> handler) {
-        this.handler = handler;
+        this.handlers = handler;
     }
 
     public ArrayList<User> getProcessor() {
-        return processor;
+        return processors;
     }
 
     public void setProcessor(ArrayList<User> processor) {
-        this.processor = processor;
+        this.processors = processor;
     }
 
     public ProjectType getType() {

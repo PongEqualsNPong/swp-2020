@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.EditProjectForm;
 import com.praktikum.spapp.models.Project;
 import okhttp3.*;
 import org.json.JSONException;
@@ -99,4 +100,14 @@ public class ProjectService extends Service {
 //        }
 //        return projectArrayList;
 //    }
+
+    public String editProject(EditProjectForm editProjectForm, int id) throws JSONException, IOException {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/update/" + id, "post", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+
+    }
 }

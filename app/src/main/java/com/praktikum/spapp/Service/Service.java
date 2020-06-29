@@ -1,14 +1,15 @@
 package com.praktikum.spapp.Service;
 
-        import android.content.SharedPreferences;
         import okhttp3.MediaType;
         import okhttp3.OkHttpClient;
+
 
 public abstract class Service {
 
     public static OkHttpClient client;
 
-    public static final String api = "http://192.168.1.160:8081";
+
+    public static final String api = "http://192.168.2.100:8081";
 
     // need this for okhttp
     public static final MediaType JSON

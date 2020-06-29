@@ -52,7 +52,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
         vorname.setText(user.getUserInfo().getForename());
 
         nachname = findViewById(R.id.et_last_name);
-        nachname.setText(user.getUserInfo().getSurename());
+        nachname.setText(user.getUserInfo().getSurname());
 
         matrikelnummer = findViewById(R.id.et_student_number);
         matrikelnummer.setText("" + user.getUserInfo().getStudentNumber());
@@ -138,7 +138,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
                 username.setText(user.getUsername());
                 email.setText(user.getEmail());
                 vorname.setText(user.getUserInfo().getForename());
-                nachname.setText(user.getUserInfo().getSurename());
+                nachname.setText(user.getUserInfo().getSurname());
                 matrikelnummer.setText("" + user.getUserInfo().getStudentNumber());
 
                 editMode.set(false);
