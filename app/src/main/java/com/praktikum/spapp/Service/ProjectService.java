@@ -46,7 +46,42 @@ public class ProjectService extends Service {
             return responseString;
         }
     }
+    public String projectCreateFull(Project project) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(project));
 
+        Request request = HttpClient.httpRequestMaker("/api/project/initFull", "post", data);
+        Response response = client.newCall(request).execute();
+
+        String responseString = response.body().string();
+
+        //these static methods must be called on every other service method u baboon
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        Utils.isSuccess(responseString);
+
+        if (isRefreshed) {
+            return projectCreate(project);
+        } else {
+            return responseString;
+        }
+    }
+    public String projectDelete(Project project) throws Exception {
+
+       Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(),"delete");
+       Response response = client.newCall(request).execute();
+
+       String responseString = response.body().string();
+
+       boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+       Utils.isSuccess(responseString);
+
+       if (isRefreshed) {
+           return projectDelete(project);
+       } else  {
+           return responseString;
+       }
+
+    }
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");

@@ -1,15 +1,24 @@
 package com.praktikum.spapp.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.Service.ProjectService;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 
-public class ProjectDetailActivity extends AppCompatActivity {
+public class ProjectDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     Bundle bundle = new Bundle();
+    Button button_delete ;
 
 
     @Override
@@ -32,6 +41,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
                     beginActivity).commit();
         }
 
+        button_delete = findViewById(R.id.projectdetail_buttonDelete);
+        button_delete.setOnClickListener(this);
 
     }
 
@@ -56,4 +67,49 @@ public class ProjectDetailActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;
     };
+
+    public void onClick(View view){
+        ProjectService projectService = new ProjectService();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure?");
+        builder.setCancelable(true);
+        builder.setPositiveButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                    }
+                }
+        );
+        builder.setNegativeButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Project project = (Project) getIntent().getSerializableExtra("project");
+
+                        new Thread(() -> {
+                            try {
+                                String resultString = projectService.projectDelete(project);
+                                System.out.println(resultString);
+
+                                if(Utils.isSuccess(resultString)) {
+                                    runOnUiThread(() -> Snackbar.make(view, "done you fuck", Snackbar.LENGTH_LONG));
+                                }
+                                else {
+                                    runOnUiThread(() -> Snackbar.make(view, "sum ting wong", Snackbar.LENGTH_LONG));
+                                }
+                            } catch (Exception e) {
+
+                                runOnUiThread(() -> Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG));
+                            }
+                        }).start();
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }

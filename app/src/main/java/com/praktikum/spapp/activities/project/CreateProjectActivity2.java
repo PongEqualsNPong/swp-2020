@@ -14,7 +14,6 @@ import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.models.enums.ProjectType;
 
 import java.util.ArrayList;
 
@@ -23,7 +22,7 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
 
     EditText projectName, projectDesc;
     String givenPN, givenPD;
-    Button confirm, cancel;
+    Button confirm, cancel, createFullProject;
     @Override
     protected void onCreate(Bundle savedInstanceState)
 
@@ -34,14 +33,16 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
 
 
         //assign xml elems
-        projectName = findViewById(R.id.inputProjectCoordinator);
-        projectDesc = findViewById(R.id.inputProjectWorker);
+        projectName = findViewById(R.id.inputProjectName);
+        projectDesc = findViewById(R.id.inputProjectDescription);
         confirm = findViewById(R.id.createProject2_button_confirm);
         cancel = findViewById(R.id.createProject2_button_cancel);
+        createFullProject = findViewById(R.id.createProject_buttonCreateExtendedProject);
+
 
         confirm.setOnClickListener(this);
         cancel.setOnClickListener(this);
-
+        createFullProject.setOnClickListener(this);
     }
 
     public void onClick(View view) {
@@ -76,7 +77,7 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
                         }
                     } catch (Exception e) {
                         runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
-                        ;
+
                         e.printStackTrace();
                     }
                 }).start();
@@ -85,10 +86,13 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
                 break;
             case R.id.createProject2_button_cancel:
                 //return to the createProject window
+               projectName.setText("");
+               projectDesc.setText("");
+                break;
+            case R.id.createProject_buttonCreateExtendedProject:
                 runOnUiThread(() -> {
                     startActivity(new Intent(this, CreateProjectActivity.class));
                 });
-                break;
         }
 
     }
