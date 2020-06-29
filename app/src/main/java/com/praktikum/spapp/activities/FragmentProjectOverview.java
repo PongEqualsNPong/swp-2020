@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,21 +12,13 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.common.Utils;
-import com.praktikum.spapp.models.EditProjectForm;
 import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
-import com.praktikum.spapp.models.enums.ProjectStatus;
-import com.praktikum.spapp.models.enums.ProjectType;
-
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FragmentProjectOverview extends Fragment {
     View view;
@@ -36,16 +27,11 @@ public class FragmentProjectOverview extends Fragment {
     Spinner spinnerType;
     Spinner spinnerStatus;
 
-
     Button editAndSaveButton;
     Button deleteAndCancelButton;
 
-    AtomicBoolean editMode = new AtomicBoolean(false);
+    int editMode = 0;
 
-
-    private String projectName, projectDescription, projectStatus;
-    private int projectNr;
-    Button buttonProjectEdit, buttonProjectSave;
 
     @Nullable
     @Override
@@ -100,56 +86,49 @@ public class FragmentProjectOverview extends Fragment {
         recyclerViewProcessor.setLayoutManager(new LinearLayoutManager(getContext()));
 
         editAndSaveButton.setOnClickListener((View view) -> {
-            if (!editMode.get()) {
-                editMode.set(true);
-                pdTitle.setEnabled(true);
-                pdDescription.setEnabled(true);
-                spinnerType.setEnabled(true);
-                spinnerStatus.setEnabled(true);
+            switch (editMode) {
+                case 0:
+                    // edit
+                    pdTitle.setEnabled(true);
+                    pdDescription.setEnabled(true);
+                    spinnerType.setEnabled(true);
+                    spinnerStatus.setEnabled(true);
+                    editAndSaveButton.setText("SAVE");
+                    deleteAndCancelButton.setText("CANCEL");
+                    editMode += 1;
+                    break;
 
-                editAndSaveButton.setText("SAVE");
-                deleteAndCancelButton.setText("CANCEL");
-
-                editAndSaveButton.setOnClickListener((View view1) -> {
-
+                case 1:
+                    // save
                     // SET THE FORM
-                    EditProjectForm editProjectForm = new EditProjectForm();
-                    editProjectForm.setName(pdTitle.getText().toString());
-                    editProjectForm.setDescription(pdDescription.getText().toString());
-                    editProjectForm.setProjectStatus(ProjectStatus.valueOf(spinnerStatus.getSelectedItem().toString()));
-                    editProjectForm.setProjectType(ProjectType.valueOf(spinnerType.getSelectedItem().toString()));
-                    ArrayList<String> handlerEmails = new ArrayList<>();
-                    for (User user : project.getHandler()) {
-                        handlerEmails.add(user.getEmail());
-                    }
-                    editProjectForm.setHandler(handlerEmails);
-                    ArrayList<String> processorEmails = new ArrayList<>();
-                    for (User user : project.getProcessor()) {
-                        processorEmails.add(user.getEmail());
-                    }
-                    editProjectForm.setProcessor(processorEmails);
 
-                    // send the form with service
-
+                    JSONObject editForm = new JSONObject();
+                    try {
+                        if (pdTitle.getText() != null) editForm.put("name", pdTitle.getText().toString());
+                        if (pdDescription.getText() != null)
+                            editForm.put("description", pdDescription.getText().toString());
+                        if (spinnerType.getSelectedItem().toString().equalsIgnoreCase("none"))
+                            editForm.put("projectType", spinnerType.getSelectedItem().toString());
+                        if (spinnerStatus.getSelectedItem().toString().equalsIgnoreCase("none"))
+                            editForm.put("projectStatus", spinnerStatus.getSelectedItem().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     new Thread(() -> {
                         try {
-                            String responseString = new ProjectService().editProject(editProjectForm, project.getId());
+                            String responseString = new ProjectService().editProject(editForm, project.getId());
                             if (Utils.isSuccess(responseString)) {
                                 getActivity().runOnUiThread(() -> {
 
-                                    editMode.set(false);
                                     pdTitle.setEnabled(false);
                                     pdDescription.setEnabled(false);
                                     spinnerStatus.setEnabled(false);
                                     spinnerType.setEnabled(false);
-                                    editAndSaveButton.setText("Edit");
+                                    editAndSaveButton.setText("EDIT");
+                                    deleteAndCancelButton.setText("DELETE");
 
-                                    pdTitle.setText(editProjectForm.getName());
-                                    pdDescription.setText(editProjectForm.getDescription());
-                                    spinnerType.setSelection(adapterType.getPosition(editProjectForm.getProjectType().toString()));
-                                    spinnerStatus.setSelection(adapterStatus.getPosition(editProjectForm.getProjectStatus().toString()));
                                     Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
+                                    editMode -= 1;
                                 });
                             } else {
                                 getActivity().runOnUiThread(() -> {
@@ -161,104 +140,39 @@ public class FragmentProjectOverview extends Fragment {
                                 Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
                             });
                         }
+
                     }).start();
+                    break;
+            }
+        });
 
 
-                });
+        deleteAndCancelButton.setOnClickListener((View view) -> {
+            switch (editMode) {
+                case 0:
+                    // delete
 
-                deleteAndCancelButton.setOnClickListener((View view1) -> {
+                case 1:
+                    // cancel
                     pdTitle.setEnabled(false);
                     pdDescription.setEnabled(false);
                     spinnerType.setEnabled(false);
                     spinnerStatus.setEnabled(false);
-                });
-            } else {
-                pdTitle.setText(project.getName());
-                pdDescription.setText(project.getDescription());
-                spinnerStatus.setSelection(adapterStatus.getPosition(project.getStatus().toString()));
-                spinnerType.setSelection(adapterType.getPosition(project.getType().toString()));
-
-                editMode.set(false);
-                editAndSaveButton.setText("EDIT");
-                deleteAndCancelButton.setText("DELETE");
-                pdTitle.setEnabled(false);
-                pdDescription.setEnabled(false);
-                spinnerType.setEnabled(false);
-                spinnerStatus.setEnabled(false);
+                    editMode -= 1;
+                    deleteAndCancelButton.setText("DELETE");
+                    editAndSaveButton.setText("EDIT");
+                    pdTitle.setText(project.getName());
+                    pdDescription.setText(project.getDescription());
+                    spinnerStatus.setSelection(adapterStatus.getPosition(project.getStatus().toString()));
+                    spinnerType.setSelection(adapterType.getPosition(project.getType().toString()));
             }
         });
-
-        projectName = project.getName();
-        projectDescription = project.getDescription();
-        projectNr = project.getId();
-
-        /**
-        //Edit button
-        buttonProjectEdit = view.findViewById(R.id.pd_overview_edit_button);
-        buttonProjectSave = view.findViewById(R.id.pd_overview_save_or_delete_button);
-
-        //buttonProjectSave.setOnClickListener(this);
-        buttonProjectEdit.setOnClickListener(this);
-         */
-
         return view;
     }
-
-
-    // AtomicBoolean editMode = new AtomicBoolean(false);
-/**
-    @Override
-    public void onClick(View view) {
-        if (!editMode.get()) {
-            editMode.set(true);
-
-            buttonProjectEdit.setText("Cancel");
-            //buttonProjectSave.setVisibility(View.VISIBLE);
-            pdTitle.setEnabled(true);
-            pdDescription.setEnabled(true);
-
-            EditProjectForm editProjectForm = new EditProjectForm();
-
-            editProjectForm.setName(pdTitle.getText().toString());
-            editProjectForm.setDescription(pdDescription.getText().toString());
-
-            new Thread(() -> {
-                try {
-                    String responseString = new ProjectService().updateProject(editProjectForm, projectNr);
-                    if (Utils.isSuccess(responseString)) {
-                        getActivity().runOnUiThread(() -> {
-
-                            editMode.set(false);
-                            //buttonProjectEdit.setText("Edit");
-                            //buttonProjectSave.setVisibility(View.GONE);
-
-                            editProjectForm.setName(projectName);
-                            editProjectForm.setDescription(projectDescription);
-                            Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                        });
-                    } else {
-                        getActivity().runOnUiThread(() -> {
-                            Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                        });
-
-                    }
-                } catch (Exception e) {
-                    getActivity().runOnUiThread(() -> {
-                        Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                    });
-                }
-            }).start();
-        } else {
-            pdTitle.setText(projectName);
-            pdTitle.setText(projectDescription);
-
-            editMode.set(false);
-
-            //admin buttonProjectEdit.setText("Edit");
-            //buttonProjectSave.setVisibility(View.GONE);
-        }
-    }
-    */
 }
+
+
+
+
 
 
