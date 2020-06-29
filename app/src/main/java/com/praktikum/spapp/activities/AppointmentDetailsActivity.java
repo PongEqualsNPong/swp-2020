@@ -3,7 +3,10 @@ package com.praktikum.spapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -39,11 +42,14 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private EditText et_startTime;
     private EditText et_endTime;
     private EditText et_description;
+    private TextView popUpName;
+    private TextView popUpType;
     private DatePickerDialog dateStartPicker;
     private TimePickerDialog timeStartPicker;
     private DatePickerDialog dateEndPicker;
     private TimePickerDialog timeEndPicker;
-
+    private Dialog myDialog;
+    private Button button_delete_appointment_and_cancel;
 
 
     @Override
@@ -60,6 +66,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_details);
         Spinner et_types = (Spinner) findViewById(R.id.et_types);
         et_types.setEnabled(false);
+        myDialog = new Dialog(this);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.appointment_types, android.R.layout.simple_spinner_item);
@@ -72,15 +79,24 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
 
+
+
         if(appointment.getType() != null) {
             int spinnerPosition = adapter.getPosition(appointment.getType().toString());
             et_types.setSelection(spinnerPosition);
         }
+
+
         //set button
         Button buttonEaC = findViewById(R.id.button_edit_appointment_and_cancel);
         Button buttonEditSave = findViewById(R.id.button_save_appointment);
-
-
+        button_delete_appointment_and_cancel = (Button) findViewById(R.id.button_delete_appointment_and_cancel);
+        button_delete_appointment_and_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               ShowPopup(appointment, v);
+            }
+        });
         et_startDate = (EditText) findViewById(R.id.et_startDate);
         et_startDate.setInputType(InputType.TYPE_NULL);
         et_startDate.setOnClickListener(new View.OnClickListener() {
@@ -294,5 +310,55 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    public void ShowPopup(Appointment appointment, View view) {
+        TextView txtclose;
+        Button btnDelete;
+        Appointment appointment1 = appointment;
+
+        myDialog.setContentView(R.layout.activity_static_pop_up);
+        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        popUpType = (TextView) myDialog.findViewById(R.id.popUpTyp);
+        System.out.print(appointment.getName());
+        if(appointment.getType() != null) {
+            popUpType.setText(appointment.getType().toString());
+        }
+        popUpName = (TextView) myDialog.findViewById(R.id.popUpName);
+        popUpName.setText(appointment.getName());
+        btnDelete = (Button) myDialog.findViewById(R.id.btnDelete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(() -> {
+                    try {
+                        String responseString = new AppointmentsService().appointmentDelete(appointment.getId());
+                        if (Utils.isSuccess(responseString)) {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
+                            });
+                        } else {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+                            });
+                        }
+                    } catch (Exception e) {
+                        runOnUiThread(() -> {
+                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+                        });
+                    }
+                }).start();
+
+                myDialog.dismiss();
+            }
+        });
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 }

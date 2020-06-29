@@ -75,9 +75,13 @@ public class DateStringSplitter {
         String[] monthLengthCheck = month.split("");
         String day = arrayDate[0];
         String[] dayLengthCheck = day.split("");
+
         String hour = arrayTime[0];
+        String[] hourLengthCheck = hour.split("");
         String minute = arrayTime[1].substring(0, 2);
-        return year + "-" + (monthLengthCheck.length == 1 ? "0" + month : month) + "-" + (dayLengthCheck.length == 1 ? "0" + day : day) + "T" + hour + ":" + minute + ":00.000000+02:00";
+        String[] minuteLengthCheck = minute.split("");
+
+        return year + "-" + (monthLengthCheck.length == 1 ? "0" + month : month) + "-" + (dayLengthCheck.length == 1 ? "0" + day : day) + "T" + (hourLengthCheck.length == 1 ? "0" + hour : hour)+ ":" + (minuteLengthCheck.length == 1 ? "0" + minute : minute) + ":00.000000+02:00";
     }
 
 }

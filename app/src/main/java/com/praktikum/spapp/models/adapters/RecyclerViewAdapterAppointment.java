@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RelativeLayout;
@@ -14,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.AppointmentDetailsActivity;
+import com.praktikum.spapp.activities.CreateAppointmentActivity;
+import com.praktikum.spapp.activities.project.CreateProjectActivity;
 import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.models.Appointment;
@@ -51,6 +54,7 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         TextView appointmentType;
         TextView appointmentDate;
         RelativeLayout parentLayout;
+        Button button_create_appointment;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,12 +75,11 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         if( appointments.get(i).getType() != null) {
            viewHolder.appointmentType.setText(appointments.get(i).getType().toString());
         }
-                viewHolder.parentLayout.setOnClickListener(view -> {
+        viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(aContext, AppointmentDetailsActivity.class);
             intent.putExtra("appointment", appointments.get(i));
             aContext.startActivity(intent);
         });
-
     }
 
     @Override
