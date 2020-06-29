@@ -82,6 +82,7 @@ public class Appointment implements Serializable {
         this.reminders = reminders;
     }
 
+
     public void prettyPrint(){}
 
 }

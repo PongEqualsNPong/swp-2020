@@ -11,7 +11,7 @@ public class EditAppointmentForm {
     String description;
     String startDate;
     String endDate;
-    AppointmentType type;
+    String type;
     ArrayList<Reminder> reminders;
 
     public int getId() {
@@ -54,11 +54,11 @@ public class EditAppointmentForm {
         this.endDate = endDate;
     }
 
-    public AppointmentType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(AppointmentType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -66,10 +66,10 @@ public class EditAppointmentForm {
         return reminders;
     }
 
-    public void setReminders(ArrayList<Reminder> reminders) {
+    /*public void setReminders(ArrayList<Reminder> reminders) {
         this.reminders = reminders;
     }
 
     public void prettyPrint(){}
-
+*/
 }

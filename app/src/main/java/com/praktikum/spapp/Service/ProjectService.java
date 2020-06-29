@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.EditProjectForm;
+import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.Project;
 import okhttp3.*;
 import org.json.JSONException;
@@ -46,7 +47,42 @@ public class ProjectService extends Service {
             return responseString;
         }
     }
+    public String projectCreateFull(Project project) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(project));
 
+        Request request = HttpClient.httpRequestMaker("/api/project/initFull", "post", data);
+        Response response = client.newCall(request).execute();
+
+        String responseString = response.body().string();
+
+        //these static methods must be called on every other service method u baboon
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        Utils.isSuccess(responseString);
+
+        if (isRefreshed) {
+            return projectCreate(project);
+        } else {
+            return responseString;
+        }
+    }
+    public String projectDelete(Project project) throws Exception {
+
+       Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(),"delete");
+       Response response = client.newCall(request).execute();
+
+       String responseString = response.body().string();
+
+       boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+       Utils.isSuccess(responseString);
+
+       if (isRefreshed) {
+           return projectDelete(project);
+       } else  {
+           return responseString;
+       }
+
+    }
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");
@@ -85,6 +121,23 @@ public class ProjectService extends Service {
 
     }
 
+    public String updateProject(EditProjectForm editProjectFormForm, int projectNr) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectFormForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/update/" + projectNr, "post", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+    }
+
+    public String deleteProject(EditProjectForm editProjectFormForm, int projectNr) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectFormForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/delete/" + projectNr, "delete", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+    }
 //        Gson gson = new GsonBuilder().create();
 //
 //        ArrayList<Project> projectArrayList = fetchAllProjects();

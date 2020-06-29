@@ -7,51 +7,49 @@
     tools:context=".activities.project.CreateProjectActivity">
 
     <Button
-        android:id="@+id/buttonCreateProject"
+        android:id="@+id/createFullProject_buttonCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginLeft="161dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginRight="162dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginLeft="41dp"
+        android:layout_marginEnd="282dp"
+        android:layout_marginRight="282dp"
+        android:layout_marginBottom="16dp"
         android:text="CREATE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterProjectDescription" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/enterProjectName"
+        android:id="@+id/createFullProject_inputProjectName"
         android:layout_width="380dp"
         android:layout_height="60dp"
         android:layout_marginTop="136dp"
         android:ems="10"
+        android:hint="Enter project name"
         android:inputType="textPersonName"
-        android:text="Enter a project name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/enterProjectDescription"
-        android:layout_width="248dp"
-        android:layout_height="116dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginBottom="120dp"
+        android:id="@+id/createFullProject_inputProjectDescription"
+        android:layout_width="241dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="85dp"
+        android:layout_marginRight="85dp"
         android:ems="10"
+        android:hint="Describe your project"
         android:inputType="text"
-        android:text="Describe your project"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCreateProject"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterProjectName" />
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_inputProjectType" />
 
     <EditText
-        android:id="@+id/inputProjectType"
+        android:id="@+id/createFullProject_inputProjectType"
         android:layout_width="375dp"
         android:layout_height="48dp"
         android:layout_marginStart="17dp"
@@ -61,28 +59,86 @@
         android:layout_marginRight="19dp"
         android:layout_marginBottom="56dp"
         android:ems="10"
+        android:hint="Enter Project Type"
         android:inputType="textPersonName"
-        android:text="Enter Project Type"
-        app:layout_constraintBottom_toTopOf="@+id/enterProjectDescription"
+        app:layout_constraintBottom_toTopOf="@+id/createFullProject_inputProjectDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterProjectName" />
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_inputProjectName" />
 
     <EditText
-        android:id="@+id/inputProjectStatus"
+        android:id="@+id/createFullProject_inputProjectStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginRight="105dp"
-        android:layout_marginBottom="93dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginRight="101dp"
         android:ems="10"
         android:hint="Project Status"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCreateProject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterProjectDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_inputProjectDescription" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="173dp"
+        android:layout_marginLeft="173dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginRight="164dp"
+        android:text="Full Project "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/createFullProject_inputProjectWorker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="102dp"
+        android:layout_marginRight="102dp"
+        android:ems="10"
+        android:hint="Project Worker"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_inputProjectStatus" />
+
+    <EditText
+        android:id="@+id/createFullProject_inputProjectCoordinator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="101dp"
+        android:layout_marginLeft="101dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:ems="10"
+        android:hint="Project Coordinator"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createFullProject_inputProjectWorker" />
+
+    <Button
+        android:id="@+id/createFullProject_buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="149dp"
+        android:layout_marginLeft="149dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="19dp"
+        android:text="CANCEL"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/createFullProject_buttonCreate" />
 </androidx.constraintlayout.widget.ConstraintLayout>
