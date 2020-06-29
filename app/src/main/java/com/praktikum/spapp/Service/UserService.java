@@ -82,13 +82,13 @@ public class UserService extends Service {
                                   String examRegulation) throws JSONException, IOException {
 
         JSONObject data = new JSONObject()
-                .put("first name", fname)
-                .put("last name", lname)
+                .put("forename", fname)
+                .put("surname", lname)
                 .put("username", username)
                 .put("password", password)
-                .put("student ID", studentID)
-                .put("course of study", courseOfStudy)
-                .put("exam regulation", examRegulation);
+                .put("studentNumber", studentID)
+                .put("courseOfStudy", courseOfStudy)
+                .put("examinationRegulations", examRegulation);
 
         String dataString = data.toString();
 
