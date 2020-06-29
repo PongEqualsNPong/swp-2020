@@ -42,11 +42,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.user.CheckForInviteActivity"/>
-        <activity android:name=".activities.project.OpenAllProjectsActivity"/>
-        <activity android:name=".activities.ProjectDetailActivity"/>
-        <activity android:name=".activities.DetailProjectActivity" />
-        <activity android:name=".activities.user.CheckForInviteActivity_Page2" />
-        <activity android:name=".activities.user.CheckForInviteActivity" />
         <activity
             android:name=".activities.project.OpenAllProjectsActivity"
             android:label="Projects" />

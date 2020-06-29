@@ -46,6 +46,7 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
     private String projectName, projectDescription, projectStatus;
     private int projectNr;
     Button buttonProjectEdit, buttonProjectSave;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -185,8 +186,8 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
         projectNr = project.getId();
 
         //Edit button
-        buttonProjectEdit = view.findViewById(R.id.button_edit_project_and_cancel);
-        buttonProjectSave = view.findViewById(R.id.button_edit_project_save);
+        buttonProjectEdit = view.findViewById(R.id.pd_overview_edit_button);
+        buttonProjectSave = view.findViewById(R.id.pd_overview_save_or_delete_button);
 
         //buttonProjectSave.setOnClickListener(this);
         buttonProjectEdit.setOnClickListener(this);
@@ -195,16 +196,17 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
     }
 
 
-    }
-    AtomicBoolean editMode = new AtomicBoolean(false);
+    // AtomicBoolean editMode = new AtomicBoolean(false);
 
     @Override
     public void onClick(View view) {
         if (!editMode.get()) {
             editMode.set(true);
 
-            buttonProjectEdit.setText("Cancel");
-            buttonProjectSave.setVisibility(View.VISIBLE);
+            //buttonProjectEdit.setText("Cancel");
+            //buttonProjectSave.setVisibility(View.VISIBLE);
+            pdTitle.setEnabled(true);
+            pdDescription.setEnabled(true);
 
             EditProjectForm editProjectForm = new EditProjectForm();
 
@@ -218,8 +220,8 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
                         getActivity().runOnUiThread(() -> {
 
                             editMode.set(false);
-                            buttonProjectEdit.setText("Edit");
-                            buttonProjectSave.setVisibility(View.GONE);
+                            //buttonProjectEdit.setText("Edit");
+                            //buttonProjectSave.setVisibility(View.GONE);
 
                             editProjectForm.setName(projectName);
                             editProjectForm.setDescription(projectDescription);
@@ -243,9 +245,10 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
 
             editMode.set(false);
 
-            buttonProjectEdit.setText("Edit");
-            buttonProjectSave.setVisibility(View.GONE);
+            //admin buttonProjectEdit.setText("Edit");
+            //buttonProjectSave.setVisibility(View.GONE);
         }
     }
+}
 
 
