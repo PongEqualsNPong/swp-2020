@@ -97,30 +97,4 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     }
 
 
-
-
-
-
-/*
-        new Thread(() -> {
-
-            try {
-                ProjectService projectService = new ProjectService();
-                String responseBody = projectService.projectCreate(project);
-//                    if(Utils.isSuccess(responseBody)){
-                runOnUiThread(() -> {
-                    Snackbar.make(findViewById(R.id.coordinator), "ihr penner", Snackbar.LENGTH_SHORT).show();
-                });
-
-//                    }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
- */
 }
