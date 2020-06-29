@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FragmentProjectOverview extends Fragment implements View.OnClickListener {
+public class FragmentProjectOverview extends Fragment {
     View view;
     EditText pdTitle;
     EditText pdDescription;
@@ -185,25 +185,27 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
         projectDescription = project.getDescription();
         projectNr = project.getId();
 
+        /**
         //Edit button
         buttonProjectEdit = view.findViewById(R.id.pd_overview_edit_button);
         buttonProjectSave = view.findViewById(R.id.pd_overview_save_or_delete_button);
 
         //buttonProjectSave.setOnClickListener(this);
         buttonProjectEdit.setOnClickListener(this);
+         */
 
         return view;
     }
 
 
     // AtomicBoolean editMode = new AtomicBoolean(false);
-
+/**
     @Override
     public void onClick(View view) {
         if (!editMode.get()) {
             editMode.set(true);
 
-            //buttonProjectEdit.setText("Cancel");
+            buttonProjectEdit.setText("Cancel");
             //buttonProjectSave.setVisibility(View.VISIBLE);
             pdTitle.setEnabled(true);
             pdDescription.setEnabled(true);
@@ -249,6 +251,7 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
             //buttonProjectSave.setVisibility(View.GONE);
         }
     }
+    */
 }
 
 
