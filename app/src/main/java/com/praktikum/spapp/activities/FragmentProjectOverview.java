@@ -1,54 +1,63 @@
 package com.praktikum.spapp.activities;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.Service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.EditProjectForm;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.User;
+import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
+import com.praktikum.spapp.models.enums.ProjectStatus;
+import com.praktikum.spapp.models.enums.ProjectType;
+
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class FragmentProjectOverview extends Fragment implements View.OnClickListener {
+public class FragmentProjectOverview extends Fragment {
+    View view;
     EditText pdTitle;
     EditText pdDescription;
-    EditText pdStatus;
-    EditText pdType;
+    Spinner spinnerType;
+    Spinner spinnerStatus;
 
-    Button editProject;
-    Button editSave;
+
+    Button editAndSaveButton;
+    Button deleteAndCancelButton;
+
+    AtomicBoolean editMode = new AtomicBoolean(false);
+
 
     private String projectName, projectDescription, projectStatus;
     private int projectNr;
     Button buttonProjectEdit, buttonProjectSave;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_project_overview, container, false);
+        view = inflater.inflate(R.layout.fragment_project_overview, container, false);
         Project project = (Project) getArguments().getSerializable("project");
-        pdTitle = view.findViewById(R.id.pd_title);
+
+        // Set Values
+        pdTitle = view.findViewById(R.id.pd_overview_et_title);
         pdTitle.setText(project.getName());
-        pdDescription = view.findViewById(R.id.pd_description);
+        pdDescription = view.findViewById(R.id.pd_overview_et_description);
         pdDescription.setText(project.getDescription());
-<<<<<<< Updated upstream
-        pdStatus = view.findViewById(R.id.pd_status);
-        pdStatus.setText(project.getProjectStatus().toString());
-        pdType = view.findViewById(R.id.pd_type);
-        pdType.setText(project.getType().toString());
-=======
 
         editAndSaveButton = view.findViewById(R.id.pd_overview_edit_button);
         deleteAndCancelButton = view.findViewById(R.id.pd_overview_save_or_delete_button);
@@ -177,32 +186,35 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
                 spinnerStatus.setEnabled(false);
             }
         });
->>>>>>> Stashed changes
 
         projectName = project.getName();
         projectDescription = project.getDescription();
         projectNr = project.getId();
 
+        /**
         //Edit button
-        buttonProjectEdit = view.findViewById(R.id.button_edit_project_and_cancel);
-        buttonProjectSave = view.findViewById(R.id.button_edit_project_save);
+        buttonProjectEdit = view.findViewById(R.id.pd_overview_edit_button);
+        buttonProjectSave = view.findViewById(R.id.pd_overview_save_or_delete_button);
 
         //buttonProjectSave.setOnClickListener(this);
         buttonProjectEdit.setOnClickListener(this);
+         */
 
         return view;
-
-
     }
-    AtomicBoolean editMode = new AtomicBoolean(false);
 
+
+    // AtomicBoolean editMode = new AtomicBoolean(false);
+/**
     @Override
     public void onClick(View view) {
         if (!editMode.get()) {
             editMode.set(true);
 
             buttonProjectEdit.setText("Cancel");
-            buttonProjectSave.setVisibility(View.VISIBLE);
+            //buttonProjectSave.setVisibility(View.VISIBLE);
+            pdTitle.setEnabled(true);
+            pdDescription.setEnabled(true);
 
             EditProjectForm editProjectForm = new EditProjectForm();
 
@@ -216,8 +228,8 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
                         getActivity().runOnUiThread(() -> {
 
                             editMode.set(false);
-                            buttonProjectEdit.setText("Edit");
-                            buttonProjectSave.setVisibility(View.GONE);
+                            //buttonProjectEdit.setText("Edit");
+                            //buttonProjectSave.setVisibility(View.GONE);
 
                             editProjectForm.setName(projectName);
                             editProjectForm.setDescription(projectDescription);
@@ -241,8 +253,9 @@ public class FragmentProjectOverview extends Fragment implements View.OnClickLis
 
             editMode.set(false);
 
-            buttonProjectEdit.setText("Edit");
-            buttonProjectSave.setVisibility(View.GONE);
+            //admin buttonProjectEdit.setText("Edit");
+            //buttonProjectSave.setVisibility(View.GONE);
         }
     }
+    */
 }

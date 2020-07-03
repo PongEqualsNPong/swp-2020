@@ -42,8 +42,7 @@ public class FragmentProjectComments extends Fragment {
                 //String responseString = new CommentService().commentDelete(1);
                 String responseString = new CommentService().commentDelete(comment.getId());
 
-                Snackbar.make(view, responseString, Snackbar.LENGTH_LONG).show();
-
+                Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

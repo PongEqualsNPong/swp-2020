@@ -47,7 +47,42 @@ public class ProjectService extends Service {
             return responseString;
         }
     }
+    public String projectCreateFull(Project project) throws Exception {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(project));
 
+        Request request = HttpClient.httpRequestMaker("/api/project/initFull", "post", data);
+        Response response = client.newCall(request).execute();
+
+        String responseString = response.body().string();
+
+        //these static methods must be called on every other service method u baboon
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        Utils.isSuccess(responseString);
+
+        if (isRefreshed) {
+            return projectCreate(project);
+        } else {
+            return responseString;
+        }
+    }
+    public String projectDelete(Project project) throws Exception {
+
+       Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(),"delete");
+       Response response = client.newCall(request).execute();
+
+       String responseString = response.body().string();
+
+       boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+       Utils.isSuccess(responseString);
+
+       if (isRefreshed) {
+           return projectDelete(project);
+       } else  {
+           return responseString;
+       }
+
+    }
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");
@@ -71,7 +106,7 @@ public class ProjectService extends Service {
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/api/project/")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MzI3NzgzMiwiZXhwIjoxNTkzMzY0MjMyfQ.zokUEwUi1dMafpn-xWon4IgKV0lsPVRJIc2VXCi7C7YlKTbyw1UA8XJjsOynl2UN6X-DG6vX14p1MfgPbyZqHQ")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0X21vZCIsImlhdCI6MTU5MTYxMzI0MywiZXhwIjoxNTkxNjk5NjQzfQ.vMTN-TftGV1A4gJGh9NDKxRtMS3ndpyMrJcjhjsNjHHvmnYFWx3fEwDfBF_qeZqv2N3XPo4XB-XtBQwSSOf69Q")
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
@@ -118,4 +153,14 @@ public class ProjectService extends Service {
 //        }
 //        return projectArrayList;
 //    }
+
+    public String editProject(EditProjectForm editProjectForm, int id) throws JSONException, IOException {
+        Gson gson = new GsonBuilder().create();
+        JSONObject data = new JSONObject(gson.toJson(editProjectForm));
+        Request request = HttpClient.httpRequestMaker("/api/project/update/" + id, "post", data);
+        Response response = client.newCall(request).execute();
+        String responseString = response.body().string();
+        return responseString;
+
+    }
 }

@@ -81,7 +81,7 @@ public class CommentService {
     }
 
     public String commentDelete(int commentId) throws Exception {
-        Request request = HttpClient.httpRequestMaker("/api/comments" + commentId, "delete");
+        Request request = HttpClient.httpRequestMaker("/api/comments/" + commentId, "delete");
         Response response = client.newCall(request).execute();
 
         String responseString = response.body().string();

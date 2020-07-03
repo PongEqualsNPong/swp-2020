@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.DetailProjectActivity;
 import com.praktikum.spapp.activities.ProjectDetailActivity;
 import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
 import com.praktikum.spapp.models.Project;

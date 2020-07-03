@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
+import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.Project;
 
 import org.json.JSONObject;
@@ -23,12 +24,12 @@ public class AppointmentsService {
         super();
     }
 
-    public String appointmentCreate(Appointment appointment) throws Exception {
+    public String appointmentCreate(String appointmentJson, int projectId) throws Exception {
 
         Gson gson = new GsonBuilder().create();
-        JSONObject data = new JSONObject(gson.toJson(appointment));
+        JSONObject data = new JSONObject(appointmentJson);
 
-        Request request = HttpClient.httpRequestMaker("/api/project/1/appointments", "post", data);
+        Request request = HttpClient.httpRequestMaker("/api/projects/" + projectId + "/appointments", "post", data);
         Response response = client.newCall(request).execute();
 
         String responseString = response.body().string();
@@ -38,7 +39,7 @@ public class AppointmentsService {
         Utils.isSuccess(responseString);
 
         if (isRefreshed) {
-            return appointmentCreate(appointment);
+            return appointmentCreate(appointmentJson, projectId);
         } else {
             return responseString;
         }
@@ -63,12 +64,12 @@ public class AppointmentsService {
         }
     }
 
-    public String appointmentUpdate(Appointment appointment) throws Exception {
+    public String appointmentUpdate(String appointmentJson, int appointmentId) throws Exception {
 
         Gson gson = new GsonBuilder().create();
-        JSONObject data = new JSONObject(gson.toJson(appointment));
+        JSONObject data = new JSONObject(appointmentJson);
 
-        Request request = HttpClient.httpRequestMaker("/api/appointments/{appointment id}", "post", data);
+        Request request = HttpClient.httpRequestMaker("/api/appointments/" + appointmentId, "post", data);
         Response response = client.newCall(request).execute();
 
         String responseString = response.body().string();
@@ -78,18 +79,17 @@ public class AppointmentsService {
         Utils.isSuccess(responseString);
 
         if (isRefreshed) {
-            return appointmentCreate(appointment);
+            return appointmentUpdate(appointmentJson,appointmentId);
         } else {
             return responseString;
         }
     }
 
-    public String appointmentDelete(Appointment appointment) throws Exception {
+    public String appointmentDelete(int appointmentId) throws Exception {
 
-        Gson gson = new GsonBuilder().create();
-        JSONObject data = new JSONObject(gson.toJson(appointment));
 
-        Request request = HttpClient.httpRequestMaker("/api/appointments/{appointment id}", "delete");
+
+        Request request = HttpClient.httpRequestMaker("/api/appointments/" + appointmentId, "delete");
         Response response = client.newCall(request).execute();
 
         String responseString = response.body().string();
@@ -99,7 +99,7 @@ public class AppointmentsService {
         Utils.isSuccess(responseString);
 
         if (isRefreshed) {
-            return appointmentCreate(appointment);
+            return appointmentDelete(appointmentId);
         } else {
             return responseString;
         }

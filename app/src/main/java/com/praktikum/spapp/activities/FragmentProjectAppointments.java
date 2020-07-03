@@ -2,10 +2,13 @@ package com.praktikum.spapp.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,6 +26,7 @@ public class FragmentProjectAppointments extends Fragment {
     RecyclerViewAdapterAppointment adapter;
     ArrayList<Appointment> appointments;
     View view;
+    Button button_create_appointment;
 
 
     @Nullable
@@ -31,19 +35,21 @@ public class FragmentProjectAppointments extends Fragment {
         view = inflater.inflate(R.layout.fragment_project_appointments, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.appointment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
+        button_create_appointment = view.findViewById(R.id.button_create_appointment);
         Project project = (Project) getArguments().getSerializable("project");
+
+        button_create_appointment.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CreateAppointmentActivity.class);
+            intent.putExtra("project", project);
+            startActivity(intent);
+        });
+
         appointments = project.getAppointments();
 
         adapter = new RecyclerViewAdapterAppointment(appointments, view.getContext());
         recyclerView.setAdapter(adapter);
 
-//        initRecyclerView();
         return view;
     }
 
-//    private void initRecyclerView() {
-//
-//
-//    }
 }

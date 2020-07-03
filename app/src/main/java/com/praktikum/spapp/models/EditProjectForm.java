@@ -7,23 +7,12 @@ import java.util.ArrayList;
 
 public class EditProjectForm {
 
-    int id;
-    String name;
-    String description;
-    ArrayList<Comment> comments;
-    ArrayList<Appointment> appointments;
-    ArrayList<User> handler;
-    ArrayList<User> processor;
-    ProjectType type;
-    ProjectStatus projectStatus;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String name;
+    private String description;
+    private ArrayList<String> handler;
+    private ArrayList<String> processor;
+    private ProjectType projectType;
+    private ProjectStatus projectStatus;
 
     public String getName() {
         return name;
@@ -41,44 +30,28 @@ public class EditProjectForm {
         this.description = description;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(ArrayList<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public ArrayList<User> getHandler() {
+    public ArrayList<String> getHandler() {
         return handler;
     }
 
-    public void setHandler(ArrayList<User> handler) {
+    public void setHandler(ArrayList<String> handler) {
         this.handler = handler;
     }
 
-    public ArrayList<User> getProcessor() {
+    public ArrayList<String> getProcessor() {
         return processor;
     }
 
-    public void setProcessor(ArrayList<User> processor) {
+    public void setProcessor(ArrayList<String> processor) {
         this.processor = processor;
     }
 
-    public ProjectType getType() {
-        return type;
+    public ProjectType getProjectType() {
+        return projectType;
     }
 
-    public void setType(ProjectType type) {
-        this.type = type;
+    public void setProjectType(ProjectType projectType) {
+        this.projectType = projectType;
     }
 
     public ProjectStatus getProjectStatus() {
@@ -88,6 +61,4 @@ public class EditProjectForm {
     public void setProjectStatus(ProjectStatus projectStatus) {
         this.projectStatus = projectStatus;
     }
-
-
 }
