@@ -115,6 +115,7 @@ public class FragmentProjectOverview extends Fragment {
                         e.printStackTrace();
                     }
                     new Thread(() -> {
+
                         try {
                             String responseString = new ProjectService().editProject(editForm, project.getId());
                             if (Utils.isSuccess(responseString)) {
