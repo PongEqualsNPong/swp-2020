@@ -11,11 +11,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.ProjectService;
+import com.praktikum.spapp.service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Integer.parseInt;
 

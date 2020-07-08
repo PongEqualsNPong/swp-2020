@@ -1,4 +1,4 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
         import okhttp3.MediaType;
         import okhttp3.OkHttpClient;

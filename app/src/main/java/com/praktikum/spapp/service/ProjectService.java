@@ -1,25 +1,17 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
-import android.accounts.AuthenticatorException;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.EditProjectForm;
-import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.Project;
 import okhttp3.*;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
-
-import static com.praktikum.spapp.Service.Service.api;
 
 public class ProjectService extends Service {
 

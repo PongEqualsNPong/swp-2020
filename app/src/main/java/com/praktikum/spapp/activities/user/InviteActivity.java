@@ -11,10 +11,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.UserService;
-import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.service.UserService;
 import com.praktikum.spapp.models.InviteForm;
-import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.Role;
 import org.json.JSONException;
 

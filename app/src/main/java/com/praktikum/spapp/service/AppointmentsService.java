@@ -1,12 +1,10 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
-import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.Project;
 
 import org.json.JSONObject;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.praktikum.spapp.Service.Service.client;
+import static com.praktikum.spapp.service.Service.client;
 
 public class AppointmentsService {
 

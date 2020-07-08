@@ -3,9 +3,7 @@ package com.praktikum.spapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -14,15 +12,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.AppointmentsService;
+import com.praktikum.spapp.service.AppointmentsService;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.Utils;
-import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.Project;
 

@@ -1,4 +1,4 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,12 +8,10 @@ import com.praktikum.spapp.models.Comment;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import okhttp3.Request;
 import okhttp3.Response;
 
-import static com.praktikum.spapp.Service.Service.client;
+import static com.praktikum.spapp.service.Service.client;
 
 public class CommentService {
 

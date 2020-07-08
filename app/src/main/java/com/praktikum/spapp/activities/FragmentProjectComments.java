@@ -12,12 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.CommentService;
-import com.praktikum.spapp.Service.ProjectService;
+import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.models.Comment;
-import com.praktikum.spapp.models.Project;
 
 public class FragmentProjectComments extends Fragment {
 

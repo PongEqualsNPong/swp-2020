@@ -10,10 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.AuthenticationService;
+import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;
 import com.praktikum.spapp.common.Utils;
 

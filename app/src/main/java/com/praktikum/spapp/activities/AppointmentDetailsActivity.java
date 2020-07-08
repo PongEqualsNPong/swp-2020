@@ -20,14 +20,11 @@ import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.AppointmentsService;
-import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.service.AppointmentsService;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.EditAppointmentForm;
-import com.praktikum.spapp.models.EditUserForm;
-import com.praktikum.spapp.models.User;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;

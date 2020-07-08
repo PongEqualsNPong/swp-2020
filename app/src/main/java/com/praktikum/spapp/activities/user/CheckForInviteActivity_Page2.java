@@ -12,20 +12,10 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.UserService;
-import com.praktikum.spapp.activities.general.StaticPopUp;
+import com.praktikum.spapp.service.UserService;
 import com.praktikum.spapp.common.Utils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class CheckForInviteActivity_Page2 extends AppCompatActivity implements View.OnClickListener {
 

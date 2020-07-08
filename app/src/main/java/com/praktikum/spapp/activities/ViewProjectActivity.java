@@ -1,18 +1,14 @@
 package com.praktikum.spapp.activities;
 
 import android.os.Bundle;
-import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.ProjectService;
-import com.praktikum.spapp.Service.UserService;
+import com.praktikum.spapp.service.ProjectService;
 import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
-import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
 
 import java.io.IOException;
 import java.util.ArrayList;

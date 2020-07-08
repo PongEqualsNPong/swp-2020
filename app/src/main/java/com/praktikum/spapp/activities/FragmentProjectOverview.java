@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.Service.ProjectService;
+import com.praktikum.spapp.service.ProjectService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;

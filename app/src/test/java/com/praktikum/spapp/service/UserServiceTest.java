@@ -1,9 +1,8 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
 import com.praktikum.spapp.models.User;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class UserServiceTest {

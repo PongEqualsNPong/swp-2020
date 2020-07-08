@@ -1,12 +1,12 @@
 package com.praktikum.spapp.common;
 
-import com.praktikum.spapp.Service.AuthenticationService;
+import com.praktikum.spapp.service.AuthenticationService;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.json.JSONObject;
 
 
-import static com.praktikum.spapp.Service.Service.*;
+import static com.praktikum.spapp.service.Service.*;
 
 public class HttpClient {
 

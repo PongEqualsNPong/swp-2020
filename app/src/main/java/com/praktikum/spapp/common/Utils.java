@@ -1,13 +1,9 @@
 package com.praktikum.spapp.common;
 
-import android.accounts.AuthenticatorException;
-import android.app.AuthenticationRequiredException;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.praktikum.spapp.Service.AuthenticationService;
+import com.praktikum.spapp.service.AuthenticationService;
 
 import java.io.IOException;
 

@@ -1,9 +1,6 @@
-package com.praktikum.spapp.Service;
+package com.praktikum.spapp.service;
 
-import com.praktikum.spapp.models.Token;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
