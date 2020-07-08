@@ -47,6 +47,7 @@ public class ProjectService extends Service {
             return responseString;
         }
     }
+
     public String projectCreateFull(Project project) throws Exception {
         Gson gson = new GsonBuilder().create();
         JSONObject data = new JSONObject(gson.toJson(project));
@@ -66,23 +67,25 @@ public class ProjectService extends Service {
             return responseString;
         }
     }
+
     public String projectDelete(Project project) throws Exception {
 
-       Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(),"delete");
-       Response response = client.newCall(request).execute();
+        Request request = HttpClient.httpRequestMaker("/api/project/delete/" + project.getId(), "delete");
+        Response response = client.newCall(request).execute();
 
-       String responseString = response.body().string();
+        String responseString = response.body().string();
 
-       boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-       Utils.isSuccess(responseString);
+        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+        Utils.isSuccess(responseString);
 
-       if (isRefreshed) {
-           return projectDelete(project);
-       } else  {
-           return responseString;
-       }
+        if (isRefreshed) {
+            return projectDelete(project);
+        } else {
+            return responseString;
+        }
 
     }
+
     public ArrayList<Project> fetchAllProjects() throws Exception {
 
         Request request = HttpClient.httpRequestMaker("/api/project", "get");
@@ -91,7 +94,7 @@ public class ProjectService extends Service {
         String responseString = response.body().string();
 
         boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-        String successString = Utils.parseForJsonObject(responseString,"result");
+        String successString = Utils.parseForJsonObject(responseString, "result");
 
         if (isRefreshed) {
             return fetchAllProjects();
@@ -111,7 +114,7 @@ public class ProjectService extends Service {
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
 
-        String successString = Utils.parseForJsonObject(responseString,"result");
+        String successString = Utils.parseForJsonObject(responseString, "result");
 
 
         Gson gson = new Gson();
@@ -154,9 +157,7 @@ public class ProjectService extends Service {
 //        return projectArrayList;
 //    }
 
-    public String editProject(EditProjectForm editProjectForm, int id) throws JSONException, IOException {
-        Gson gson = new GsonBuilder().create();
-        JSONObject data = new JSONObject(gson.toJson(editProjectForm));
+    public String editProject(JSONObject data, int id) throws IOException {
         Request request = HttpClient.httpRequestMaker("/api/project/update/" + id, "post", data);
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();
