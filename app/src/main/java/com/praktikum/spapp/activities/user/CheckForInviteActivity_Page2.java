@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.UserService;
 import com.praktikum.spapp.common.Utils;
 
 import java.io.IOException;

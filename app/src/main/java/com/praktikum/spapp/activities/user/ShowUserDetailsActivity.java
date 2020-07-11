@@ -7,7 +7,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.UserService;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.User;

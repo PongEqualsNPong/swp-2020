@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
@@ -117,7 +117,7 @@ public class FragmentProjectOverview extends Fragment {
                     new Thread(() -> {
 
                         try {
-                            String responseString = new ProjectService().editProject(editForm, project.getId());
+                            String responseString = new ProjectServiceImpl().editProject(editForm, project.getId());
                             if (Utils.isSuccess(responseString)) {
                                 getActivity().runOnUiThread(() -> {
 

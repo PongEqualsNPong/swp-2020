@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 
@@ -71,7 +71,7 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
     };
 
     public void onClick(View view){
-        ProjectService projectService = new ProjectService();
+        ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure?");
         builder.setCancelable(true);
@@ -93,7 +93,7 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
 
                         new Thread(() -> {
                             try {
-                                String resultString = projectService.projectDelete(project);
+                                String resultString = projectServiceImpl.projectDelete(project);
                                 System.out.println(resultString);
 
                                 if(Utils.isSuccess(resultString)) {

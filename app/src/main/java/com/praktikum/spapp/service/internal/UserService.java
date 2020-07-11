@@ -1,4 +1,4 @@
-package com.praktikum.spapp.service;
+package com.praktikum.spapp.service.internal;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -36,41 +36,32 @@ public class UserService extends Service {
         Response response = client.newCall(request).execute();
         String responseString = Objects.requireNonNull(response.body()).string();
 
-        //these static methods must be called on every other service method u baboon
-        boolean isRefreshed = false;
-
-        isRefreshed = Utils.silentTokenRefresh(responseString);
-
         String successString = Utils.parseForJsonObject(responseString, "result");
 
-        if (isRefreshed) {
-            return fetchAllUsers();
-        } else {
-            return new Gson().fromJson(successString, new TypeToken<ArrayList<User>>() {
-            }.getType());
-        }
+        return new Gson().fromJson(successString, new TypeToken<ArrayList<User>>() {
+        }.getType());
     }
 
-    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
-
-        JSONObject data = new JSONObject()
-                .put("email", inviteForm.getEmail())
-                .put("projectId", inviteForm.getProjectId())
-                .put("role", inviteForm.getRole().toString())
-                .put("projectRights", inviteForm.getProjectRights());
-
-        String dataString = data.toString();
-
-        RequestBody requestBody = RequestBody.create(dataString, JSON);
-        Request request = new Request.Builder()
-                .url(api + "/api/user/addUserInvitation")
-                .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
-                .post(requestBody)
-                .build();
-
-        Response response = client.newCall(request).execute();
-        return response.body().string();
-    }
+//    public String addUserInvitation(InviteForm inviteForm) throws JSONException, IOException {
+//
+//        JSONObject data = new JSONObject()
+//                .put("email", inviteForm.getEmail())
+//                .put("projectId", inviteForm.getProjectId())
+//                .put("role", inviteForm.getRole().toString())
+//                .put("projectRights", inviteForm.getProjectRights());
+//
+//        String dataString = data.toString();
+//
+//        RequestBody requestBody = RequestBody.create(dataString, JSON);
+//        Request request = new Request.Builder()
+//                .url(api + "/api/user/addUserInvitation")
+//                .header("Authorization", "Bearer " + AuthenticationServiceImpl.getSession().getAccessToken())
+//                .post(requestBody)
+//                .build();
+//
+//        Response response = client.newCall(request).execute();
+//        return response.body().string();
+//    }
 
     public String checkInvitation(String fname,
                                   String lname,
@@ -113,9 +104,6 @@ public class UserService extends Service {
         return responseString;
 
     }
-
-
-
 
 
 }

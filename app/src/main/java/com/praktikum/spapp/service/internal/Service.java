@@ -1,0 +1,16 @@
+package com.praktikum.spapp.service.internal;
+
+
+import com.praktikum.spapp.dao.internal.AbstractDao;
+import com.praktikum.spapp.models.Session;
+
+public abstract class Service {
+
+    Session session;
+
+
+
+
+
+
+}

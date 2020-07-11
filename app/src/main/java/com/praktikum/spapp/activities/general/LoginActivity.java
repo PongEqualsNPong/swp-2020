@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.AuthenticationService;
+import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;
 import com.praktikum.spapp.common.Utils;
 
@@ -44,10 +44,10 @@ public class LoginActivity extends AppCompatActivity {
                     try {
 //                        if(etLoginName.getText().toString().contains("@"))
                         //save static token
-                        String responseBody = new AuthenticationService().loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
+                        String responseBody = new AuthenticationServiceImpl().loginOnServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
                         //Activity will be shown next Intent will be changed
                         Intent intent = new Intent(LoginActivity.this, WelcomeActivity.class);
-                        if (AuthenticationService.getToken() != null) {
+                        if (AuthenticationServiceImpl.getSession() != null) {
 
                             runOnUiThread(() -> {
                                 //Intent will be started

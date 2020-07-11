@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.CommentService;
+import com.praktikum.spapp.service.internal.CommentService;
 import com.praktikum.spapp.models.Comment;
 
 public class FragmentProjectComments extends Fragment {

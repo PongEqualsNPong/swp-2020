@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.UserService;
 import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
 
