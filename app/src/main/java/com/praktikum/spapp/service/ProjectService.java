@@ -101,7 +101,7 @@ public class ProjectService extends Service {
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/api/project/")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5NDU4MzU4MywiZXhwIjoxNTk0NjY5OTgzfQ.7RjwdiciZe9FlWhHczadvAezzbC9B8oHLZZyRaTIPMrLRojj9Aeb6PGK5-5yoABCZ6vF_IlaxYQzedci0qOuXw")
+                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5NDU4ODU1NywiZXhwIjoxNTk0Njc0OTU3fQ.ZsXnl5fXuE5lL2hx3IpE20cL0qz2DOYwlrfO0FiCaBIzwN_-bonBzO2PH6bPyLWuCzX0kGg44e6vF2WFZVtCPQ")
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();

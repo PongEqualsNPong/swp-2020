@@ -62,7 +62,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         Log.d(TAG, "onBindViewHolder:  called.");
 
         viewHolder.commentContent.setText(comments.get(i).getContent());
-        viewHolder.CommentDate.setText("Posted: " + DateStringSplitter.datePrettyPrint(comments.get(i).getCreationTime()) + " " + DateStringSplitter.timePrettyPrint(comments.get(i).getCreationTime()));
+        viewHolder.CommentDate.setText("Posted at: " + DateStringSplitter.datePrettyPrint(comments.get(i).getCreationTime()) + " " + DateStringSplitter.timePrettyPrint(comments.get(i).getCreationTime()));
         if( comments.get(i).getAuthor() != null) {
             viewHolder.commentAuthor.setText(comments.get(i).getAuthor().getUsername());
         }
@@ -81,19 +81,19 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
     public Filter userFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<Comment> filterdList = new ArrayList<>();
+            List<Comment> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filterdList.addAll(commentsAll);
+                filteredList.addAll(commentsAll);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Comment comment : commentsAll) {
                     if (comment.getContent().toLowerCase().contains(filterPattern)) {
-                        filterdList.add(comment);
+                        filteredList.add(comment);
                     }
                 }
             }
             FilterResults results = new FilterResults();
-            results.values = filterdList;
+            results.values = filteredList;
             return results;
         }
 

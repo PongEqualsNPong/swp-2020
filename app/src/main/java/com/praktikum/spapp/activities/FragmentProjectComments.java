@@ -28,6 +28,7 @@ public class FragmentProjectComments extends Fragment {
     ArrayList<Comment> comments;
     Button commentDeleteButton;
     Button commentViewallButton;
+    Button commenSetRestrictedButton;
     View view;
 
     @Nullable
@@ -43,13 +44,28 @@ public class FragmentProjectComments extends Fragment {
 
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         commentViewallButton = view.findViewById(R.id.comment_viewall_button);
-
+        commenSetRestrictedButton = view.findViewById(R.id.comment_set_restricted);
 
         commentDeleteButton.setOnClickListener((View view) -> {
             try {
                 //HARDCODE FOR TESTING
                 //String responseString = new CommentService().commentDelete(1);
                 String responseString = new CommentService().commentDelete(comment.getId());
+
+                Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        commenSetRestrictedButton.setOnClickListener((View view1) -> {
+            try {
+                //hardcoded with 1st comment now
+                Comment commentCurrent = project.getComments().get(0);
+                commentCurrent.setRestricted(true);
+                boolean statetest = commentCurrent.isRestricted();
+                String responseString = new CommentService().commentEdit(commentCurrent.getId(), commentCurrent);
 
                 Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
