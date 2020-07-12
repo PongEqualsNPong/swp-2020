@@ -15,17 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.praktikum.spapp.R;
-<<<<<<< Updated upstream
 import com.praktikum.spapp.service.CommentService;
-import com.praktikum.spapp.models.Comment;
-=======
-import com.praktikum.spapp.Service.CommentService;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
 
 import java.util.ArrayList;
->>>>>>> Stashed changes
 
 public class FragmentProjectComments extends Fragment {
 
