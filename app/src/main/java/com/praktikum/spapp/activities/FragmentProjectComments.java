@@ -11,14 +11,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.praktikum.spapp.R;
+<<<<<<< Updated upstream
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.models.Comment;
+=======
+import com.praktikum.spapp.Service.CommentService;
+import com.praktikum.spapp.models.Comment;
+import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+
+import java.util.ArrayList;
+>>>>>>> Stashed changes
 
 public class FragmentProjectComments extends Fragment {
 
+    RecyclerViewAdapterComment adapter;
+    ArrayList<Comment> comments;
     Button commentDeleteButton;
+    Button commentViewallButton;
     View view;
 
     @Nullable
@@ -28,9 +42,12 @@ public class FragmentProjectComments extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_project_comments, container, false);
         Comment comment = (Comment) getArguments().getSerializable("comments");
+        Project project = (Project) getArguments().getSerializable("project");
+
 
 
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
+        commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
 
         commentDeleteButton.setOnClickListener((View view) -> {
@@ -45,6 +62,14 @@ public class FragmentProjectComments extends Fragment {
             }
 
         });
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        comments = project.getComments();
+        adapter = new RecyclerViewAdapterComment(comments, view.getContext());
+
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

@@ -20,7 +20,11 @@ import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+<<<<<<< Updated upstream
 import com.praktikum.spapp.service.AppointmentsService;
+=======
+import com.praktikum.spapp.Service.AppointmentsService;
+>>>>>>> Stashed changes
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
