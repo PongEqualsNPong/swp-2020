@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.AppointmentDetailsActivity;
+import com.praktikum.spapp.activities.CommentDetailsActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.models.Comment;
 
@@ -46,6 +48,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         TextView commentContent;
         TextView commentAuthor;
         TextView CommentDate;
+        boolean commentIsRestricted;
         RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,6 +69,11 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         if( comments.get(i).getAuthor() != null) {
             viewHolder.commentAuthor.setText(comments.get(i).getAuthor().getUsername());
         }
+        viewHolder.parentLayout.setOnClickListener(view -> {
+            Intent intent = new Intent(aContext, CommentDetailsActivity.class);
+            intent.putExtra("comment", comments.get(i));
+            aContext.startActivity(intent);
+        });
     }
 
     @Override
