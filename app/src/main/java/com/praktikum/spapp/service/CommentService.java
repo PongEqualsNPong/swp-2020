@@ -57,26 +57,27 @@ public class CommentService {
         }
     }
 
+/** BACKUP OF GSON
     public String commentEdit(int commentId, Comment comment) throws Exception {
-
         Gson gson = new GsonBuilder().create();
         //PAYLOAD
         JSONObject data = new JSONObject(gson.toJson(comment));
-
-        Request request = HttpClient.httpRequestMaker( "/api/comments/" + commentId, "post", data);
-        Response response = client.newCall(request).execute();
-
-        String responseString = response.body().string();
-
-        boolean isRefreshed = Utils.silentTokenRefresh(responseString);
-        Utils.isSuccess(responseString);
-
-        if (isRefreshed) {
-            return commentEdit(commentId, comment);
-        } else {
-            return responseString;
-        }
     }
+ */
+
+public String commentEdit(int commentId, JSONObject data) throws Exception {
+    Request request = HttpClient.httpRequestMaker("/api/comments/" + commentId, "post", data);
+    Response response = client.newCall(request).execute();
+    String responseString = response.body().string();
+    boolean isRefreshed = Utils.silentTokenRefresh(responseString);
+    Utils.isSuccess(responseString);
+
+    if (isRefreshed) {
+        return commentEdit(commentId, data);
+    } else {
+        return responseString;
+    }
+}
 
     public String commentDelete(int commentId) throws Exception {
         Request request = HttpClient.httpRequestMaker("/api/comments/" + commentId, "delete");

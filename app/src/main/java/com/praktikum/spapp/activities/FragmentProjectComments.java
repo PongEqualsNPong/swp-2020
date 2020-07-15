@@ -14,11 +14,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -29,6 +34,7 @@ public class FragmentProjectComments extends Fragment {
     Button commentDeleteButton;
     Button commentViewallButton;
     Button commenSetRestrictedButton;
+    Button commentSetPublicButton;
     View view;
 
     @Nullable
@@ -45,32 +51,43 @@ public class FragmentProjectComments extends Fragment {
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         commentViewallButton = view.findViewById(R.id.comment_viewall_button);
         commenSetRestrictedButton = view.findViewById(R.id.comment_set_restricted);
+        commentSetPublicButton = view.findViewById(R.id.comment_set_public);
 
         commentDeleteButton.setOnClickListener((View view) -> {
-            try {
-                //HARDCODE FOR TESTING
-                //String responseString = new CommentService().commentDelete(1);
-                String responseString = new CommentService().commentDelete(comment.getId());
+            new Thread(() -> {
+                try {
+                    //HARDCODE FOR TESTING
+                    String responseString = new CommentService().commentDelete(1);
+                    //String responseString = new CommentService().commentDelete(comment.getId());
 
-                Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+                    Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         });
 
         commenSetRestrictedButton.setOnClickListener((View view1) -> {
-            try {
-                //hardcoded with 1st comment now
-                Comment commentCurrent = project.getComments().get(0);
-                commentCurrent.setRestricted(true);
-                boolean statetest = commentCurrent.isRestricted();
-                String responseString = new CommentService().commentEdit(commentCurrent.getId(), commentCurrent);
-
-                Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            new Thread(() -> {
+                try {
+                    JSONObject commentJson = new JSONObject();
+                    try {
+                        commentJson.put("restricted","false");
+                        //commentJson.put("content","editititiititi");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //hardcoded with 1st comment for now
+                    String responseString = new CommentService().commentEdit(project.getComments().get(0).getId(),commentJson);
+                    if (Utils.isSuccess(responseString)) {
+                        Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
 
         });
 
