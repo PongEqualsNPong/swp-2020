@@ -21,7 +21,7 @@
             android:layout_marginTop="550dp"
 
 
-            android:text="Delete" />
+            android:text="Delete Project" />
     </FrameLayout>
 
 

@@ -1,6 +1,7 @@
 package com.praktikum.spapp.activities;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +39,7 @@ public class FragmentProjectComments extends Fragment {
     Button commentSetPublicButton;
     View view;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -95,6 +98,14 @@ public class FragmentProjectComments extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         comments = project.getComments();
+        // filter out all the non-related comments
+       comments.forEach( x -> {if(x.isRestricted())
+       {
+           comments.remove(x);
+       }
+       });
+
+
         adapter = new RecyclerViewAdapterComment(comments, view.getContext());
 
         recyclerView.setAdapter(adapter);

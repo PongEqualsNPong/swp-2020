@@ -7,7 +7,7 @@ public class Token implements Serializable {
 
 
     private String tokenType;
-    private byte[] accessToken;
+    private String accessToken;
     private String success;
     private String password;
     private User currentUser;
@@ -17,7 +17,7 @@ public class Token implements Serializable {
         this.tokenType = tokenType;
     }
 
-    public void setAccessToken(byte[] accessToken) {
+    public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
@@ -29,7 +29,7 @@ public class Token implements Serializable {
         return tokenType;
     }
 
-    public byte[] getAccessToken() {
+    public String getAccessToken() {
         return accessToken;
     }
 
