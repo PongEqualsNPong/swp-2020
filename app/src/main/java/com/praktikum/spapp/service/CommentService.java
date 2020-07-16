@@ -57,15 +57,12 @@ public class CommentService {
         }
     }
 
-/** BACKUP OF GSON
-    public String commentEdit(int commentId, Comment comment) throws Exception {
-        Gson gson = new GsonBuilder().create();
-        //PAYLOAD
-        JSONObject data = new JSONObject(gson.toJson(comment));
-    }
- */
 
-public String commentEdit(int commentId, JSONObject data) throws Exception {
+public String commentEdit(int commentId, Comment comment) throws Exception {
+    Gson gson = new GsonBuilder().create();
+    //PAYLOAD
+    JSONObject data = new JSONObject(gson.toJson(comment));
+
     Request request = HttpClient.httpRequestMaker("/api/comments/" + commentId, "post", data);
     Response response = client.newCall(request).execute();
     String responseString = response.body().string();
@@ -73,7 +70,7 @@ public String commentEdit(int commentId, JSONObject data) throws Exception {
     Utils.isSuccess(responseString);
 
     if (isRefreshed) {
-        return commentEdit(commentId, data);
+        return commentEdit(commentId, comment);
     } else {
         return responseString;
     }
