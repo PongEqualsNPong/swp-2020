@@ -19,14 +19,6 @@
         android:text="Delete" />
 
     <Button
-        android:id="@+id/comment_viewall_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/comment_delete_button"
-        android:layout_marginTop="1dp"
-        android:text="All Comments" />
-
-    <Button
         android:id="@+id/comment_set_public"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -96,12 +96,12 @@ public class ProjectService extends Service {
         }
 
     }
-
+    //eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5NDU4ODU1NywiZXhwIjoxNTk0Njc0OTU3fQ.ZsXnl5fXuE5lL2hx3IpE20cL0qz2DOYwlrfO0FiCaBIzwN_-bonBzO2PH6bPyLWuCzX0kGg44e6vF2WFZVtCPQ
     //TODO GIGA TODO MOTHERFUCKER KYS SPAß NEIN TUS NICHT ;)))))) DOCH TUS JKgit
     public ArrayList<Project> fetchProjectsOnlyFromUser() throws IOException {
         Request request = new Request.Builder()
                 .url(api + "/api/project/")
-                .header("Authorization", "Bearer " + "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5NDU4ODU1NywiZXhwIjoxNTk0Njc0OTU3fQ.ZsXnl5fXuE5lL2hx3IpE20cL0qz2DOYwlrfO0FiCaBIzwN_-bonBzO2PH6bPyLWuCzX0kGg44e6vF2WFZVtCPQ")
+                .header("Authorization", "Bearer " + AuthenticationService.getToken().getAccessToken())
                 .build();
         Response response = client.newCall(request).execute();
         String responseString = response.body().string();

@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.Token;
+import com.praktikum.spapp.models.User;
+import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
@@ -98,13 +101,16 @@ public class FragmentProjectComments extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         comments = project.getComments();
-        // filter out all the non-related comments
-       comments.forEach( x -> {if(x.isRestricted())
-       {
-           comments.remove(x);
-       }
-       });
-
+        // filter out all the restricted comments
+        //comments.removeIf(x -> x.isRestricted());
+        AuthenticationService authenticationService = new AuthenticationService();
+        Token resBody = authenticationService.getToken();
+        User thisUser = resBody.getCurrentUser();
+        System.out.println(thisUser.getRoles().get(0));
+        if(thisUser.getRoles().get(0).toString().equals("ROLE_USER"))
+        {
+            comments.removeIf(x -> x.isRestricted());
+        }
 
         adapter = new RecyclerViewAdapterComment(comments, view.getContext());
 
