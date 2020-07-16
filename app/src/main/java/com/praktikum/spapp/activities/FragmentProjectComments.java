@@ -50,46 +50,6 @@ public class FragmentProjectComments extends Fragment {
 
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         commentViewallButton = view.findViewById(R.id.comment_viewall_button);
-        commenSetRestrictedButton = view.findViewById(R.id.comment_set_restricted);
-        commentSetPublicButton = view.findViewById(R.id.comment_set_public);
-
-        commentDeleteButton.setOnClickListener((View view) -> {
-            new Thread(() -> {
-                try {
-                    //HARDCODE FOR TESTING
-                    String responseString = new CommentService().commentDelete(1);
-                    //String responseString = new CommentService().commentDelete(comment.getId());
-
-                    Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-        });
-
-        commenSetRestrictedButton.setOnClickListener((View view1) -> {
-            new Thread(() -> {
-                try {
-                    JSONObject commentJson = new JSONObject();
-                    try {
-                        commentJson.put("restricted","false");
-                        //commentJson.put("content","editititiititi");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    //hardcoded with 1st comment for now
-                    String responseString = new CommentService().commentEdit(project.getComments().get(0).getId(),commentJson);
-                    if (Utils.isSuccess(responseString)) {
-                        Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-
-        });
 
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
