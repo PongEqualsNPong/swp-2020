@@ -21,6 +21,8 @@
     <string name="click_with_invite">
         <u>Got an Invite? Click here!</u>
     </string>
+    <string name="no" />
+    <string name="yes" />
 
     <string-array name="project_status_array">
         <item>NONE</item>
