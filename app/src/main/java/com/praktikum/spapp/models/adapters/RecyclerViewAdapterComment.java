@@ -28,12 +28,14 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
     private ArrayList<Comment> commentsAll;
 
 
+
     private Context aContext;
 
     public RecyclerViewAdapterComment(ArrayList<Comment> comments, Context aContext) {
         this.comments = comments;
-        this.commentsAll = new ArrayList<>();
+        this.commentsAll = new ArrayList<>(comments);
         this.aContext = aContext;
+
     }
 
     @NonNull
@@ -95,7 +97,12 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Comment comment : commentsAll) {
-                    if (comment.getContent().toLowerCase().contains(filterPattern)) {
+                    //filter based on restricted
+//                    if (comment.getContent().toLowerCase().contains(filterPattern)) {
+                    if(comment.isRestricted() && filterPattern.equals("restricted")) {
+                        filteredList.add(comment);
+                    }
+                    else if(!comment.isRestricted() && filterPattern.equals("not restricted")) {
                         filteredList.add(comment);
                     }
                 }
