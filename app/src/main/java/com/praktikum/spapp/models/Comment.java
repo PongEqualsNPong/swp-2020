@@ -7,7 +7,7 @@ public class Comment implements Serializable {
     private int id;
     private String content;
     private boolean restricted;
-    private boolean edited;
+    private boolean wasEdited;
     private String creationTime;
     private User author;
 
@@ -16,7 +16,7 @@ public class Comment implements Serializable {
         this.id = id;
         this.content = content;
         this.restricted = restricted;
-        this.edited = edited;
+        this.wasEdited = edited;
         this.creationTime = creationTime;
         this.author = author;
     }
@@ -45,12 +45,12 @@ public class Comment implements Serializable {
         this.restricted = restricted;
     }
 
-    public boolean isEdited() {
-        return edited;
+    public boolean isWasEdited() {
+        return wasEdited;
     }
 
-    public void setEdited(boolean edited) {
-        this.edited = edited;
+    public void setWasEdited(boolean wasEdited) {
+        this.wasEdited = wasEdited;
     }
 
     public String getCreationTime() {
