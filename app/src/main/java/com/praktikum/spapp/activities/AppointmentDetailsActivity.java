@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -41,6 +42,7 @@ import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
 
 public class AppointmentDetailsActivity extends AppCompatActivity {
 
@@ -58,6 +60,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private TimePickerDialog timeEndPicker;
     private Dialog myDialog;
     private Button button_delete_appointment_and_cancel;
+    private Button btnExport;
     private Button button_export_to_calendar;
     private Integer appointmentId;
     ArrayList<Project> projectArrayList;
@@ -147,16 +150,41 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 Integer endMinute = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
 
                 endTime.set(endYear, endMonth, endDay, endHour, endMinute);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-               .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
-                        .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
-                        .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
-                        .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
-                v.getContext().startActivity(intent);
+
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                String highScore = sharedPref.getString("SAVED_APPOINTMENT", "false");
+                String [] stringArray = highScore.split("");
+                int sad = stringArray.length;
+                boolean setted = false;
+                if(!(highScore.equals("false"))) {
+                    for (int i = 0; i < stringArray.length; i++) {
+                        if (Long.parseLong(stringArray[i]) == appointmentId) {
+                            setted = true;
+                        }
+                    }
+                }
+                if(!setted) {
+                    /*val eventId = 1234
+                    val uri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId)
+                    */
+              //.setData(uri)
+                    Intent intent = new Intent(Intent.ACTION_INSERT)
+                            .setData(CalendarContract.Events.CONTENT_URI)
+                            .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
+                            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
+                            .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+                            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
+
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("SAVED_APPOINTMENT", Long.toString(appointmentId));
+                    editor.commit();
+                    v.getContext().startActivity(intent);
+                }else{
+                    Snackbar.make(v, "Appointment allready set.", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -376,6 +404,35 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         myDialog.show();
     }
 
+    public void ShowExportPopup(Appointment appointment, View view) {
+        TextView txtclose;
+        Button btnDelete;
+        Appointment appointment1 = appointment;
+
+        myDialog.setContentView(R.layout.activity_export_appointment_pop_up);
+        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        popUpType = (TextView) myDialog.findViewById(R.id.exportTitle);
+        System.out.print(appointment.getName());
+        popUpName = (TextView) myDialog.findViewById(R.id.exportDescription);
+        popUpName.setText(appointment.getName());
+        btnExport = (Button) myDialog.findViewById(R.id.btnExport);
+        btnExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myDialog.dismiss();
+            }
+        });
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
     public void setTime(EditText time, Appointment appointment, boolean start) {
         time.setInputType(InputType.TYPE_NULL);
         time.setOnClickListener(new View.OnClickListener() {
@@ -388,6 +445,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 if(start) {
                     timeStartPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
                             new TimePickerDialog.OnTimeSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                     time.setText(sHour + ":" + sMinute + " Uhr");
@@ -399,6 +457,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 }else{
                     timeEndPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
                             new TimePickerDialog.OnTimeSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                     time.setText(sHour + ":" + sMinute + " Uhr");
@@ -424,6 +483,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 if(start) {
                     dateStartPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
                             new DatePickerDialog.OnDateSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     date.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
@@ -434,6 +494,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 }else{
                     dateEndPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
                             new DatePickerDialog.OnDateSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     date.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
