@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
@@ -30,7 +31,6 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
 
         Project project = (Project) getIntent().getSerializableExtra("project");
         bundle.putSerializable("project", project);
-
 
         BottomNavigationView botNav = findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navListener);
@@ -71,7 +71,7 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
     };
 
     public void onClick(View view){
-        ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl();
+        ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(new Session());
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure?");
         builder.setCancelable(true);
@@ -93,17 +93,14 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
 
                         new Thread(() -> {
                             try {
-                                String resultString = projectServiceImpl.projectDelete(project);
-                                System.out.println(resultString);
-
-                                if(Utils.isSuccess(resultString)) {
+                                projectServiceImpl.deleteProject(3L);
+                                if(Utils.isSuccess("hihi")) {
                                     runOnUiThread(() -> Snackbar.make(view, "done you fuck", Snackbar.LENGTH_LONG));
                                 }
                                 else {
                                     runOnUiThread(() -> Snackbar.make(view, "sum ting wong", Snackbar.LENGTH_LONG));
                                 }
                             } catch (Exception e) {
-
                                 runOnUiThread(() -> Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG));
                             }
                         }).start();

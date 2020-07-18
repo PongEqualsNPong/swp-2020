@@ -1,6 +1,9 @@
 package com.praktikum.spapp.dao.internal;
 
 import com.google.gson.JsonObject;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 import okhttp3.*;
@@ -8,13 +11,18 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+
+/**
+ * The abstract dao implementation class.
+ */
 public abstract class AbstractDao {
     protected Session session;
-    protected static OkHttpClient client;
+    protected static final OkHttpClient client = new OkHttpClient();
     protected static final String api = "http://192.168.178.176:8081";
     // need this for okhttp
     protected static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
+
 
     public Response httpRequestMaker(String path, String method, JsonObject json) throws IOException {
 
@@ -57,8 +65,12 @@ public abstract class AbstractDao {
     }
 
     public Response httpRequestMaker(String path, String method) throws IOException {
-
         return httpRequestMaker(path, method, new JsonObject());
+    }
 
+    public static void responseCheck(String responseString) throws ResponseException {
+        if (!Utils.isSuccess(responseString)) {
+            throw new ResponseException(Utils.parseForJsonObject(responseString, "error"));
+        }
     }
 }

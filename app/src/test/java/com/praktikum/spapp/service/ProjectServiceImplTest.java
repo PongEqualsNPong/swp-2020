@@ -1,53 +1,42 @@
 package com.praktikum.spapp.service;
 
+
+import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
+class ProjectServiceImplTest extends AbstractTestBundle {
 
-class ProjectServiceImplTest {
-    String USERNAME_ADMIN = "admin";
-    String USERNAME_USER = "user";
-    String PASSWORD_ADMIN = "password";
+    ProjectService adminService = new ProjectServiceImpl(SessionManager.getSession());
 
     @Test
-    void projectCreate() throws Exception {
+    public void testCreateDeleteProject() throws Exception {
+        int before = adminService.fetchAllProjects().size();
+        Project aProject = new Project();
+        aProject.setName("TESTESTPROJECT");
+        aProject.setDescription("This is a project description");
+        Long aProjectId = adminService.createProject(aProject);
 
-        AuthenticationServiceImpl.loginOnServer(USERNAME_ADMIN, PASSWORD_ADMIN);
-        AuthenticationServiceImpl.getSession().setAccessToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU5MTU3MzIzNCwiZXhwIjoxNTkxNjU5NjM0fQ.b4hxTAeww8biGC-MjHbqBiCTSN-UL_5cWxSiWWrxRoqqFMAlsARTgbcbHD8iyAjblvJv5QwUnkSMKHJvdFHZ1A");
+        int after = adminService.fetchAllProjects().size();
 
+        assertEquals(before + 1, after);
 
-        Project projectOne = new Project();
-        projectOne.setName("nazis klatschen");
-        projectOne.setDescription("wir verhauen faschos");
-        String result = new ProjectServiceImpl().projectCreate(projectOne);
-        assertTrue(result.contains("success:1"));
-
+        // cleanUp
+        adminService.deleteProject(aProjectId);
+        assertEquals(before, adminService.fetchAllProjects().size());
     }
 
     @Test
-    void fetchAllProjects() throws Exception {
-
-        AuthenticationServiceImpl.loginOnServer(USERNAME_USER, PASSWORD_ADMIN);
-
-        ArrayList<Project> result = new ProjectServiceImpl().fetchAllProjects();
-
+    public void testCreateFulProject() throws Exception {
+        Project aProject = new Project();
+        aProject.setName("FULLPROJECTCHIGGA");
+        aProject.setDescription("A project for rich chiggas");
+        //TODO
     }
 
-    @Test
-    void fetchAllProjectsDenied() throws Exception {
-        AuthenticationServiceImpl.loginOnServer(USERNAME_USER,PASSWORD_ADMIN);
 
-        ArrayList<Project> result = new ProjectServiceImpl().fetchAllProjects();
-        assertTrue(result.size() > 0);
-        assertEquals("Test_Projekt", result.get(0).getName());
-    }
 
-    @Test
-    void fetchProjectsOnlyFromUser() {
-    }
 }

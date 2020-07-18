@@ -1,16 +1,16 @@
 package com.praktikum.spapp.models;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.io.Serializable;
 
 public class Session implements Serializable {
 
-
     private String tokenType;
     private String accessToken;
-    private User currentUser;
-    //    private String password;
-
+    private String currentUsername;
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
@@ -28,12 +28,12 @@ public class Session implements Serializable {
         return accessToken;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public String getCurrentUsername() {
+        return currentUsername;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    public void setCurrentUsername(String currentUsername) {
+        this.currentUsername = currentUsername;
     }
 
 

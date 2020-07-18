@@ -6,6 +6,8 @@ import com.google.gson.JsonParser;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -45,10 +47,14 @@ public class Utils {
         JsonElement element = parser.parse(responseString);
         JsonObject resultAsJsonObject = element.getAsJsonObject();
         JsonElement bElement = resultAsJsonObject.get(jsonObject);
-        return bElement.toString();
+        if (bElement.isJsonArray()) {
+            return bElement.toString();
+        } else {
+            return bElement.getAsString();
+        }
     }
 
-    public static boolean isSuccess(String responseString) throws Exception {
+    public static boolean isSuccess(String responseString) {
 
         String isSuccess = parseForJsonObject(responseString, "success");
         if (isSuccess.contains("1")) {
@@ -56,6 +62,18 @@ public class Utils {
         } else {
             return false;
         }
+    }
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    public static boolean isEmail(String string) {
+        return Utils.validate(string);
     }
 
 }

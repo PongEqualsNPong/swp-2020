@@ -18,13 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.internal.AppointmentsService;
 import com.praktikum.spapp.common.DateStringSplitter;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.EditAppointmentForm;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -217,64 +214,51 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 buttonEditSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditAppointmentForm editAppointForm = new EditAppointmentForm();
-                        editAppointForm.setName(et_name.getText().toString());
-                        editAppointForm.setType(et_types.getSelectedItem().toString());
-                        editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(),et_startTime.getText().toString()));
-                        editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(),et_endTime.getText().toString()));
-                        editAppointForm.setDescription(et_description.getText().toString());
+                        JsonObject data = new JsonObject();
+                        data.addProperty("name",et_name.getText().toString());
+                        data.addProperty("type", et_types.getSelectedItem().toString());
+                        data.addProperty("startDate", DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(),et_startTime.getText().toString()));
+                        data.addProperty("endDate",DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(),et_endTime.getText().toString()));
+                        data.addProperty("description", et_description.getText().toString());
 
-                        String bodyJson = "";
-                        bodyJson += "{";
-                        bodyJson += "\"name\": \"" +editAppointForm.getName() + "\",";
-                        bodyJson += "\"description\": \"" +editAppointForm.getDescription() + "\",";
-                        bodyJson += "\"startDate\": \"" +editAppointForm.getStartDate() + "\",";
-                        bodyJson += "\"endDate\": \"" +editAppointForm.getEndDate() + "\"";
-                        if(!(editAppointForm.getType().equals("None"))) {
-                            bodyJson += ",\"type\": \"" + editAppointForm.getType().toUpperCase() + "\"";
-                        }
-                        bodyJson += "}";
-
-
-                        String finalBodyJson = bodyJson;
                         new Thread(() -> {
-                            try {
-                               String responseString = new AppointmentsService().appointmentUpdate(finalBodyJson,appointment.getId());
-                                if (Utils.isSuccess(responseString)) {
-                                    runOnUiThread(() -> {
-
-                                        editMode.set(false);
-                                        et_name.setEnabled(false);
-                                        et_startDate.setEnabled(false);
-                                        et_endDate.setEnabled(false);
-                                        et_description.setEnabled(false);
-                                        et_endTime.setEnabled(false);
-                                        et_startTime.setEnabled(false);
-                                        et_types.setEnabled(false);
-                                        buttonEaC.setText("Edit");
-                                        buttonEditSave.setVisibility(View.GONE);
-
-                                      /*  username.setText(editUserForm.getUsername());
-                                        email.setText(editUserForm.getEmail());
-                                        vorname.setText(editUserForm.getForename());
-                                        nachname.setText(editUserForm.getSurname());
-                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));*/
-                                        Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
-
-                                    });
-                               } else {
-                                    runOnUiThread(() -> {
-                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                    });
-
-                                }
-
-                            } catch (Exception e) {
-                                runOnUiThread(() -> {
-                                    Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                                });
-                            }
+//                            try {
+//                               String responseString = new AppointmentsServiceImpl().appointmentUpdate(finalBodyJson,appointment.getId());
+//                                if (Utils.isSuccess(responseString)) {
+//                                    runOnUiThread(() -> {
+//
+//                                        editMode.set(false);
+//                                        et_name.setEnabled(false);
+//                                        et_startDate.setEnabled(false);
+//                                        et_endDate.setEnabled(false);
+//                                        et_description.setEnabled(false);
+//                                        et_endTime.setEnabled(false);
+//                                        et_startTime.setEnabled(false);
+//                                        et_types.setEnabled(false);
+//                                        buttonEaC.setText("Edit");
+//                                        buttonEditSave.setVisibility(View.GONE);
+//
+//                                      /*  username.setText(editUserForm.getUsername());
+//                                        email.setText(editUserForm.getEmail());
+//                                        vorname.setText(editUserForm.getForename());
+//                                        nachname.setText(editUserForm.getSurname());
+//                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));*/
+//                                        Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
+//
+//
+//                                    });
+//                               } else {
+//                                    runOnUiThread(() -> {
+//                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+//                                    });
+//
+//                                }
+//
+//                            } catch (Exception e) {
+//                                runOnUiThread(() -> {
+//                                    Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+//                                });
+//                            }
 
 
                         }).start();
@@ -328,22 +312,22 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Thread(() -> {
-                    try {
-                        String responseString = new AppointmentsService().appointmentDelete(appointment.getId());
-                        if (Utils.isSuccess(responseString)) {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
-                            });
-                        } else {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                            });
-                        }
-                    } catch (Exception e) {
-                        runOnUiThread(() -> {
-                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                        });
-                    }
+//                    try {
+//                        String responseString = new AppointmentsServiceImpl(new Session()).appointmentDelete(appointment.getId());
+//                        if (Utils.isSuccess(responseString)) {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
+//                            });
+//                        } else {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+//                            });
+//                        }
+//                    } catch (Exception e) {
+//                        runOnUiThread(() -> {
+//                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+//                        });
+//                    }
                 }).start();
 
                 myDialog.dismiss();

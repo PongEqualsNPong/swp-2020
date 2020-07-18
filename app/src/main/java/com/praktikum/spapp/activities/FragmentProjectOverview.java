@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +8,18 @@ import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.ProjectService;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
@@ -29,6 +36,8 @@ public class FragmentProjectOverview extends Fragment {
 
     Button editAndSaveButton;
     Button deleteAndCancelButton;
+
+    ProjectService service = new ProjectServiceImpl(SessionManager.getSession());
 
     int editMode = 0;
 
@@ -99,52 +108,45 @@ public class FragmentProjectOverview extends Fragment {
                     break;
 
                 case 1:
-                    // save
-                    // SET THE FORM
 
-                    JSONObject editForm = new JSONObject();
-                    try {
-                        if (pdTitle.getText() != null) editForm.put("name", pdTitle.getText().toString());
-                        if (pdDescription.getText() != null)
-                            editForm.put("description", pdDescription.getText().toString());
-                        if (spinnerType.getSelectedItem().toString().equalsIgnoreCase("none"))
-                            editForm.put("projectType", spinnerType.getSelectedItem().toString());
-                        if (spinnerStatus.getSelectedItem().toString().equalsIgnoreCase("none"))
-                            editForm.put("projectStatus", spinnerStatus.getSelectedItem().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    /**
+                     * This should probably be handled differently. The JsonObject should be declared and initialized in the Service Class
+                     * in a way that the logic is encapsuled in the service. e.g. create a Map, call service.updateProject(ID, Map);
+                     *
+                     */
+                    JsonObject data = new JsonObject();
+                    if (pdTitle.getText() != null) data.addProperty("name", pdTitle.getText().toString());
+                    if (pdDescription.getText() != null)
+                        data.addProperty("description", pdDescription.getText().toString());
+                    if (spinnerType.getSelectedItem().toString().equalsIgnoreCase("none"))
+                        data.addProperty("projectType", spinnerType.getSelectedItem().toString());
+                    if (spinnerStatus.getSelectedItem().toString().equalsIgnoreCase("none"))
+                        data.addProperty("projectStatus", spinnerStatus.getSelectedItem().toString());
                     new Thread(() -> {
-
                         try {
-                            String responseString = new ProjectServiceImpl().editProject(editForm, project.getId());
-                            if (Utils.isSuccess(responseString)) {
-                                getActivity().runOnUiThread(() -> {
+                            service.updateProject(project.getId(), data);
+                            getActivity().runOnUiThread(() -> {
 
-                                    pdTitle.setEnabled(false);
-                                    pdDescription.setEnabled(false);
-                                    spinnerStatus.setEnabled(false);
-                                    spinnerType.setEnabled(false);
-                                    editAndSaveButton.setText("EDIT");
-                                    deleteAndCancelButton.setText("DELETE");
+                                pdTitle.setEnabled(false);
+                                pdDescription.setEnabled(false);
+                                spinnerStatus.setEnabled(false);
+                                spinnerType.setEnabled(false);
+                                editAndSaveButton.setText("EDIT");
+                                deleteAndCancelButton.setText("DELETE");
 
+                                Snackbar.make(view, "Hooray.", Snackbar.LENGTH_LONG).show();
+                                editMode -= 1;
+                            });
 
-                                    Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-                                    editMode -= 1;
-                                });
-                            } else {
-                                getActivity().runOnUiThread(() -> {
-                                    Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                });
-                            }
-                        } catch (Exception e) {
+                        } catch (ResponseException e) {
                             getActivity().runOnUiThread(() -> {
                                 Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
                             });
                         }
-
                     }).start();
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + editMode);
             }
         });
 
@@ -152,7 +154,36 @@ public class FragmentProjectOverview extends Fragment {
         deleteAndCancelButton.setOnClickListener((View view) -> {
             switch (editMode) {
                 case 0:
-                    // delete
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                    builder.setMessage("Are you sure?");
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    dialog.cancel();
+                                }
+                            }
+                    );
+                    builder.setNegativeButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new Thread(() -> {
+                                        try {
+                                            service.deleteProject(project.getId());
+                                            getActivity().runOnUiThread(() -> Snackbar.make(view, "Project succesfully deleted.", Snackbar.LENGTH_LONG));
+                                        } catch (ResponseException e) {
+                                            getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting Project failed", Snackbar.LENGTH_LONG));
+                                        }
+                                    }).start();
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
 
                 case 1:
                     // cancel

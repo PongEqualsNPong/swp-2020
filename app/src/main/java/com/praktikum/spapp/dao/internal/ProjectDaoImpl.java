@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.ProjectDao;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.Session;
 import okhttp3.Response;
@@ -20,76 +21,82 @@ public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
     }
 
     @Override
-    public Long createProject(Project project) {
+    public Long createProject(Project project) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(project));
         try {
             Response response = httpRequestMaker("/api/project/init", "post", data);
-            return Long.parseLong(Utils.parseForJsonObject(response.body().string(), "projectId"));
+            String responseString = response.body().string();
+            responseCheck(responseString);
+            String result = Utils.parseForJsonObject(responseString, "projectId");
+            return Long.parseLong(result);
         } catch (IOException e) {
-            return 0L;
+            throw new ResponseException(e);
         }
     }
 
     @Override
-    public Long createProjectFull(Project project) {
+    public Long createProjectFull(Project project) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(project));
         try {
             Response response = httpRequestMaker("/api/project/initFull", "post", data);
-            return Long.parseLong(Utils.parseForJsonObject(response.body().string(), "projectId"));
+            String responseString = response.body().string();
+            responseCheck(responseString);
+            return Long.parseLong(Utils.parseForJsonObject(responseString, "projectId"));
         } catch (IOException e) {
-            return 0L;
+            throw new ResponseException(e);
         }
     }
 
     @Override
-    public ArrayList<Project> fetchAllProjects() {
-        ArrayList<Project> list = null;
+    public ArrayList<Project> fetchAllProjects() throws ResponseException {
         try {
             Response response = this.httpRequestMaker("/api/project", "get");
-            String responseString = Utils.parseForJsonObject(response.body().toString(), "result");
-            return new Gson().fromJson(responseString, new TypeToken<ArrayList<Project>>() {
+            String responseString = response.body().string();
+            responseCheck(responseString);
+            String resultString = Utils.parseForJsonObject(responseString, "result");
+            return new Gson().fromJson(resultString, new TypeToken<ArrayList<Project>>() {
             }.getType());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
-        return list;
     }
 
     @Override
-    public ArrayList<Project> fetchCurrentUserProjects() {
+    public ArrayList<Project> fetchCurrentUserProjects() throws ResponseException {
         ArrayList<Project> list = null;
         try {
             Response response = this.httpRequestMaker("/api/project/", "get");
-            String responseString = Utils.parseForJsonObject(response.body().toString(), "result");
-            return new Gson().fromJson(responseString, new TypeToken<ArrayList<Project>>() {
+            String responseString = response.body().string();
+            responseCheck(responseString);
+            String resultString = Utils.parseForJsonObject(responseString, "result");
+            return new Gson().fromJson(resultString, new TypeToken<ArrayList<Project>>() {
             }.getType());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
-        return list;
     }
 
     @Override
-    public void updateProject(Long id, JsonObject data) {
+    public void updateProject(Long id, JsonObject data) throws ResponseException {
         try {
             Response response = this.httpRequestMaker("/api/project/" + id.toString(), "put", data);
-            if (Utils.isSuccess(response.body().string()));
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            String responseString = response.body().string();
+            responseCheck(responseString);
+        } catch (IOException e) {
+            throw new ResponseException(e);
         }
     }
 
     @Override
-    public void deleteProject(Long id) {
+    public void deleteProject(Long id) throws ResponseException {
         try {
-            Response response = this.httpRequestMaker("/api/project/" + id.toString(), "delete");
-            if (Utils.isSuccess(response.body().string())) ;
-
+            Response response = this.httpRequestMaker("/api/project/delete/" + id.toString(), "delete");
+            String responseString = response.body().string();
+            responseCheck(responseString);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
     }
 }

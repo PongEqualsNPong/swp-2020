@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.internal.CommentService;
+import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import com.praktikum.spapp.models.Comment;
 
 public class FragmentProjectComments extends Fragment {
@@ -37,7 +37,7 @@ public class FragmentProjectComments extends Fragment {
             try {
                 //HARDCODE FOR TESTING
                 //String responseString = new CommentService().commentDelete(1);
-                String responseString = new CommentService().commentDelete(comment.getId());
+                String responseString = new CommentServiceImpl().commentDelete(comment.getId());
 
                 Toast.makeText(getContext(), responseString, Toast.LENGTH_SHORT).show();
             } catch (Exception e) {

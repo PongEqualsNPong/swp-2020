@@ -1,21 +1,22 @@
 package com.praktikum.spapp.dao;
 
 import com.google.gson.JsonObject;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
 
 import java.util.ArrayList;
 
 public interface ProjectDao {
 
-    Long createProject(Project project);
+    Long createProject(Project project) throws ResponseException;
 
-    Long createProjectFull(Project project);
+    Long createProjectFull(Project project) throws ResponseException;
 
-    ArrayList<Project> fetchAllProjects();
+    ArrayList<Project> fetchAllProjects() throws ResponseException;
 
-    ArrayList<Project> fetchCurrentUserProjects();
+    ArrayList<Project> fetchCurrentUserProjects() throws ResponseException;
 
-    void updateProject(Long id, JsonObject data);
+    void updateProject(Long id, JsonObject data) throws ResponseException;
 
-    void deleteProject(Long id);
+    void deleteProject(Long id) throws ResponseException;
 }

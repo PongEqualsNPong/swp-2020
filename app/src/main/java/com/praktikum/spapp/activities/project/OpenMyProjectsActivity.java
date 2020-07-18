@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
@@ -22,8 +23,8 @@ public class OpenMyProjectsActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl();
-                this.projectArrayList = projectServiceImpl.fetchProjectsOnlyFromUser();
+                ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(new Session());
+                this.projectArrayList = projectServiceImpl.fetchCurrentUserProjects();
 
                 runOnUiThread(() -> {try {
                     initRecyclerView();
@@ -32,8 +33,6 @@ public class OpenMyProjectsActivity extends AppCompatActivity {
                 }});
 
 
-            } catch (IOException e) {
-                e.printStackTrace();
 
 //                runOnUiThread(() -> {
 //                    ;
