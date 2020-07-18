@@ -1,5 +1,7 @@
 package com.praktikum.spapp.common;
 
+import android.content.Context;
+
 public class DateStringSplitter {
 
     public static String datePrettyPrint(String date){
@@ -67,7 +69,7 @@ public class DateStringSplitter {
         return Integer.parseInt(minute);
     }
 
-    public static String changeToDateFormat(String date, String time){
+    public static String changeToDateFormat(String date, String time, Context context){
         String[] arrayDate = date.split("\\.");
         String[] arrayTime = time.split(":");
         String year = arrayDate[2];
@@ -80,6 +82,7 @@ public class DateStringSplitter {
         String[] hourLengthCheck = hour.split("");
         String minute = arrayTime[1].substring(0, 2);
         String[] minuteLengthCheck = minute.split("");
+        String locale = context.getResources().getConfiguration().locale.getCountry();
 
         return year + "-" + (monthLengthCheck.length == 1 ? "0" + month : month) + "-" + (dayLengthCheck.length == 1 ? "0" + day : day) + "T" + (hourLengthCheck.length == 1 ? "0" + hour : hour)+ ":" + (minuteLengthCheck.length == 1 ? "0" + minute : minute) + ":00.000000+02:00";
     }

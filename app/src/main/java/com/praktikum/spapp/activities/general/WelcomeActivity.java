@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activities.general;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,13 +38,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     Button buttonProjectDetails;
     Button buttonViewProjects;
     Button buttonAppointment;
-
+    Context wcontext;
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+            Intent intent = new Intent(wcontext, LoginActivity.class);
+            startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
+        wcontext = WelcomeActivity.this;
         buttonViewProfile = findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
 
@@ -68,6 +76,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     //    @Override
     public void onClick(View view) {
         //toast checking pw field is not null
+
         switch (view.getId()) {
 
             case R.id.button_viewprofile:
