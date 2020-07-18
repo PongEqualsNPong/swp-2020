@@ -23,12 +23,18 @@ import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.general.LoginActivity;
+import com.praktikum.spapp.activities.general.WelcomeActivity;
+import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.adapters.RecyclerViewAdapterAppointment;
 import com.praktikum.spapp.service.AppointmentsService;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.EditAppointmentForm;
+import com.praktikum.spapp.service.ProjectService;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -51,12 +57,17 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private Dialog myDialog;
     private Button button_delete_appointment_and_cancel;
     private Button button_export_to_calendar;
-
+    private Integer appointmentId;
+    ArrayList<Project> projectArrayList;
+    private Context aContext;
+    private boolean editedSaved = false;
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        // perform your action here
-
+        if(editedSaved) {
+            Intent intent = new Intent(aContext, WelcomeActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -78,8 +89,6 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         AtomicBoolean editMode = new AtomicBoolean(false);
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
-
-
 
         if(appointment.getType() != null) {
             int spinnerPosition = adapter.getPosition(appointment.getType().toString());
@@ -190,42 +199,66 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 buttonEditSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditAppointmentForm editAppointForm = new EditAppointmentForm();
-                        editAppointForm.setName(et_name.getText().toString());
-                        editAppointForm.setType(et_types.getSelectedItem().toString());
-                        editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(),et_startTime.getText().toString()));
-                        editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(),et_endTime.getText().toString()));
-                        editAppointForm.setDescription(et_description.getText().toString());
+                        Calendar beginTime = Calendar.getInstance();
 
-                        String bodyJson = "";
-                        bodyJson += "{";
-                        bodyJson += "\"name\": \"" +editAppointForm.getName() + "\",";
-                        bodyJson += "\"description\": \"" +editAppointForm.getDescription() + "\",";
-                        bodyJson += "\"startDate\": \"" +editAppointForm.getStartDate() + "\",";
-                        bodyJson += "\"endDate\": \"" +editAppointForm.getEndDate() + "\"";
-                        if(!(editAppointForm.getType().equals("None"))) {
-                            bodyJson += ",\"type\": \"" + editAppointForm.getType().toUpperCase() + "\"";
-                        }
-                        bodyJson += "}";
+                        Integer startYear = DateStringSplitter.yearPrettyPrint(appointment.getStartDate());
+                        Integer startMonth = DateStringSplitter.monthPrettyPrint(appointment.getStartDate());
+                        Integer startDay = DateStringSplitter.dayPrettyPrint(appointment.getStartDate());
+
+                        Integer startHour = DateStringSplitter.hourPrettyPrint(appointment.getStartDate());
+                        Integer startMinute = DateStringSplitter.monthPrettyPrint(appointment.getStartDate());
+
+                        beginTime.set(startYear, startMonth, startDay, startHour, startMinute);
+
+                        Calendar endTime = Calendar.getInstance();
+
+                        Integer endYear = DateStringSplitter.yearPrettyPrint(appointment.getEndDate());
+                        Integer endMonth = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
+                        Integer endDay = DateStringSplitter.dayPrettyPrint(appointment.getEndDate());
+
+                        Integer endHour = DateStringSplitter.hourPrettyPrint(appointment.getEndDate());
+                        Integer endMinute = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
+
+                        endTime.set(endYear, endMonth, endDay, endHour, endMinute);
+                        if(endTime.getTimeInMillis() < beginTime.getTimeInMillis()) {
+                            aContext = v.getContext();
+                            EditAppointmentForm editAppointForm = new EditAppointmentForm();
+                            editAppointForm.setName(et_name.getText().toString());
+                            editAppointForm.setType(et_types.getSelectedItem().toString());
+                            editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString()));
+                            editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString()));
+                            editAppointForm.setDescription(et_description.getText().toString());
+
+                            String bodyJson = "";
+                            bodyJson += "{";
+                            bodyJson += "\"name\": \"" + editAppointForm.getName() + "\",";
+                            bodyJson += "\"description\": \"" + editAppointForm.getDescription() + "\",";
+                            bodyJson += "\"startDate\": \"" + editAppointForm.getStartDate() + "\",";
+                            bodyJson += "\"endDate\": \"" + editAppointForm.getEndDate() + "\"";
+                            if (!(editAppointForm.getType().equals("None"))) {
+                                bodyJson += ",\"type\": \"" + editAppointForm.getType().toUpperCase() + "\"";
+                            }
+                            bodyJson += "}";
 
 
-                        String finalBodyJson = bodyJson;
-                        new Thread(() -> {
-                            try {
-                               String responseString = new AppointmentsService().appointmentUpdate(finalBodyJson,appointment.getId());
-                                if (Utils.isSuccess(responseString)) {
-                                    runOnUiThread(() -> {
+                            String finalBodyJson = bodyJson;
+                            new Thread(() -> {
+                                try {
+                                    String responseString = new AppointmentsService().appointmentUpdate(finalBodyJson, appointment.getId());
+                                    if (Utils.isSuccess(responseString)) {
+                                        runOnUiThread(() -> {
 
-                                        editMode.set(false);
-                                        et_name.setEnabled(false);
-                                        et_startDate.setEnabled(false);
-                                        et_endDate.setEnabled(false);
-                                        et_description.setEnabled(false);
-                                        et_endTime.setEnabled(false);
-                                        et_startTime.setEnabled(false);
-                                        et_types.setEnabled(false);
-                                        buttonEaC.setText("Edit");
-                                        buttonEditSave.setVisibility(View.GONE);
+                                            editMode.set(false);
+                                            et_name.setEnabled(false);
+                                            et_startDate.setEnabled(false);
+                                            et_endDate.setEnabled(false);
+                                            et_description.setEnabled(false);
+                                            et_endTime.setEnabled(false);
+                                            et_startTime.setEnabled(false);
+                                            et_types.setEnabled(false);
+                                            buttonEaC.setText("Edit");
+                                            buttonEditSave.setVisibility(View.GONE);
+                                            button_export_to_calendar.setVisibility(View.VISIBLE);
 
                                         /*
                                         username.setText(editUserForm.getUsername());
@@ -234,23 +267,28 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                                         nachname.setText(editUserForm.getSurname());
                                         matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
                                         */
-                                        Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
-                                    });
-                               } else {
-                                    runOnUiThread(() -> {
-                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                    });
+                                            editedSaved = true;
+                                            Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
 
+                                        });
+                                    } else {
+                                        runOnUiThread(() -> {
+                                            Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+                                        });
+
+                                    }
+
+                                } catch (Exception e) {
+                                    runOnUiThread(() -> {
+                                        Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+                                    });
                                 }
 
-                            } catch (Exception e) {
-                                runOnUiThread(() -> {
-                                    Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                                });
-                            }
 
-
-                        }).start();
+                            }).start();
+                        }else{
+                            Snackbar.make(view, "The start date cannot be later than the end date!", Snackbar.LENGTH_LONG).show();
+                        }
                     }
 
                 });
