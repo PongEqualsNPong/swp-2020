@@ -48,8 +48,8 @@ public class FragmentProjectComments extends Fragment {
 
 
 
-        commentDeleteButton = view.findViewById(R.id.comment_delete_button);
-        commentViewallButton = view.findViewById(R.id.comment_viewall_button);
+        //commentDeleteButton = view.findViewById(R.id.comment_delete_button);
+        //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
