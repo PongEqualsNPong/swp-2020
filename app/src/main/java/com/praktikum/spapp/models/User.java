@@ -12,6 +12,7 @@ public class User implements Serializable {
     private String email;
     private ArrayList<Role> roles;
     private UserInfo userInfo;
+    private Role role;
 
 
     public int getId() {
@@ -25,6 +26,8 @@ public class User implements Serializable {
     public ArrayList<Role> getRoles() {
         return roles;
     }
+
+    public Role getRole() {return role;}
 
     public void setRoles(ArrayList<Role> roles) {
         this.roles = roles;

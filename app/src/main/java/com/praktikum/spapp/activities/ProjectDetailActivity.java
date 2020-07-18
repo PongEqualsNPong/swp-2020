@@ -17,7 +17,7 @@ import com.praktikum.spapp.models.Project;
 
 import static java.lang.Integer.parseInt;
 
-public class ProjectDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProjectDetailActivity extends AppCompatActivity {
 
     Bundle bundle = new Bundle();
     Button button_delete ;
@@ -42,6 +42,7 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     beginActivity).commit();
         }
+
 
        // button_delete = findViewById(R.id.projectdetail_buttonDelete);
        // button_delete.setOnClickListener(this);
@@ -70,48 +71,4 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
         return true;
     };
 
-    public void onClick(View view){
-        ProjectService projectService = new ProjectService();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure?");
-        builder.setCancelable(true);
-        builder.setPositiveButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.cancel();
-                    }
-                }
-        );
-        builder.setNegativeButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Project project = (Project) getIntent().getSerializableExtra("project");
-
-                        new Thread(() -> {
-                            try {
-                                String resultString = projectService.projectDelete(project);
-                                System.out.println(resultString);
-
-                                if(Utils.isSuccess(resultString)) {
-                                    runOnUiThread(() -> Snackbar.make(view, "done you fuck", Snackbar.LENGTH_LONG));
-                                }
-                                else {
-                                    runOnUiThread(() -> Snackbar.make(view, "sum ting wong", Snackbar.LENGTH_LONG));
-                                }
-                            } catch (Exception e) {
-
-                                runOnUiThread(() -> Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG));
-                            }
-                        }).start();
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 }

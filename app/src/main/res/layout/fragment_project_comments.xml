@@ -13,17 +13,28 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
-        android:id="@+id/comment_viewall_button"
-        android:layout_width="206dp"
+        android:id="@+id/comment_delete_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/comment_recycler_view"
-        android:layout_below="@+id/comment_delete_button"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="-43dp"
-        android:layout_marginBottom="-93dp"
-        android:layout_toEndOf="@+id/comment_delete_button"
-        android:layout_toRightOf="@+id/comment_delete_button"
-        android:text="All Comments" />
+        android:text="Delete" />
 
+    <Button
+        android:id="@+id/comment_set_public"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toEndOf="@+id/comment_viewall_button"
+        android:layout_toRightOf="@+id/comment_viewall_button"
+        android:text="Set Public" />
+
+    <Button
+        android:id="@+id/comment_set_restricted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_toEndOf="@+id/comment_set_public"
+        android:layout_toRightOf="@+id/comment_set_public"
+        android:text="Set Restricted" />
 </RelativeLayout>
