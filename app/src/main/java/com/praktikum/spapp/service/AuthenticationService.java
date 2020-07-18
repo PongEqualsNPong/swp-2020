@@ -44,6 +44,7 @@ public class AuthenticationService extends Service {
 
         //if login successful then set token with the currentUser
         if(Utils.isSuccess(responseString)){
+            //responseString.replace('\"', '\'');
             setToken(gson.fromJson(responseString, new TypeToken<Token>() {
             }.getType()));
             AuthenticationService.getToken().setPassword(password);

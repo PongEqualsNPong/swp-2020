@@ -43,8 +43,8 @@ public class ProjectDetailActivity extends AppCompatActivity implements View.OnC
                     beginActivity).commit();
         }
 
-        button_delete = findViewById(R.id.projectdetail_buttonDelete);
-        button_delete.setOnClickListener(this);
+       // button_delete = findViewById(R.id.projectdetail_buttonDelete);
+       // button_delete.setOnClickListener(this);
 
     }
 
