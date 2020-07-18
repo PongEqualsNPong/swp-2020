@@ -47,6 +47,19 @@
         app:layout_constraintVertical_bias="0.27"
         tools:ignore="MissingConstraints" />
 
+    <Button
+        android:id="@+id/button_export_to_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:text="Export to Calendar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_delete_appointment_and_cancel"
+        app:layout_constraintVertical_bias="0.248"
+        tools:ignore="MissingConstraints" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/name"
         android:layout_width="match_parent"

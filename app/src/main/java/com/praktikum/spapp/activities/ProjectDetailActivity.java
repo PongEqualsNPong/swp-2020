@@ -44,6 +44,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
         }
 
 
+       // button_delete = findViewById(R.id.projectdetail_buttonDelete);
+       // button_delete.setOnClickListener(this);
 
     }
 
