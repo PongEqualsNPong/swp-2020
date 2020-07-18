@@ -146,8 +146,8 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                 EditAppointmentForm editAppointForm = new EditAppointmentForm();
                 editAppointForm.setName(ct_name.getText().toString());
                 editAppointForm.setType(ct_types.getSelectedItem().toString());
-                editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString()));
-                editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString()));
+                editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(),view.getContext()));
                 editAppointForm.setDescription(ct_description.getText().toString());
 
                 String bodyJson = "";
