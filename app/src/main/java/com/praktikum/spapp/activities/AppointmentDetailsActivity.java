@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,7 +50,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private TimePickerDialog timeEndPicker;
     private Dialog myDialog;
     private Button button_delete_appointment_and_cancel;
-
+    private Button button_export_to_calendar;
 
     @Override
     public void onBackPressed() {
@@ -85,6 +88,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
 
         //set button
+        button_export_to_calendar = findViewById(R.id.button_export_to_calendar);
         Button buttonEaC = findViewById(R.id.button_edit_appointment_and_cancel);
         Button buttonEditSave = findViewById(R.id.button_save_appointment);
         button_delete_appointment_and_cancel = (Button) findViewById(R.id.button_delete_appointment_and_cancel);
@@ -94,93 +98,61 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                ShowPopup(appointment, v);
             }
         });
+
         et_startDate = (EditText) findViewById(R.id.et_startDate);
-        et_startDate.setInputType(InputType.TYPE_NULL);
-        et_startDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                dateStartPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                et_startDate.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
-                            }
-                        }, DateStringSplitter.yearPrettyPrint(appointment.getStartDate()), DateStringSplitter.monthPrettyPrint(appointment.getStartDate()), DateStringSplitter.dayPrettyPrint(appointment.getStartDate()));
-                dateStartPicker.show();
-            }
-        });
+        this.setDate(et_startDate, appointment);
 
         et_startTime = (EditText) findViewById(R.id.et_startTime);
-        et_startTime.setInputType(InputType.TYPE_NULL);
-        et_startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                timeStartPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                et_startTime.setText(sHour + ":" + sMinute + " Uhr");
-                            }
-                        },DateStringSplitter.hourPrettyPrint(appointment.getStartDate()), DateStringSplitter.minutePrettyPrint(appointment.getStartDate()), true);
-                timeStartPicker.show();
-            }
-        });
+        this.setTime(et_startTime, appointment);
 
         et_endDate = (EditText) findViewById(R.id.et_endDate);
-        et_endDate.setInputType(InputType.TYPE_NULL);
-        et_endDate.setOnClickListener(new View.OnClickListener() {
+        this.setDate(et_endDate, appointment);
+
+        et_endTime = (EditText) findViewById(R.id.et_endTime);
+        this.setTime(et_endTime, appointment);
+
+
+        button_export_to_calendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                dateEndPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                et_endDate.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
-                            }
-                        },DateStringSplitter.yearPrettyPrint(appointment.getEndDate()), DateStringSplitter.monthPrettyPrint(appointment.getEndDate()), DateStringSplitter.dayPrettyPrint(appointment.getEndDate()));
-                dateEndPicker.show();
+                Calendar beginTime = Calendar.getInstance();
+
+                Integer startYear = DateStringSplitter.yearPrettyPrint(appointment.getStartDate());
+                Integer startMonth = DateStringSplitter.monthPrettyPrint(appointment.getStartDate());
+                Integer startDay = DateStringSplitter.dayPrettyPrint(appointment.getStartDate());
+
+                Integer startHour = DateStringSplitter.hourPrettyPrint(appointment.getStartDate());
+                Integer startMinute = DateStringSplitter.monthPrettyPrint(appointment.getStartDate());
+
+                beginTime.set(startYear, startMonth, startDay, startHour, startMinute);
+
+                Calendar endTime = Calendar.getInstance();
+
+                Integer endYear = DateStringSplitter.yearPrettyPrint(appointment.getEndDate());
+                Integer endMonth = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
+                Integer endDay = DateStringSplitter.dayPrettyPrint(appointment.getEndDate());
+
+                Integer endHour = DateStringSplitter.hourPrettyPrint(appointment.getEndDate());
+                Integer endMinute = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
+
+                endTime.set(endYear, endMonth, endDay, endHour, endMinute);
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+               .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
+                        .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
+                        .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
+                        .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
+                v.getContext().startActivity(intent);
             }
         });
 
-        et_endTime = (EditText) findViewById(R.id.et_endTime);
-        et_endTime.setInputType(InputType.TYPE_NULL);
-        et_endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                timeEndPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                et_endTime.setText(sHour + ":" + sMinute + " Uhr");
-                            }
-                        }, DateStringSplitter.hourPrettyPrint(appointment.getEndDate()), DateStringSplitter.minutePrettyPrint(appointment.getEndDate()), true);
-                timeEndPicker.show();
-            }
-        });
 
         //set bind ETs and set values
         et_name = findViewById(R.id.et_name);
         et_name.setText(appointment.getName());
-
-
 
         et_startDate = findViewById(R.id.et_startDate);
         et_startDate.setText(DateStringSplitter.datePrettyPrint(appointment.getStartDate()));
@@ -212,6 +184,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
                 buttonEaC.setText("Cancel");
                 buttonEditSave.setVisibility(View.VISIBLE);
+                button_export_to_calendar.setVisibility(View.GONE);
 
 
                 buttonEditSave.setOnClickListener(new View.OnClickListener() {
@@ -254,14 +227,14 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                                         buttonEaC.setText("Edit");
                                         buttonEditSave.setVisibility(View.GONE);
 
-                                      /*  username.setText(editUserForm.getUsername());
+                                        /*
+                                        username.setText(editUserForm.getUsername());
                                         email.setText(editUserForm.getEmail());
                                         vorname.setText(editUserForm.getForename());
                                         nachname.setText(editUserForm.getSurname());
-                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));*/
-                                        Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
-
+                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
+                                        */
+                                        Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
                                     });
                                } else {
                                     runOnUiThread(() -> {
@@ -301,6 +274,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 et_types.setEnabled(false);
                 buttonEaC.setText("Edit");
                 buttonEditSave.setVisibility(View.GONE);
+                button_export_to_calendar.setVisibility(View.VISIBLE);
 
 
             }
@@ -357,5 +331,48 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         });
         myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         myDialog.show();
+    }
+
+    public void setTime(EditText time, Appointment appointment) {
+        time.setInputType(InputType.TYPE_NULL);
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int hour = cldr.get(Calendar.HOUR_OF_DAY);
+                int minutes = cldr.get(Calendar.MINUTE);
+                // time picker dialog
+                timeStartPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                time.setText(sHour + ":" + sMinute + " Uhr");
+                            }
+                        },DateStringSplitter.hourPrettyPrint(appointment.getStartDate()), DateStringSplitter.minutePrettyPrint(appointment.getStartDate()), true);
+                timeStartPicker.show();
+            }
+        });
+    }
+
+    public void setDate(EditText date, Appointment appointment) {
+        date.setInputType(InputType.TYPE_NULL);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                dateStartPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                date.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
+                            }
+                        }, DateStringSplitter.yearPrettyPrint(appointment.getStartDate()), DateStringSplitter.monthPrettyPrint(appointment.getStartDate()), DateStringSplitter.dayPrettyPrint(appointment.getStartDate()));
+                dateStartPicker.show();
+            }
+        });
     }
 }
