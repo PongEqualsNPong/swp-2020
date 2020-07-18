@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.text.InputType;
@@ -89,7 +91,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         AtomicBoolean editMode = new AtomicBoolean(false);
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
-
+        long appointmentId = (long) getIntent().getSerializableExtra("appointmentId");
         if(appointment.getType() != null) {
             int spinnerPosition = adapter.getPosition(appointment.getType().toString());
             et_types.setSelection(spinnerPosition);
@@ -197,6 +199,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
 
                 buttonEditSave.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(View v) {
                         Calendar beginTime = Calendar.getInstance();

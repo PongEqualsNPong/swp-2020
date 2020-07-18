@@ -1,9 +1,11 @@
 package com.praktikum.spapp.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -140,6 +142,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
         ct_name = findViewById(R.id.ct_name);
         ct_description = findViewById(R.id.ct_description);
         button_create_appointment.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
 
