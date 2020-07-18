@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
 
 import org.json.JSONObject;
@@ -43,9 +44,9 @@ public class AppointmentsService {
         }
     }
 
-    public String appointmentFetch() throws Exception {
+    public String appointmentFetch(Integer appointmentId) throws Exception {
 
-        Request request = HttpClient.httpRequestMaker("/api/project/1/appointments", "get");
+        Request request = HttpClient.httpRequestMaker("/api/project/" + "" + appointmentId + "/appointments", "get");
         Response response = client.newCall(request).execute();
 
         String responseString = response.body().string();
@@ -55,9 +56,9 @@ public class AppointmentsService {
         String successString = Utils.parseForJsonObject(responseString,"result");
 
         if (isRefreshed) {
-            return appointmentFetch();
+            return appointmentFetch(appointmentId);
         } else {
-            return new Gson().fromJson(successString, new TypeToken<ArrayList<Project>>() {
+            return new Gson().fromJson(successString, new TypeToken<ArrayList<Appointment>>() {
             }.getType());
         }
     }
