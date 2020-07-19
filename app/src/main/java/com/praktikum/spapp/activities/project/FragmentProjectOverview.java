@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
 import android.content.DialogInterface;
 import android.os.Bundle;

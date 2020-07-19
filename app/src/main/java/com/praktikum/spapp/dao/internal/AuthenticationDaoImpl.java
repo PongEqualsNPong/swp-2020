@@ -3,7 +3,6 @@ package com.praktikum.spapp.dao.internal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.AuthenticationDao;
 import com.praktikum.spapp.models.Session;
@@ -12,13 +11,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.internal.Util;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthenticationDaoImpl extends AbstractDao implements AuthenticationDao {
+public class AuthenticationDaoImpl extends AbstractDaoImpl implements AuthenticationDao {
 
     public Session logon(String nameOrEmail, String password) {
         Session session = null;

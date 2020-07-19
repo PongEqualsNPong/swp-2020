@@ -16,7 +16,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class UserDaoImpl extends AbstractDao implements UserDao {
+public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     public UserDaoImpl(Session session) {
         this.session = session;

@@ -14,7 +14,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AppointmentDaoImpl extends AbstractDao implements AppointmentDao {
+public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDao {
 
     public AppointmentDaoImpl(Session session) {
         this.session = session;

@@ -2,12 +2,10 @@ package com.praktikum.spapp.dao.internal;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.CommentDao;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Session;
 import okhttp3.Response;
@@ -15,7 +13,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CommentDaoImpl extends AbstractDao implements CommentDao {
+public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
 
     public CommentDaoImpl(Session session) {
         this.session = session;

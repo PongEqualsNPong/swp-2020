@@ -14,7 +14,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
+public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
 
     public ProjectDaoImpl(Session session) {
         this.session = session;

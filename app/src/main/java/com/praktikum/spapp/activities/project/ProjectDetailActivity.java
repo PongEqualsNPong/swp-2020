@@ -1,19 +1,11 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.project;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.models.Session;
-import com.praktikum.spapp.service.internal.ProjectServiceImpl;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 
 import static java.lang.Integer.parseInt;

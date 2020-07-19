@@ -48,7 +48,7 @@
                 android:name=".activities.project.OpenAllProjectsActivity"
                 android:label="Projects"/>
         <activity
-                android:name=".activities.ProjectDetailActivity"
+                android:name=".activities.project.ProjectDetailActivity"
                 android:label="Project"/>
         <activity android:name=".activities.user.CheckForInviteActivity_Page2"/>
 
