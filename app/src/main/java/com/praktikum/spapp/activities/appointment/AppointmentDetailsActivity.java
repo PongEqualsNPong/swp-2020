@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.general.WelcomeActivity;
 import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.service.AppointmentService;
@@ -85,6 +86,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         Spinner et_types = (Spinner) findViewById(R.id.et_types);
         et_types.setEnabled(false);
         myDialog = new Dialog(this);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.appointment_types, android.R.layout.simple_spinner_item);
@@ -267,7 +269,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
                             new Thread(() -> {
                                 try {
-                                    Appointment result = service.updateAppointment(data, appointment.getId());
+                                    service.updateAppointment(data, appointment.getId());
                                     runOnUiThread(() -> {
 
                                         editMode.set(false);
@@ -283,11 +285,13 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                                         button_export_to_calendar.setVisibility(View.VISIBLE);
 
 
-                                        et_name.setText(result.getName());
+                                        /*et_name.setText(result.getName());
                                         et_startDate.setText(result.getStartDate());
                                         et_endDate.setText(result.getEndDate());
                                         et_description.setText(result.getDescription());
 
+
+                                         */
                                         editedSaved = true;
                                         Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
 
@@ -353,22 +357,16 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Thread(() -> {
-//                    try {
-//                        String responseString = new AppointmentsServiceImpl(new Session()).appointmentDelete(appointment.getId());
-//                        if (Utils.isSuccess(responseString)) {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
-//                            });
-//                        } else {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-//                            });
-//                        }
-//                    } catch (Exception e) {
-//                        runOnUiThread(() -> {
-//                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-//                        });
-//                    }
+                    try {
+                        service.deleteAppointment(appointment.getId());
+                        Snackbar.make(view, "You deleted this appointment.", Snackbar.LENGTH_LONG).show();
+                        aContext = v.getContext();
+                        editedSaved = true;
+                    } catch (ResponseException e) {
+                        runOnUiThread(() -> {
+                            Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                        });
+                   }
                 }).start();
 
                 myDialog.dismiss();

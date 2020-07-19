@@ -32,6 +32,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
         if(changed){
             botNav.setSelectedItemId(R.id.nav_project_appointments);
         }
+
         botNav.setOnNavigationItemSelectedListener(navListener);
 
         Fragment beginActivity = new FragmentProjectOverview();
@@ -39,11 +40,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
         if(changed){
             if (savedInstanceState == null) {
-
                 Fragment appointmentDefault = new FragmentProjectAppointments();
                 appointmentDefault.setArguments(bundle);
-
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         appointmentDefault).commit();
             }

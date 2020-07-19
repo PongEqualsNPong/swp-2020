@@ -30,8 +30,8 @@ public class AppointmentServiceImpl extends Service implements AppointmentServic
     }
 
     @Override
-    public Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
-        return dao.updateAppointment(data, appointmentId);
+    public void updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
+        dao.updateAppointment(data, appointmentId);
     }
 
     @Override

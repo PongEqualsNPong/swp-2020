@@ -152,30 +152,60 @@ public class CreateAppointmentActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                JsonObject data = new JsonObject();
-                data.addProperty("name", ct_name.getText().toString());
-                data.addProperty("description", ct_description.getText().toString());
-                data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
-                data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
-                if(!(ct_types.getSelectedItem().toString().toUpperCase().equals("NONE"))) {
-                    data.addProperty("type", ct_types.getSelectedItem().toString().toUpperCase());
-                }
-                new Thread(() -> {
-                    try {
-                        appointmentService.createAppointment(data, project.getId());
-                        runOnUiThread(() -> {
-                            Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
-                            intent.putExtra("project", project);
-                            intent.putExtra("changed", true);
-                            startActivity(intent);
-                        });
-                    } catch (ResponseException e) {
-                        runOnUiThread(() -> {
-                            Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
-                        });
+                Calendar beginTime = Calendar.getInstance();
+
+                Integer startYear = DateStringSplitter.yearPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startMonth = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startDay = DateStringSplitter.dayPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+
+                Integer startHour = DateStringSplitter.hourPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startMinute = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+
+                beginTime.set(startYear, startMonth, startDay, startHour, startMinute);
+
+                Calendar endTime = Calendar.getInstance();
+
+                Integer endYear = DateStringSplitter.yearPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endMonth = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endDay = DateStringSplitter.dayPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+
+                Integer endHour = DateStringSplitter.hourPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endMinute = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+
+                endTime.set(endYear, endMonth, endDay, endHour, endMinute);
+                long csdfd = endTime.getTimeInMillis();
+                long sdofkn = beginTime.getTimeInMillis();
+                if (!(endTime.getTimeInMillis() < beginTime.getTimeInMillis())) {
+
+
+                    JsonObject data = new JsonObject();
+                    data.addProperty("name", ct_name.getText().toString());
+                    data.addProperty("description", ct_description.getText().toString());
+                    data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                    data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                    if (!(ct_types.getSelectedItem().toString().toUpperCase().equals("NONE"))) {
+                        data.addProperty("type", ct_types.getSelectedItem().toString().toUpperCase());
                     }
-                }).start();
+                        new Thread(() -> {
+                            try {
+                                appointmentService.createAppointment(data, project.getId());
+                                runOnUiThread(() -> {
+                                    Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
+                                    intent.putExtra("project", project);
+                                    intent.putExtra("changed", true);
+                                    startActivity(intent);
+                                });
+                            } catch (ResponseException e) {
+                                runOnUiThread(() -> {
+                                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                                });
+                            }
+                        }).start();
+                }else{
+                    Snackbar.make(view, "The start date cannot be later than the end date!", Snackbar.LENGTH_LONG).show();
+                }
             }
+
         });
 
     }

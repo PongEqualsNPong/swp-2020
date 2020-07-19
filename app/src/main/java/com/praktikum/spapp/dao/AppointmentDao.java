@@ -12,7 +12,7 @@ public interface AppointmentDao {
 
     ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException;
 
-    Appointment updateAppointment(JsonObject data, Long projectId) throws ResponseException;
+    void updateAppointment(JsonObject data, Long projectId) throws ResponseException;
 
     void deleteAppointment(Long projectId) throws ResponseException;
 

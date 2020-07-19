@@ -121,7 +121,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         try {
             Response response = httpRequestMaker("/api/user/getUserByUserName/" + username, requestTypes.GET);
             String responseString = response.body().string();
-            responseCheck(responseString);
+            //responseCheck(responseString);
             user = new Gson().fromJson(responseString, new TypeToken<User>() {
             }.getType());
             return user;
