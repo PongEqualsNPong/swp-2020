@@ -81,7 +81,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     @Override
     public void updateProject(Long id, JsonObject data) throws ResponseException {
         try {
-            Response response = this.httpRequestMaker("/api/project/" + id.toString(), requestTypes.PUT, data);
+            Response response = this.httpRequestMaker("/api/project/update/" + id.toString(), requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {

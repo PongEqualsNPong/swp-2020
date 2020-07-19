@@ -3,14 +3,16 @@ package com.praktikum.spapp.service;
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.models.InviteForm;
+import com.praktikum.spapp.models.RegisterForm;
 import com.praktikum.spapp.models.User;
+import com.praktikum.spapp.models.enums.Role;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UserServiceImplTest extends AbstractTestBundle {
 
@@ -45,8 +47,49 @@ public class UserServiceImplTest extends AbstractTestBundle {
         result = adminService.getUserByEmail(dbModEmail);
 
         assertEquals("t_mod", result.getUsername());
+    }
 
+    @Test
+    public void testInviteUser() throws ResponseException {
+        InviteForm form = new InviteForm();
+        form.setEmail("haha@ausgedachte.email");
+        /* Do not set this. If no Processor is set then the new User will be a Processor */
+//        form.setProjectRights(InviteForm.projectRights.processor);
+        /* Do not set this. If no ID is set then the new User will be in no Project */
+//        form.setProjectId(1L);
+        form.setRole(Role.ROLE_USER);
+        String link = adminService.inviteUser(form);
+        assertNotNull(link);
+        assertTrue(link.length() > 0);
+        System.out.println(link);
+    }
 
+    @Test
+    public void testAcceptInvite() throws ResponseException {
+        int before = adminService.fetchAll().size();
+        // ramp up
+        InviteForm iForm = new InviteForm();
+        iForm.setEmail("haha@ausgedachte.email");
+        iForm.setRole(Role.ROLE_USER);
+        String link = adminService.inviteUser(iForm);
+
+        RegisterForm rForm = new RegisterForm();
+        rForm.setUsername("HomoDeus");
+        rForm.setForename("Yuval");
+        rForm.setSurname("Harrari");
+        rForm.setStudentNumber(123456L);
+        rForm.setPassword("21Lessons");
+        rForm.setCourseOfStudy("Sith Marauder Academy");
+        rForm.setExaminationRegulations("The Rule of Two");
+
+        UserService sessionlessService = new UserServiceImpl();
+        sessionlessService.acceptInvite(rForm, link);
+
+        assertEquals(before + 1, adminService.fetchAll().size());
+        assertNotNull(adminService.getUserByUsername("HomoDeus"));
+
+        // clean up
+        adminService.deleteUserByEmailHard("haha@ausgedachte.email");
     }
 
 }

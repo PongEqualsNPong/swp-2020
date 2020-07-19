@@ -52,7 +52,7 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     @Override
     public Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), requestTypes.POST);
+            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "appointment");

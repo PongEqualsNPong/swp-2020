@@ -22,12 +22,14 @@ import java.util.ArrayList;
 public class UserServiceImpl extends Service implements UserService {
     UserDao dao;
 
-
     public UserServiceImpl(Session session) {
         this.session = session;
         this.dao = new UserDaoImpl(session);
     }
 
+    public UserServiceImpl() {
+        this.dao = new UserDaoImpl();
+    }
 
     @Override
     public String inviteUser(InviteForm form) throws ResponseException {
@@ -35,8 +37,8 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void acceptInvite(RegisterForm form) throws ResponseException {
-        dao.acceptInvite(form);
+    public void acceptInvite(RegisterForm form, String invitationLinkUrl) throws ResponseException {
+        dao.acceptInvite(form, invitationLinkUrl);
     }
 
     @Override
@@ -70,17 +72,17 @@ public class UserServiceImpl extends Service implements UserService {
     }
 
     @Override
-    public void deleteUserByEmailHard(String email) {
-
+    public void deleteUserByEmailHard(String email) throws ResponseException {
+        dao.deleteUserByEmailHard(email);
     }
 
     @Override
-    public void deleteUserByEmail(String email) {
-
+    public void deleteUserByEmail(String email) throws ResponseException {
+        dao.deleteUserByEmail(email);
     }
 
     @Override
-    public void deleteUserSelf() {
-
+    public void deleteUserSelf() throws ResponseException {
+        dao.deleteUserSelf();
     }
 }

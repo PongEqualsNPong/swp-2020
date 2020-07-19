@@ -91,12 +91,12 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
 
         InviteForm inviteForm = new InviteForm();
         inviteForm.setEmail(etInputEmail.getText().toString());
-        inviteForm.setProjectId(Integer.parseInt(etInputProjectId.getText().toString()));
+        inviteForm.setProjectId(Long.parseLong(etInputProjectId.getText().toString()));
         if (cbIsHandler.isChecked()) {
-            inviteForm.setProjectRights("handler");
+            inviteForm.setProjectRights(InviteForm.projectRights.handler);
         }
         if(cbIsProcessor.isChecked()) {
-            inviteForm.setProjectRights("processor");
+            inviteForm.setProjectRights(InviteForm.projectRights.processor);
         }
         if(!isAdmin.isChecked()) {
             inviteForm.setRole(Role.ROLE_USER);

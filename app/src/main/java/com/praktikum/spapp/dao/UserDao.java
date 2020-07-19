@@ -12,7 +12,7 @@ public interface UserDao {
 
     String inviteUser(InviteForm form) throws ResponseException;
 
-    void acceptInvite(RegisterForm form) throws ResponseException;
+    void acceptInvite(RegisterForm form, String invitationLinkUrl) throws ResponseException;
 
     ArrayList<User> fetchAll() throws ResponseException;
 
@@ -26,11 +26,11 @@ public interface UserDao {
 
     User getUserByUsername(String username) throws ResponseException;
 
-    void deleteUserByEmailHard(String email);
+    void deleteUserByEmailHard(String email) throws ResponseException;
 
-    void deleteUserByEmail(String email);
+    void deleteUserByEmail(String email) throws ResponseException;
 
-    void deleteUserSelf();
+    void deleteUserSelf() throws ResponseException;
 
 
 
