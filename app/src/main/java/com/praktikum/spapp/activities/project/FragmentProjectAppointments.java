@@ -45,6 +45,7 @@ public class FragmentProjectAppointments extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         button_create_appointment = view.findViewById(R.id.button_create_appointment);
         Project project = (Project) getArguments().getSerializable("project");
+        boolean changed = (boolean) getArguments().getSerializable("changed");
         button_create_appointment.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), CreateAppointmentActivity.class);
             intent.putExtra("project", project);
@@ -52,21 +53,21 @@ public class FragmentProjectAppointments extends Fragment {
         });
 
 
-        appointments = project.getAppointments();
+        new Thread(() -> {
+            try {
+                newAppointments = appointmentService.fetchAppointments(project.getId());
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            newAppointments = appointmentService.fetchAppointments(project.getId());
-        } catch (ResponseException e) {
-            e.printStackTrace();
-        }
-        if(appointments.size() != newAppointments.size()){
-            adapter = new RecyclerViewAdapterAppointment(newAppointments, view.getContext());
-            recyclerView.setAdapter(adapter);
-            Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-        }else{
-            adapter = new RecyclerViewAdapterAppointment(appointments, view.getContext());
-            recyclerView.setAdapter(adapter);
-        }
+            getActivity().runOnUiThread(() -> {
+                adapter = new RecyclerViewAdapterAppointment(newAppointments, view.getContext());
+                recyclerView.setAdapter(adapter);
+                if(changed) {
+                    Snackbar.make(view, "Your changes have been saved.", Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }).start();
 
 
 

@@ -2,6 +2,8 @@ package com.praktikum.spapp.activities.appointment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -17,6 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.general.WelcomeActivity;
 import com.praktikum.spapp.activities.project.FragmentProjectAppointments;
+import com.praktikum.spapp.activities.project.FragmentProjectOverview;
+import com.praktikum.spapp.activities.project.ProjectDetailActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.common.Utils;
@@ -160,16 +164,16 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                     try {
                         appointmentService.createAppointment(data, project.getId());
                         runOnUiThread(() -> {
-                                Intent intent = new Intent(view.getContext(), FragmentProjectAppointments.class);
-                                startActivity(intent);
-                            });
+                            Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
+                            intent.putExtra("project", project);
+                            intent.putExtra("changed", true);
+                            startActivity(intent);
+                        });
                     } catch (ResponseException e) {
                         runOnUiThread(() -> {
                             Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                         });
                     }
-
-
                 }).start();
             }
         });
