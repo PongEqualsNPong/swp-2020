@@ -10,10 +10,17 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.DateStringSplitter;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.service.AppointmentService;
+import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,6 +43,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_appointment);
+        AppointmentService appointmentService = new AppointmentServiceImpl(SessionManager.getSession());
         Project project = (Project) getIntent().getSerializableExtra("project");
         Spinner ct_types = (Spinner) findViewById(R.id.ct_types);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -142,21 +150,22 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                 data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
                 data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
                 data.addProperty("type", ct_description.getText().toString());
+
                 new Thread(() -> {
                     try {
-//                        String responseString = new AppointmentsServiceImpl().appointmentCreate(finalBodyJson, project.getId());
-//                        if (Utils.isSuccess(responseString)) {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-//
-//
-//                            });
-//                        } else {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-//                            });
-//
-//                        }
+                        String responseString = appointmentService.createAppointment(data, project.getId());
+                        if (Utils.isSuccess(responseString)) {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
+
+
+                            });
+                        } else {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+                            });
+
+                        }
 
                     } catch (Exception e) {
                         runOnUiThread(() -> {
