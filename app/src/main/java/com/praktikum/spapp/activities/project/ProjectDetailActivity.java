@@ -21,7 +21,6 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
         Project project = (Project) getIntent().getSerializableExtra("project");
         bundle.putSerializable("project", project);
-
         BottomNavigationView botNav = findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navListener);
 

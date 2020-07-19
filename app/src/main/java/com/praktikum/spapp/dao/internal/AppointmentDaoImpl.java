@@ -26,10 +26,10 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
             Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", requestTypes.POST, appointment);
             String responseString = response.body().string();
             responseCheck(responseString);
-            String resultString = Utils.parseForJsonObject(responseString, "appointment");
+            //String resultString = Utils.parseForJsonObject(responseString, "appointment");
             //return new Gson().fromJson(resultString, new TypeToken<Appointment>() {
             //}.getType());
-            return resultString;
+            return "success";
         } catch (IOException e) {
             throw new ResponseException(e);
         }

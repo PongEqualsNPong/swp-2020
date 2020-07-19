@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,9 +15,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.general.WelcomeActivity;
+import com.praktikum.spapp.activities.project.FragmentProjectAppointments;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.service.AppointmentService;
@@ -146,30 +150,22 @@ public class CreateAppointmentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 JsonObject data = new JsonObject();
                 data.addProperty("name", ct_name.getText().toString());
-                data.addProperty("description", ct_types.getSelectedItem().toString());
+                data.addProperty("description", ct_description.getText().toString());
                 data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
                 data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
-                data.addProperty("type", ct_description.getText().toString());
-
+                if(!(ct_types.getSelectedItem().toString().toUpperCase().equals("NONE"))) {
+                    data.addProperty("type", ct_types.getSelectedItem().toString().toUpperCase());
+                }
                 new Thread(() -> {
                     try {
-                        String responseString = appointmentService.createAppointment(data, project.getId());
-                        if (Utils.isSuccess(responseString)) {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
-
-                            });
-                        } else {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                            });
-
-                        }
-
-                    } catch (Exception e) {
+                        appointmentService.createAppointment(data, project.getId());
                         runOnUiThread(() -> {
-                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+                                Intent intent = new Intent(view.getContext(), FragmentProjectAppointments.class);
+                                startActivity(intent);
+                            });
+                    } catch (ResponseException e) {
+                        runOnUiThread(() -> {
+                            Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                         });
                     }
 
