@@ -72,40 +72,40 @@ public class FragmentProjectComments extends Fragment {
         UserService userService = new UserServiceImpl(SessionManager.getSession());
         User currentUser;
 
-        try {
-            if (Utils.isEmail(SessionManager.getSession().getCurrentUsername())) {
-                currentUser = userService.getUserByEmail(SessionManager.getSession().getCurrentUsername());
-            } else {
-                currentUser = userService.getUserByUsername(SessionManager.getSession().getCurrentUsername());
-            }
-        } catch (ResponseException e) {
-            currentUser = null;
-        }
-
-
-        boolean isAdmin = currentUser.getRoles()
-                .stream()
-                .noneMatch(x -> x.equals(Role.ROLE_USER));
-        if (!isAdmin) {
-            try {
-                comments = commentService.getPublicComments(project.getId());
-            } catch (ResponseException e) {
-                e.printStackTrace();
-            }
-        }
+//        try {
+//            if (Utils.isEmail(SessionManager.getSession().getCurrentUsername())) {
+//                currentUser = userService.getUserByEmail(SessionManager.getSession().getCurrentUsername());
+//            } else {
+//                currentUser = userService.getUserByUsername(SessionManager.getSession().getCurrentUsername());
+//            }
+//        } catch (ResponseException e) {
+//            currentUser = null;
+//        }
+//
+//
+//        boolean isAdmin = currentUser.getRoles()
+//                .stream()
+//                .noneMatch(x -> x.equals(Role.ROLE_USER));
+//        if (!isAdmin) {
+//            try {
+//                comments = commentService.getPublicComments(project.getId());
+//            } catch (ResponseException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         adapter = new RecyclerViewAdapterComment(comments, view.getContext());
 
         recyclerView.setAdapter(adapter);
 
-        commentDeleteButton.setOnClickListener((view) -> {
-            try {
-                commentService.deleteComment(comment.getId());
-                getActivity().runOnUiThread(() -> Snackbar.make(view, "Comment succesfully deleted.", Snackbar.LENGTH_LONG));
-            } catch (ResponseException e) {
-                getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting comment failed", Snackbar.LENGTH_LONG));
-            }
-        });
+//        commentDeleteButton.setOnClickListener((view) -> {
+//            try {
+//                commentService.deleteComment(comment.getId());
+//                getActivity().runOnUiThread(() -> Snackbar.make(view, "Comment succesfully deleted.", Snackbar.LENGTH_LONG));
+//            } catch (ResponseException e) {
+//                getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting comment failed", Snackbar.LENGTH_LONG));
+//            }
+//        });
         return view;
     }
 

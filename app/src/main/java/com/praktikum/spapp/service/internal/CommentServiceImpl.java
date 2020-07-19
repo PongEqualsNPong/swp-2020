@@ -46,7 +46,10 @@ public class CommentServiceImpl extends Service implements CommentService {
     @Override
     public ArrayList<Comment> getPublicComments(Long projectId) throws ResponseException {
         ArrayList<Comment> allComments = dao.getComments(projectId);
-        List<Comment> filtered = allComments.stream().filter(c -> !c.isRestricted()).collect(Collectors.toList());
+        List<Comment> filtered = allComments
+                .stream()
+                .filter(c -> !c.isRestricted())
+                .collect(Collectors.toList());
         return new ArrayList<>(filtered);
     }
 

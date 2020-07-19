@@ -1,7 +1,6 @@
 package com.praktikum.spapp.service;
 
 import com.google.gson.JsonObject;
-import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.RegisterForm;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 
 public class UserServiceImplTest extends AbstractTestBundle {
 
-    UserService adminService = new UserServiceImpl(SessionManager.getSession());
+    UserService adminService = new UserServiceImpl(adminSession);
 
     @Test
     public void testFetchAllUsers() throws ResponseException {
