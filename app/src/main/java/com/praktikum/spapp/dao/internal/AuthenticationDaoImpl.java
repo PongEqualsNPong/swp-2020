@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.AuthenticationDao;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.models.User;
 import okhttp3.OkHttpClient;
@@ -18,11 +19,20 @@ import java.util.Map;
 
 public class AuthenticationDaoImpl extends AbstractDaoImpl implements AuthenticationDao {
 
-    public Session logon(String nameOrEmail, String password) {
+    /**
+     * The logon method
+     *
+     * @param nameOrEmail
+     * @param password
+     * @return A session with session data
+     * @throws ResponseException
+     */
+    public Session logon(String nameOrEmail, String password) throws ResponseException {
         Session session = null;
 
         // create jsonString GSON by map
         Map<String, String> map = new HashMap<>();
+        // user can enter username or email
         if (Utils.isEmail(nameOrEmail)) {
             map.put("email", nameOrEmail);
         } else {
@@ -30,11 +40,11 @@ public class AuthenticationDaoImpl extends AbstractDaoImpl implements Authentica
         }
         map.put("password", password);
         Gson gson = new GsonBuilder().create();
-        String jsonString = gson.toJson(map);
+        String data = gson.toJson(map);
 
         // create request body
-        RequestBody requestBody = RequestBody.create(jsonString, JSON);
-        // make request
+        RequestBody requestBody = RequestBody.create(data, JSON);
+        // make request with data
         Request request = new Request.Builder()
                 .url(api + "/api/auth/signin")
                 .post(requestBody)
@@ -44,28 +54,14 @@ public class AuthenticationDaoImpl extends AbstractDaoImpl implements Authentica
             Response response = new OkHttpClient().newCall(request).execute();
             // have to create variable, because stream is closed or so
             String responseString = response.body().string();
-            if (Utils.isSuccess(responseString)) {
-                session = new Gson().fromJson(responseString, Session.class);
-                session.setCurrentUsername(nameOrEmail);
-                return session;
-            }
+            responseCheck(responseString);
+            session = new Gson().fromJson(responseString, Session.class);
+            session.setCurrentUsername(nameOrEmail);
+            return session;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
-        return session;
     }
 
-    public User authenticateUser(String nameOrEmail, Session session) throws IOException {
-
-        Request request = new Request.Builder()
-                .url(api + "/api/user/getUserByUserName/" + nameOrEmail)
-                .header("Authorization", session.getTokenType() + " " + session.getAccessToken())
-                .get()
-                .build();
-        Response response = new OkHttpClient().newCall(request).execute();
-        return new Gson().fromJson(response.body().string(), new TypeToken<User>() {
-        }.getType());
-
-
-    }
 }
+

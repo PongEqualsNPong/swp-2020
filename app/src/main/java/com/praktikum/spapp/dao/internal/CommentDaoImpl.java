@@ -25,7 +25,7 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         data.addProperty("restricted", restricted);
         data.addProperty("content", message);
         try {
-            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/comments", "post", data);
+            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/comments", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "comment");
@@ -39,7 +39,7 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
     @Override
     public ArrayList<Comment> getComments(Long projectId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/comments", "get");
+            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/comments", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "comments");
@@ -56,7 +56,7 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         data.addProperty("restricted", restricted);
         data.addProperty("content", message);
         try {
-            Response response = httpRequestMaker("/api/comments/" + commentId.toString(), "post", data);
+            Response response = httpRequestMaker("/api/comments/" + commentId.toString(), requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "comment");
@@ -70,7 +70,7 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
     @Override
     public void deleteComment(Long commentId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/comments/" + commentId.toString(), "delete");
+            Response response = httpRequestMaker("/api/comments/" + commentId.toString(), requestTypes.DELETE);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {

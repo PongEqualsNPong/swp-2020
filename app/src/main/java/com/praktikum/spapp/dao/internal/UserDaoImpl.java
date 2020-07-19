@@ -23,24 +23,27 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     }
 
     @Override
-    public String inviteUser(InviteForm form) {
+    public String inviteUser(InviteForm form) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
         try {
-            Response response = httpRequestMaker("/api/user/addUserInvitation", "post", data);
-            return Utils.parseForJsonObject(response.body().string(), "InvitationLinkUrl");
+            Response response = httpRequestMaker("/api/user/addUserInvitation", requestTypes.POST, data);
+            String responseString = response.body().string();
+            responseCheck(responseString);
+            return Utils.parseForJsonObject(responseString, "InvitationLinkUrl");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
-        return null;
     }
 
     @Override
-    public void acceptInvite(RegisterForm form) {
+    public void acceptInvite(RegisterForm form) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
         try {
-            Response response = httpRequestMaker("/api/user/byInvitation/" + "NEED LINK", "post", data);
+            Response response = httpRequestMaker("/api/user/byInvitation/"  , requestTypes.POST, data);
+            String responseString = response.body().string();
+            responseCheck(responseString);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ResponseException(e);
         }
     }
 
@@ -48,7 +51,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public ArrayList<User> fetchAll() throws ResponseException {
         ArrayList<User> list = null;
         try {
-            Response response = httpRequestMaker("/api/user/fetchall", "get");
+            Response response = httpRequestMaker("/api/user/fetchall", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String jsonString = Utils.parseForJsonObject(responseString, "result");
@@ -63,7 +66,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     @Override
     public void editUser(JsonObject data) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/user/editUser/", "post", data);
+            Response response = httpRequestMaker("/api/user/editUser/", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {
@@ -75,7 +78,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public String getUsernameByEmail(String email) throws ResponseException {
         String name = null;
         try {
-            Response response = httpRequestMaker("/api/user/getUserNameByEmail/" + email, "get");
+            Response response = httpRequestMaker("/api/user/getUserNameByEmail/" + email, requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             return Utils.parseForJsonObject(responseString, "username");
@@ -88,7 +91,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public User getUserByEmail(String email) throws ResponseException {
         User user = null;
         try {
-            Response response = httpRequestMaker("/api/user/getUserByEmail/" + email, "get");
+            Response response = httpRequestMaker("/api/user/getUserByEmail/" + email, requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             user = new Gson().fromJson(responseString, new TypeToken<User>() {
@@ -103,7 +106,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public String getUserEmailByUsername(String username) throws ResponseException {
         String email = null;
         try {
-            Response response = httpRequestMaker("/api/user/getUserEmailByUserName/" + username, "get");
+            Response response = httpRequestMaker("/api/user/getUserEmailByUserName/" + username, requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             return Utils.parseForJsonObject(responseString, "email");
@@ -116,7 +119,7 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public User getUserByUsername(String username) throws ResponseException {
         User user = null;
         try {
-            Response response = httpRequestMaker("/api/user/getUserByUserName/" + username, "get");
+            Response response = httpRequestMaker("/api/user/getUserByUserName/" + username, requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             user = new Gson().fromJson(responseString, new TypeToken<User>() {

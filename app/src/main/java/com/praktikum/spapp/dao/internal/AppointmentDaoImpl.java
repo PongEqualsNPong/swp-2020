@@ -24,7 +24,7 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     public Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(appointment));
         try {
-            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", "post", data);
+            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "appointment");
@@ -38,7 +38,7 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     @Override
     public ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", "get");
+            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "appointments");
@@ -52,7 +52,7 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     @Override
     public Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), "delete");
+            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), requestTypes.POST);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "appointment");
@@ -66,7 +66,7 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     @Override
     public void deleteAppointment(Long appointmentId) throws ResponseException {
         try {
-            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), "delete");
+            Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), requestTypes.DELETE);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {

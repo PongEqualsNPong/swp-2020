@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public interface UserDao {
 
-    String inviteUser(InviteForm form);
+    String inviteUser(InviteForm form) throws ResponseException;
 
-    void acceptInvite(RegisterForm form);
+    void acceptInvite(RegisterForm form) throws ResponseException;
 
     ArrayList<User> fetchAll() throws ResponseException;
 

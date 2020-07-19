@@ -24,7 +24,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     public Long createProject(Project project) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(project));
         try {
-            Response response = httpRequestMaker("/api/project/init", "post", data);
+            Response response = httpRequestMaker("/api/project/init", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             String result = Utils.parseForJsonObject(responseString, "projectId");
@@ -38,7 +38,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     public Long createProjectFull(Project project) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(project));
         try {
-            Response response = httpRequestMaker("/api/project/initFull", "post", data);
+            Response response = httpRequestMaker("/api/project/initFull", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
             return Long.parseLong(Utils.parseForJsonObject(responseString, "projectId"));
@@ -50,7 +50,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     @Override
     public ArrayList<Project> fetchAllProjects() throws ResponseException {
         try {
-            Response response = this.httpRequestMaker("/api/project", "get");
+            Response response = this.httpRequestMaker("/api/project", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "result");
@@ -66,7 +66,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     public ArrayList<Project> fetchCurrentUserProjects() throws ResponseException {
         ArrayList<Project> list = null;
         try {
-            Response response = this.httpRequestMaker("/api/project/", "get");
+            Response response = this.httpRequestMaker("/api/project/", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String resultString = Utils.parseForJsonObject(responseString, "result");
@@ -81,7 +81,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     @Override
     public void updateProject(Long id, JsonObject data) throws ResponseException {
         try {
-            Response response = this.httpRequestMaker("/api/project/" + id.toString(), "put", data);
+            Response response = this.httpRequestMaker("/api/project/" + id.toString(), requestTypes.PUT, data);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {
@@ -92,7 +92,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
     @Override
     public void deleteProject(Long id) throws ResponseException {
         try {
-            Response response = this.httpRequestMaker("/api/project/delete/" + id.toString(), "delete");
+            Response response = this.httpRequestMaker("/api/project/delete/" + id.toString(), requestTypes.DELETE);
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (Exception e) {

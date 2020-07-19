@@ -24,6 +24,15 @@ public abstract class AbstractDaoImpl {
             = MediaType.get("application/json; charset=utf-8");
 
 
+    /**
+     * Creates a Request and returns a Response.
+     *
+     * @param path the URI needs to be extended with String concatenation
+     * @param type inner enum class type
+     * @param json the Gson JsonObject
+     * @return a response object
+     * @throws IOException if the request fails
+     */
     public Response httpRequestMaker(String path, requestTypes type, JsonObject json) throws IOException {
 
         RequestBody body = RequestBody.create(json.toString(), JSON);
@@ -61,13 +70,21 @@ public abstract class AbstractDaoImpl {
                         .build();
                 return client.newCall(request).execute();
         }
-        return null;
+        throw new IOException("Something went wrong :(");
     }
+
 
     public Response httpRequestMaker(String path, requestTypes type) throws IOException {
         return httpRequestMaker(path, type, new JsonObject());
     }
 
+    /**
+     * If the request is successful (e.g. status 200) the returned json still might be an error. In this case the error message is extracted
+     * and thrown within a new ResponseException.
+     *
+     * @param responseString
+     * @throws ResponseException
+     */
     public static void responseCheck(String responseString) throws ResponseException {
         if (!Utils.isSuccess(responseString)) {
             throw new ResponseException(Utils.parseForJsonObject(responseString, "Error"));

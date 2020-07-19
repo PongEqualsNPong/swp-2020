@@ -30,12 +30,12 @@ public class UserServiceImpl extends Service implements UserService {
 
 
     @Override
-    public String inviteUser(InviteForm form) {
+    public String inviteUser(InviteForm form) throws ResponseException {
         return dao.inviteUser(form);
     }
 
     @Override
-    public void acceptInvite(RegisterForm form) {
+    public void acceptInvite(RegisterForm form) throws ResponseException {
         dao.acceptInvite(form);
     }
 
