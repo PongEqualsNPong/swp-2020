@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Appointment implements Serializable {
 
-    private int id;
+    private Long id;
     private String name;
     private String description;
     private String startDate;
@@ -16,21 +16,11 @@ public class Appointment implements Serializable {
     private AppointmentType type;
     private ArrayList<Reminder> reminders;
 
-    public Appointment(int id, String name, String description, String startDate, String endDate, AppointmentType type, ArrayList<Reminder> reminders) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.type = type;
-        this.reminders = reminders;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

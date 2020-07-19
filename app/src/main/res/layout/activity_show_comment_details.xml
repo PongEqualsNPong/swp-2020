@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CommentDetailsActivity">
+    tools:context=".activities.comment.CommentDetailsActivity">
 
     <Button
         android:id="@+id/comment_delete_button"

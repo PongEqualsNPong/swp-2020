@@ -6,10 +6,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 import com.praktikum.spapp.common.Utils;
-import com.praktikum.spapp.models.EditUserForm;
 import com.praktikum.spapp.models.User;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -26,6 +30,8 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
     private EditText studiengang;
     private EditText pruefungsordnung;
 
+    UserService service = new UserServiceImpl(SessionManager.getSession());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +40,11 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
 
 
         User user = (User) getIntent().getSerializableExtra("user");
+//        user = service.getUserByUsername(user.getUsername());
 
         //set button
         Button buttonEaC = findViewById(R.id.button_edit_user_and_cancel);
         Button buttonEditSave = findViewById(R.id.button_edit_user_save);
-
 
         //set bind ETs and set values
         username = findViewById(R.id.et_username);
@@ -80,66 +86,42 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
                 buttonEditSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditUserForm editUserForm = new EditUserForm();
-                        editUserForm.setUserEditByEmail(email.getText().toString());
-                        editUserForm.setEmail(email.getText().toString());
-                        editUserForm.setUsername(username.getText().toString());
-                        editUserForm.setForename(vorname.getText().toString());
-                        editUserForm.setSurname(nachname.getText().toString());
-                        editUserForm.setStudentNumber(parseInt(matrikelnummer.getText().toString()));
-                        editUserForm.setCourseOfStudy(studiengang.getText().toString());
-                        editUserForm.setExaminationRegulations(pruefungsordnung.getText().toString());
+                        JsonObject data = new JsonObject();
+                        data.addProperty("userToEditByEmail", email.getText().toString());
+                        data.addProperty("email", email.getText().toString());
+                        data.addProperty("username", username.getText().toString());
+                        data.addProperty("forename", vorname.getText().toString());
+                        data.addProperty("surname", nachname.getText().toString());
+                        data.addProperty("studentNumber", parseInt(matrikelnummer.getText().toString()));
+                        data.addProperty("courseOfStudy", studiengang.getText().toString());
+                        data.addProperty("examinationRegulations", pruefungsordnung.getText().toString());
 
                         new Thread(() -> {
                             try {
-                                String responseString = new UserService().editUser(editUserForm);
-                                if (Utils.isSuccess(responseString)) {
-                                    runOnUiThread(() -> {
+                                service.editUser(data);
 
-                                        editMode.set(false);
-                                        username.setEnabled(false);
-                                        email.setEnabled(false);
-                                        vorname.setEnabled(false);
-                                        nachname.setEnabled(false);
-                                        matrikelnummer.setEnabled(false);
-                                        buttonEaC.setText("Edit");
-                                        buttonEditSave.setVisibility(View.GONE);
+                                runOnUiThread(() -> {
+                                    editMode.set(false);
+                                    username.setEnabled(false);
+                                    email.setEnabled(false);
+                                    vorname.setEnabled(false);
+                                    nachname.setEnabled(false);
+                                    matrikelnummer.setEnabled(false);
+                                    buttonEaC.setText("Edit");
+                                    buttonEditSave.setVisibility(View.GONE);
 
-                                        username.setText(editUserForm.getUsername());
-                                        email.setText(editUserForm.getEmail());
-                                        vorname.setText(editUserForm.getForename());
-                                        nachname.setText(editUserForm.getSurname());
-                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
-                                        Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
-
-                                    });
-                                } else {
-                                    runOnUiThread(() -> {
-                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                    });
-
-                                }
-                            } catch (Exception e) {
+                                    Snackbar.make(view, "Your changes have been saved.", Snackbar.LENGTH_LONG).show();
+                                });
+                            } catch (ResponseException e) {
                                 runOnUiThread(() -> {
                                     Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
                                 });
                             }
-
-
-                        }).start();
+                        }).
+                                start();
                     }
-
                 });
-
-
             } else {
-                username.setText(user.getUsername());
-                email.setText(user.getEmail());
-                vorname.setText(user.getUserInfo().getForename());
-                nachname.setText(user.getUserInfo().getSurname());
-                matrikelnummer.setText("" + user.getUserInfo().getStudentNumber());
-
                 editMode.set(false);
                 username.setEnabled(false);
                 email.setEnabled(false);
@@ -148,12 +130,7 @@ public class ShowUserDetailsActivity extends AppCompatActivity {
                 matrikelnummer.setEnabled(false);
                 buttonEaC.setText("Edit");
                 buttonEditSave.setVisibility(View.GONE);
-
-
             }
-
-
-
         });
     }
 }

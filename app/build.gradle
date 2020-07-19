@@ -69,7 +69,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // https://mvnrepository.com/artifact/net.iharder/base64
-    compile group: 'net.iharder', name: 'base64', version: '2.3.8'
+    implementation group: 'net.iharder', name: 'base64', version: '2.3.8'
 
 
 }

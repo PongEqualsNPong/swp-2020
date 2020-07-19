@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.enums.Role;
 import org.json.JSONException;
@@ -55,35 +56,35 @@ public class InviteActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
 
 
-        switch (view.getId()) {
-
-            case R.id.buttonConfirm:
-                new Thread(() -> {
-                    InviteForm inviteForm = createInviteForm();
-                    UserService userService = new UserService();
-
-                    try {
-                        String responseString = userService.addUserInvitation(inviteForm);
-                        System.out.println(responseString);
-
-
+//        switch (view.getId()) {
+//
+//            case R.id.buttonConfirm:
+//                new Thread(() -> {
+//                    InviteForm inviteForm = createInviteForm();
+//                    UserServiceImpl userServiceImpl = new UserServiceImpl();
+//
+//                    try {
+//                        String responseString = userServiceImpl.addUserInvitation(inviteForm);
+//                        System.out.println(responseString);
+//
+//
 //                        if (Utils.isSuccess(responseString)) {
-                        startOpenMailView(view);
-
+//                        startOpenMailView(view);
+//
 //                        } else {
-                        //TODO cancel activity
+//                        //TODO cancel activity
 //                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-
-
-            case R.id.buttonCancel:
-
-        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }).start();
+//
+//
+//            case R.id.buttonCancel:
+//
+//        }
     }
 
     public InviteForm createInviteForm() {

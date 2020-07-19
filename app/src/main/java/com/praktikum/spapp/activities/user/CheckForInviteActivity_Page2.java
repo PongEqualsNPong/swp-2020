@@ -12,7 +12,9 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.models.RegisterForm;
+import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 import com.praktikum.spapp.common.Utils;
 
 import java.io.IOException;
@@ -67,25 +69,24 @@ public class CheckForInviteActivity_Page2 extends AppCompatActivity implements V
         givenPO = po.getText().toString();
 
 
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.checkInvite2_Confirm:
 
                 new Thread(() -> {
                     try {
-                        UserService userService = new UserService();
-                        String res = userService.checkInvitation(firstName, lastName, givenPWD, givenSN, invitationLink, givenName, givenMJ, givenPO);
-                        if(Utils.isSuccess(res)) {
+                        UserServiceImpl userServiceImpl = new UserServiceImpl(new Session());
+                        userServiceImpl.acceptInvite(new RegisterForm());
+                        if (Utils.isSuccess("hihi")) {
                             runOnUiThread(() -> Snackbar.make(view, "Accepted the Invitation, now get out", Snackbar.LENGTH_LONG).show());
-                        }
-                        else {
-                            runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
+                        } else {
+                            runOnUiThread(() -> Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
                         }
 
-                    } catch (IOException e) {
-                        runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
-                    } catch (Exception e) {
-                        runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
+                    } /**catch (IOException e) {
+                     runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
+                     } */ catch (Exception e) {
+                        runOnUiThread(() -> Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show());
                     }
                 }).start();
 

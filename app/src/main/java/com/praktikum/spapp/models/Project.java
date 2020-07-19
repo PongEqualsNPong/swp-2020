@@ -8,24 +8,21 @@ import java.util.ArrayList;
 
 public class Project implements Serializable {
 
-    int id;
+    Long id;
     String name;
     String description;
-    ArrayList<Comment> comments;
-    ArrayList<Appointment> appointments;
     ArrayList<User> handlers;
     ArrayList<User> processors;
     ProjectType type;
     ProjectStatus projectStatus;
+    ArrayList<Comment> comments;
+    ArrayList<Appointment> appointments;
 
-    public Project() {
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

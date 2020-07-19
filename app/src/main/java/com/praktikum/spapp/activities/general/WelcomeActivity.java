@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.ProjectDetailActivity;
+import com.praktikum.spapp.activities.project.ProjectDetailActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
 import com.praktikum.spapp.activities.user.CheckForInviteActivity;

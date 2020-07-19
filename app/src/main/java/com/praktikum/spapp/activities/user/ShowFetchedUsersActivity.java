@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
 
@@ -28,12 +31,10 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                UserService userService = new UserService();
-                this.userArrayList = userService.fetchAllUsers();
+                UserServiceImpl userServiceImpl = new UserServiceImpl(SessionManager.getSession());
+                this.userArrayList = userServiceImpl.fetchAll();
                 runOnUiThread(this::initRecyclerView);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
+            } catch (ResponseException e) {
                 e.printStackTrace();
             }
         }).start();
