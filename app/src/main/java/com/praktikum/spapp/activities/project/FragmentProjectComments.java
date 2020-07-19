@@ -37,7 +37,7 @@ import com.praktikum.spapp.service.internal.UserServiceImpl;
 import java.util.ArrayList;
 
 public class FragmentProjectComments extends Fragment {
-    CommentService service = new CommentServiceImpl(SessionManager.getSession());
+    CommentService commentService = new CommentServiceImpl(SessionManager.getSession());
 
     RecyclerViewAdapterComment adapter;
     ArrayList<Comment> comments;
@@ -87,7 +87,11 @@ public class FragmentProjectComments extends Fragment {
                 .stream()
                 .noneMatch(x -> x.equals(Role.ROLE_USER));
         if (!isAdmin) {
-            comments.removeIf(x -> x.isRestricted());
+            try {
+                comments = commentService.getPublicComments(project.getId());
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
         }
 
         adapter = new RecyclerViewAdapterComment(comments, view.getContext());
@@ -96,7 +100,7 @@ public class FragmentProjectComments extends Fragment {
 
         commentDeleteButton.setOnClickListener((view) -> {
             try {
-                service.deleteComment(comment.getId());
+                commentService.deleteComment(comment.getId());
                 getActivity().runOnUiThread(() -> Snackbar.make(view, "Comment succesfully deleted.", Snackbar.LENGTH_LONG));
             } catch (ResponseException e) {
                 getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting comment failed", Snackbar.LENGTH_LONG));

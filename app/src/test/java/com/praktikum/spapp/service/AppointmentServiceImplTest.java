@@ -22,6 +22,9 @@ public class AppointmentServiceImplTest extends AbstractTestBundle{
         assertEquals(2, list.size());
     }
 
+//    @Test
+//    public void testUpdare
+
 
 
 }
