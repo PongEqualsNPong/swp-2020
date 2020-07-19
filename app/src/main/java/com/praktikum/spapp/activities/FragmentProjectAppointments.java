@@ -1,7 +1,6 @@
 package com.praktikum.spapp.activities;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,10 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.appointment.CreateAppointmentActivity;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterAppointment;
-import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
 
 import java.util.ArrayList;
 

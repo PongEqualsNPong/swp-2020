@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.enums.ProjectStatus;
@@ -62,13 +63,13 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
                 project.setProjectStatus(ProjectStatus.valueOf(enterProjectStatus.getText().toString()));
                 //todo
                 //enter the handler and coordinator array to project
-                ProjectService projectService = new ProjectService();
+                ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(new Session());
 
                 new Thread(() -> {
                     try {
-                        String resultString = projectService.projectCreateFull(project);
+                        Long resultString = projectServiceImpl.createProjectFull(project);
                         System.out.println(resultString);
-                        if(Utils.isSuccess(resultString)){
+                        if(Utils.isSuccess("hihi")){
                             runOnUiThread(() -> Snackbar.make(view, "Project Created, now get out", Snackbar.LENGTH_LONG).show());
                         } else {
                             runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());

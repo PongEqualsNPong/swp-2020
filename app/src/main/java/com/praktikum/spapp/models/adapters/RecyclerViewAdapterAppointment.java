@@ -14,14 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.AppointmentDetailsActivity;
-import com.praktikum.spapp.activities.CreateAppointmentActivity;
-import com.praktikum.spapp.activities.project.CreateProjectActivity;
-import com.praktikum.spapp.activities.user.ShowUserDetailsActivity;
+import com.praktikum.spapp.activities.appointment.AppointmentDetailsActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.models.enums.AppointmentType;
 
 import java.util.ArrayList;
 import java.util.List;

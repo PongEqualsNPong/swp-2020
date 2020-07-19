@@ -1,5 +1,6 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.comment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,19 +10,25 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.DateStringSplitter;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.service.internal.CommentServiceImpl;
 
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class CommentDetailsActivity extends AppCompatActivity {
+
+    CommentService service = new CommentServiceImpl(SessionManager.getSession());
 
     private TextView username;
     private TextView email;
@@ -105,32 +112,27 @@ public class CommentDetailsActivity extends AppCompatActivity {
 
 
                 button_edit_comment_save.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onClick(View v) {
                         comment.setContent(commentContent.getText().toString());
                         commentIsEdited.setChecked(comment.isWasEdited());
                         new Thread(() -> {
                             try {
-                                String responseString = new CommentService().commentEdit(comment.getId(),comment);
-                                if (Utils.isSuccess(responseString)) {
-                                    runOnUiThread(() -> {
-                                        editMode.set(false);
-                                        commentContent.setEnabled(false);
-
-                                        button_edit_comment_and_cancel.setText("Edit");
-                                        button_edit_comment_save.setVisibility(View.GONE);
-
-                                        Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                                        commentIsEdited.setChecked(true);
-                                    });
-                                } else {
-                                    runOnUiThread(() -> {
-                                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                    });
-                                }
-                            } catch (Exception e) {
+                                service.updateComment(comment.getId(), commentIsRestricted.getShowText(), commentContent.getText().toString());
                                 runOnUiThread(() -> {
-                                    Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+                                    editMode.set(false);
+                                    commentContent.setEnabled(false);
+
+                                    button_edit_comment_and_cancel.setText("Edit");
+                                    button_edit_comment_save.setVisibility(View.GONE);
+
+                                    Snackbar.make(view, "Your changes have been saved.", Snackbar.LENGTH_LONG).show();
+                                    commentIsEdited.setChecked(true);
+                                });
+                            } catch (ResponseException e) {
+                                runOnUiThread(() -> {
+                                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                                 });
                             }
                         }).start();
@@ -151,14 +153,10 @@ public class CommentDetailsActivity extends AppCompatActivity {
         commentDeleteButton.setOnClickListener((View view) -> {
             new Thread(() -> {
                 try {
-                    String responseString = new CommentService().commentDelete(comment.getId());
-                    if (Utils.isSuccess(responseString)) {
-                        Snackbar.make(view, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                    } else {
-                        Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    service.deleteComment(comment.getId());
+                    Snackbar.make(view, "The comment has been deleted.", Snackbar.LENGTH_LONG).show();
+                } catch (ResponseException e) {
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             }).start();
         });
@@ -167,51 +165,39 @@ public class CommentDetailsActivity extends AppCompatActivity {
         commenSetRestrictedButton.setOnClickListener((View view1) -> {
             new Thread(() -> {
                 try {
-                    comment.setRestricted(true);
-                    String responseString = new CommentService().commentEdit(comment.getId(),comment);
-                    if (Utils.isSuccess(responseString)) {
-                        Snackbar.make(view1, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                        Looper.prepare();
-                        Handler handler = new Handler();
-                        handler.post(new Runnable() {
-                            public void run() {
-                                commentIsRestricted.setChecked(comment.isRestricted());
-                            }
-                        });
-                        Looper.loop();
-                    } else {
-                        Snackbar.make(view1, Utils.parseForJsonObject(responseString, "An error has occurred"), Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    service.updateComment(comment.getId(), true, commentContent.getText().toString());
+                    Snackbar.make(view1, "This comment now has restricted visibility.", Snackbar.LENGTH_LONG).show();
+                    Looper.prepare();
+                    Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        public void run() {
+                            commentIsRestricted.setChecked(comment.isRestricted());
+                        }
+                    });
+                    Looper.loop();
+                } catch (ResponseException e) {
+                    Snackbar.make(view1, e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             }).start();
-
         });
 
         commentSetPublicButton.setOnClickListener((View view1) -> {
             new Thread(() -> {
                 try {
-                    comment.setRestricted(false);
-                    String responseString = new CommentService().commentEdit(comment.getId(),comment);
-                    if (Utils.isSuccess(responseString)) {
-                        Snackbar.make(view1, "Your changes were saved.", Snackbar.LENGTH_LONG).show();
-                        Looper.prepare();
-                        Handler handler = new Handler();
-                        handler.post(new Runnable() {
-                            public void run() {
-                                commentIsRestricted.setChecked(comment.isRestricted());
-                            }
-                        });
-                        Looper.loop();
-                    } else {
-                        Snackbar.make(view1, Utils.parseForJsonObject(responseString, "An error has occurred"), Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    service.updateComment(comment.getId(), false, commentContent.getText().toString());
+                    Snackbar.make(view1, "This comment now has restricted visibility.", Snackbar.LENGTH_LONG).show();
+                    Looper.prepare();
+                    Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        public void run() {
+                            commentIsRestricted.setChecked(comment.isRestricted());
+                        }
+                    });
+                    Looper.loop();
+                } catch (ResponseException e) {
+                    Snackbar.make(view1, e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             }).start();
-
         });
     }
 }

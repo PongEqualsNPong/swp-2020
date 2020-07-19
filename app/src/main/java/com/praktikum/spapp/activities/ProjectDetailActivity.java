@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 
@@ -20,8 +21,6 @@ import static java.lang.Integer.parseInt;
 public class ProjectDetailActivity extends AppCompatActivity {
 
     Bundle bundle = new Bundle();
-    Button button_delete ;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,6 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
         Project project = (Project) getIntent().getSerializableExtra("project");
         bundle.putSerializable("project", project);
-
 
         BottomNavigationView botNav = findViewById(R.id.bottom_navigation);
         botNav.setOnNavigationItemSelectedListener(navListener);
@@ -42,11 +40,6 @@ public class ProjectDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     beginActivity).commit();
         }
-
-
-       // button_delete = findViewById(R.id.projectdetail_buttonDelete);
-       // button_delete.setOnClickListener(this);
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = menuItem -> {

@@ -4,28 +4,18 @@ import java.io.Serializable;
 
 public class Comment implements Serializable {
 
-    private int id;
+    private Long id;
     private String content;
     private boolean restricted;
     private boolean wasEdited;
     private String creationTime;
     private User author;
 
-    public Comment(int id, String content, boolean restricted, boolean edited, String creationTime, User author) {
-
-        this.id = id;
-        this.content = content;
-        this.restricted = restricted;
-        this.wasEdited = edited;
-        this.creationTime = creationTime;
-        this.author = author;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

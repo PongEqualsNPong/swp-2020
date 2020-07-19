@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.appointment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,17 +24,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.general.LoginActivity;
 import com.praktikum.spapp.activities.general.WelcomeActivity;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.adapters.RecyclerViewAdapterAppointment;
-import com.praktikum.spapp.service.AppointmentsService;
+import com.praktikum.spapp.service.AppointmentService;
 import com.praktikum.spapp.common.DateStringSplitter;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.EditAppointmentForm;
-import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +44,7 @@ import static java.lang.Integer.parseInt;
 
 public class AppointmentDetailsActivity extends AppCompatActivity {
 
+    AppointmentService service = new AppointmentServiceImpl(SessionManager.getSession());
     private EditText et_name;
     private EditText et_startDate;
     private EditText et_endDate;
@@ -63,10 +64,11 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
     private Context aContext;
     private boolean editedSaved = false;
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(editedSaved) {
+        if (editedSaved) {
             Intent intent = new Intent(aContext, WelcomeActivity.class);
             startActivity(intent);
         }
@@ -92,7 +94,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
         Appointment appointment = (Appointment) getIntent().getSerializableExtra("appointment");
         long appointmentId = (long) getIntent().getSerializableExtra("appointmentId");
-        if(appointment.getType() != null) {
+        if (appointment.getType() != null) {
             int spinnerPosition = adapter.getPosition(appointment.getType().toString());
             et_types.setSelection(spinnerPosition);
         }
@@ -106,7 +108,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         button_delete_appointment_and_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ShowPopup(appointment, v);
+                ShowPopup(appointment, v);
             }
         });
 
@@ -148,7 +150,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
                 endTime.set(endYear, endMonth, endDay, endHour, endMinute);
                 Intent intent = new Intent(Intent.ACTION_INSERT)
-               .setData(CalendarContract.Events.CONTENT_URI)
+                        .setData(CalendarContract.Events.CONTENT_URI)
                         .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
                         .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
                         .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
@@ -225,73 +227,50 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                         endTime.set(endYear, endMonth, endDay, endHour, endMinute);
                         long csdfd = endTime.getTimeInMillis();
                         long sdofkn = beginTime.getTimeInMillis();
-                        if(!(endTime.getTimeInMillis() < beginTime.getTimeInMillis())) {
+                        if (!(endTime.getTimeInMillis() < beginTime.getTimeInMillis())) {
                             aContext = v.getContext();
-                            EditAppointmentForm editAppointForm = new EditAppointmentForm();
-                            editAppointForm.setName(et_name.getText().toString());
-                            editAppointForm.setType(et_types.getSelectedItem().toString());
-                            editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(),aContext));
-                            editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(),aContext));
-                            editAppointForm.setDescription(et_description.getText().toString());
+                            JsonObject data = new JsonObject();
+                            data.addProperty("name", et_name.getText().toString());
+                            data.addProperty("type", et_types.getSelectedItem().toString());
+                            data.addProperty("startDate", DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(), aContext));
+                            data.addProperty("endDate", DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(), aContext));
+                            data.addProperty("description", et_description.getText().toString());
 
-                            String bodyJson = "";
-                            bodyJson += "{";
-                            bodyJson += "\"name\": \"" + editAppointForm.getName() + "\",";
-                            bodyJson += "\"description\": \"" + editAppointForm.getDescription() + "\",";
-                            bodyJson += "\"startDate\": \"" + editAppointForm.getStartDate() + "\",";
-                            bodyJson += "\"endDate\": \"" + editAppointForm.getEndDate() + "\"";
-                            if (!(editAppointForm.getType().equals("None"))) {
-                                bodyJson += ",\"type\": \"" + editAppointForm.getType().toUpperCase() + "\"";
-                            }
-                            bodyJson += "}";
-
-
-                            String finalBodyJson = bodyJson;
                             new Thread(() -> {
                                 try {
-                                    String responseString = new AppointmentsService().appointmentUpdate(finalBodyJson, appointment.getId());
-                                    if (Utils.isSuccess(responseString)) {
-                                        runOnUiThread(() -> {
-
-                                            editMode.set(false);
-                                            et_name.setEnabled(false);
-                                            et_startDate.setEnabled(false);
-                                            et_endDate.setEnabled(false);
-                                            et_description.setEnabled(false);
-                                            et_endTime.setEnabled(false);
-                                            et_startTime.setEnabled(false);
-                                            et_types.setEnabled(false);
-                                            buttonEaC.setText("Edit");
-                                            buttonEditSave.setVisibility(View.GONE);
-                                            button_export_to_calendar.setVisibility(View.VISIBLE);
-
-                                        /*
-                                        username.setText(editUserForm.getUsername());
-                                        email.setText(editUserForm.getEmail());
-                                        vorname.setText(editUserForm.getForename());
-                                        nachname.setText(editUserForm.getSurname());
-                                        matrikelnummer.setText(Integer.toString(editUserForm.getStudentNumber()));
-                                        */
-                                            editedSaved = true;
-                                            Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
-
-                                        });
-                                    } else {
-                                        runOnUiThread(() -> {
-                                            Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                                        });
-
-                                    }
-
-                                } catch (Exception e) {
+                                    Appointment result = service.updateAppointment(data, appointment.getId());
                                     runOnUiThread(() -> {
-                                        Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+
+                                        editMode.set(false);
+                                        et_name.setEnabled(false);
+                                        et_startDate.setEnabled(false);
+                                        et_endDate.setEnabled(false);
+                                        et_description.setEnabled(false);
+                                        et_endTime.setEnabled(false);
+                                        et_startTime.setEnabled(false);
+                                        et_types.setEnabled(false);
+                                        buttonEaC.setText("Edit");
+                                        buttonEditSave.setVisibility(View.GONE);
+                                        button_export_to_calendar.setVisibility(View.VISIBLE);
+
+
+                                        et_name.setText(result.getName());
+                                        et_startDate.setText(result.getStartDate());
+                                        et_endDate.setText(result.getEndDate());
+                                        et_description.setText(result.getDescription());
+
+                                        editedSaved = true;
+                                        Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
+
                                     });
+                                } catch (ResponseException e) {
+                                    runOnUiThread(() -> {
+                                        Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                                    });
+
                                 }
-
-
                             }).start();
-                        }else{
+                        } else {
                             Snackbar.make(view, "The start date cannot be later than the end date!", Snackbar.LENGTH_LONG).show();
                         }
                     }
@@ -332,10 +311,10 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         Appointment appointment1 = appointment;
 
         myDialog.setContentView(R.layout.activity_static_pop_up);
-        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        txtclose = (TextView) myDialog.findViewById(R.id.txtclose);
         popUpType = (TextView) myDialog.findViewById(R.id.popUpTyp);
         System.out.print(appointment.getName());
-        if(appointment.getType() != null) {
+        if (appointment.getType() != null) {
             popUpType.setText(appointment.getType().toString());
         }
         popUpName = (TextView) myDialog.findViewById(R.id.popUpName);
@@ -345,22 +324,22 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Thread(() -> {
-                    try {
-                        String responseString = new AppointmentsService().appointmentDelete(appointment.getId());
-                        if (Utils.isSuccess(responseString)) {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
-                            });
-                        } else {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                            });
-                        }
-                    } catch (Exception e) {
-                        runOnUiThread(() -> {
-                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                        });
-                    }
+//                    try {
+//                        String responseString = new AppointmentsServiceImpl(new Session()).appointmentDelete(appointment.getId());
+//                        if (Utils.isSuccess(responseString)) {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
+//                            });
+//                        } else {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+//                            });
+//                        }
+//                    } catch (Exception e) {
+//                        runOnUiThread(() -> {
+//                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
+//                        });
+//                    }
                 }).start();
 
                 myDialog.dismiss();
@@ -385,24 +364,26 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
-                if(start) {
+                if (start) {
                     timeStartPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
                             new TimePickerDialog.OnTimeSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                     time.setText(sHour + ":" + sMinute + " Uhr");
-                                    appointment.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(),v.getContext()));
+                                    appointment.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(), v.getContext()));
                                 }
 
                             }, DateStringSplitter.hourPrettyPrint(appointment.getStartDate()), DateStringSplitter.minutePrettyPrint(appointment.getStartDate()), true);
                     timeStartPicker.show();
-                }else{
+                } else {
                     timeEndPicker = new TimePickerDialog(AppointmentDetailsActivity.this,
                             new TimePickerDialog.OnTimeSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                     time.setText(sHour + ":" + sMinute + " Uhr");
-                                    appointment.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(),v.getContext()));
+                                    appointment.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(), v.getContext()));
                                 }
                             }, DateStringSplitter.hourPrettyPrint(appointment.getEndDate()), DateStringSplitter.minutePrettyPrint(appointment.getEndDate()), true);
                     timeEndPicker.show();
@@ -421,23 +402,25 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
-                if(start) {
+                if (start) {
                     dateStartPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
                             new DatePickerDialog.OnDateSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     date.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
-                                    appointment.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(),v.getContext()));
+                                    appointment.setStartDate(DateStringSplitter.changeToDateFormat(et_startDate.getText().toString(), et_startTime.getText().toString(), v.getContext()));
                                 }
                             }, DateStringSplitter.yearPrettyPrint(appointment.getStartDate()), DateStringSplitter.monthPrettyPrint(appointment.getStartDate()), DateStringSplitter.dayPrettyPrint(appointment.getStartDate()));
                     dateStartPicker.show();
-                }else{
+                } else {
                     dateEndPicker = new DatePickerDialog(AppointmentDetailsActivity.this,
                             new DatePickerDialog.OnDateSetListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     date.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
-                                    appointment.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(),v.getContext()));
+                                    appointment.setEndDate(DateStringSplitter.changeToDateFormat(et_endDate.getText().toString(), et_endTime.getText().toString(), v.getContext()));
                                 }
                             }, DateStringSplitter.yearPrettyPrint(appointment.getEndDate()), DateStringSplitter.monthPrettyPrint(appointment.getEndDate()), DateStringSplitter.dayPrettyPrint(appointment.getEndDate()));
                     dateEndPicker.show();

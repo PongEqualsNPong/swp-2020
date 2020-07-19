@@ -1,27 +1,18 @@
-package com.praktikum.spapp.activities;
+package com.praktikum.spapp.activities.appointment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TimePicker;
-
+import android.widget.*;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.service.AppointmentsService;
 import com.praktikum.spapp.common.DateStringSplitter;
-import com.praktikum.spapp.common.Utils;
-import com.praktikum.spapp.models.EditAppointmentForm;
 import com.praktikum.spapp.models.Project;
 
 import java.util.Calendar;
@@ -73,7 +64,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 ct_startDate.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
                             }
-                        },year,month,day);
+                        }, year, month, day);
                 dateStartPicker.show();
             }
         });
@@ -93,7 +84,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 ct_startTime.setText(sHour + ":" + sMinute + " Uhr");
                             }
-                        },hour,minutes, true);
+                        }, hour, minutes, true);
                 timeStartPicker.show();
             }
         });
@@ -114,7 +105,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 ct_endDate.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
                             }
-                        },year,month,day);
+                        }, year, month, day);
                 dateEndPicker.show();
             }
         });
@@ -134,7 +125,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 ct_endTime.setText(sHour + ":" + sMinute + " Uhr");
                             }
-                        },hour,minutes, true);
+                        }, hour, minutes, true);
                 timeEndPicker.show();
             }
         });
@@ -145,41 +136,27 @@ public class CreateAppointmentActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-
-                EditAppointmentForm editAppointForm = new EditAppointmentForm();
-                editAppointForm.setName(ct_name.getText().toString());
-                editAppointForm.setType(ct_types.getSelectedItem().toString());
-                editAppointForm.setStartDate(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
-                editAppointForm.setEndDate(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(),view.getContext()));
-                editAppointForm.setDescription(ct_description.getText().toString());
-
-                String bodyJson = "";
-                bodyJson += "{";
-                bodyJson += "\"name\": \"" + editAppointForm.getName() + "\",";
-                bodyJson += "\"description\": \"" + editAppointForm.getDescription() + "\",";
-                bodyJson += "\"startDate\": \"" + editAppointForm.getStartDate() + "\",";
-                bodyJson += "\"endDate\": \"" + editAppointForm.getEndDate() + "\"";
-                if (!(editAppointForm.getType().equals("None"))) {
-                    bodyJson += ",\"type\": \"" + editAppointForm.getType().toUpperCase() + "\"";
-                }
-                bodyJson += "}";
-
-                String finalBodyJson = bodyJson;
+                JsonObject data = new JsonObject();
+                data.addProperty("name", ct_name.getText().toString());
+                data.addProperty("description", ct_types.getSelectedItem().toString());
+                data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                data.addProperty("type", ct_description.getText().toString());
                 new Thread(() -> {
                     try {
-                        String responseString = new AppointmentsService().appointmentCreate(finalBodyJson, project.getId());
-                        if (Utils.isSuccess(responseString)) {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-
-
-                            });
-                        } else {
-                            runOnUiThread(() -> {
-                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-                            });
-
-                        }
+//                        String responseString = new AppointmentsServiceImpl().appointmentCreate(finalBodyJson, project.getId());
+//                        if (Utils.isSuccess(responseString)) {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
+//
+//
+//                            });
+//                        } else {
+//                            runOnUiThread(() -> {
+//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
+//                            });
+//
+//                        }
 
                     } catch (Exception e) {
                         runOnUiThread(() -> {

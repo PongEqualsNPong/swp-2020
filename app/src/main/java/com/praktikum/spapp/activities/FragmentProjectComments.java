@@ -19,17 +19,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.models.Token;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.service.AuthenticationService;
+import com.praktikum.spapp.models.enums.Role;
+import com.praktikum.spapp.service.CommentService;
+import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 
 import java.util.ArrayList;
 
 public class FragmentProjectComments extends Fragment {
+    CommentService service = new CommentServiceImpl(SessionManager.getSession());
 
     RecyclerViewAdapterComment adapter;
     ArrayList<Comment> comments;
@@ -51,8 +59,8 @@ public class FragmentProjectComments extends Fragment {
         setHasOptionsMenu(true);
 
 
-        //commentDeleteButton = view.findViewById(R.id.comment_delete_button);
-        //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
+        commentDeleteButton = view.findViewById(R.id.comment_delete_button);
+//        commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
@@ -60,12 +68,25 @@ public class FragmentProjectComments extends Fragment {
         comments = project.getComments();
         // filter out all the restricted comments
         //comments.removeIf(x -> x.isRestricted());
-        AuthenticationService authenticationService = new AuthenticationService();
-        Token resBody = authenticationService.getToken();
-        User thisUser = resBody.getCurrentUser();
-        System.out.println(thisUser.getRoles().get(0));
-        if(thisUser.getRoles().get(0).toString().equals("ROLE_USER"))
-        {
+
+        UserService userService = new UserServiceImpl(SessionManager.getSession());
+        User currentUser;
+
+        try {
+            if (Utils.isEmail(SessionManager.getSession().getCurrentUsername())) {
+                currentUser = userService.getUserByEmail(SessionManager.getSession().getCurrentUsername());
+            } else {
+                currentUser = userService.getUserByUsername(SessionManager.getSession().getCurrentUsername());
+            }
+        } catch (ResponseException e) {
+            currentUser = null;
+        }
+
+
+        boolean isAdmin = currentUser.getRoles()
+                .stream()
+                .noneMatch(x -> x.equals(Role.ROLE_USER));
+        if (!isAdmin) {
             comments.removeIf(x -> x.isRestricted());
         }
 
@@ -73,9 +94,16 @@ public class FragmentProjectComments extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+        commentDeleteButton.setOnClickListener((view) -> {
+            try {
+                service.deleteComment(comment.getId());
+                getActivity().runOnUiThread(() -> Snackbar.make(view, "Comment succesfully deleted.", Snackbar.LENGTH_LONG));
+            } catch (ResponseException e) {
+                getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting comment failed", Snackbar.LENGTH_LONG));
+            }
+        });
         return view;
     }
-
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -98,3 +126,4 @@ public class FragmentProjectComments extends Fragment {
 
     }
 }
+
