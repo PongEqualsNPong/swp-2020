@@ -88,7 +88,8 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/pd_overview_recycler_processors">
+                android:id="@+id/pd_overview_recycler_processors"
+            android:layout_margin="15dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -103,11 +104,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/pd_overview_processors" android:layout_marginEnd="20dp" android:layout_marginRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
+
     >
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/pd_overview_recycler_handlers">
+                android:id="@+id/pd_overview_recycler_handlers"
+            android:layout_margin="15dp">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.cardview.widget.CardView>
@@ -133,14 +136,14 @@
         android:id="@+id/pd_overview_delete_projectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:text="Delete Project"
-        app:layout_constraintBottom_toTopOf="@+id/pd_overview_edit_button"
+        app:layout_constraintBottom_toTopOf="@+id/pd_overview_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.333" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

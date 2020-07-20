@@ -10,7 +10,8 @@
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/project_recycler_view">
+            android:id="@+id/project_recycler_view"
+            android:layout_margin="15dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
