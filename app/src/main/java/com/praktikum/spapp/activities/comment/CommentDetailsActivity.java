@@ -166,7 +166,7 @@ public class CommentDetailsActivity extends AppCompatActivity {
             new Thread(() -> {
                 try {
                     service.updateComment(comment.getId(), false, commentContent.getText().toString());
-                    Snackbar.make(view1, "This comment now has restricted visibility.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view1, "This comment now has unrestricted visibility.", Snackbar.LENGTH_LONG).show();
                     Looper.prepare();
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
