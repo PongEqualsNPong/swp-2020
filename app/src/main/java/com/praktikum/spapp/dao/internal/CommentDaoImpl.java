@@ -59,9 +59,13 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
             Response response = httpRequestMaker("/api/comments/" + commentId.toString(), requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
+            //TODO: CORRECT RETURN TYPE
+            /**
             String resultString = Utils.parseForJsonObject(responseString, "comment");
             return new Gson().fromJson(resultString, new TypeToken<Comment>() {
             }.getType());
+             */
+            return null;
         } catch (IOException e) {
             throw new ResponseException(e);
         }

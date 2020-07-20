@@ -50,12 +50,12 @@ public class CommentServiceImpl extends Service implements CommentService {
 
     @Override
     public Comment updateComment(Long commentId, boolean restricted, String message) throws ResponseException {
-        return null;
+        return dao.updateComment(commentId, restricted, message);
     }
 
     @Override
     public void deleteComment(Long commentId) throws ResponseException {
-
+        dao.deleteComment(commentId);
     }
 
 
