@@ -11,28 +11,24 @@
         android:id="@+id/comment_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="Delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/comment_set_restricted"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toEndOf="@+id/button_edit_comment_and_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/table_comment_layout"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_edit_comment_and_cancel"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/comment_set_public"
         android:layout_width="110dp"
         android:layout_height="51dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Set Public"
-        app:layout_constraintBottom_toTopOf="@+id/button_edit_comment_save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/table_comment_layout"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.131" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <Button
         android:id="@+id/comment_set_restricted"
@@ -41,241 +37,197 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:text="Set Restricted"
-        app:layout_constraintBottom_toBottomOf="@+id/comment_delete_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/table_comment_layout"
         app:layout_constraintTop_toBottomOf="@+id/comment_set_public"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.004" />
 
     <Button
         android:id="@+id/button_edit_comment_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="SAVE"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
-        app:layout_constraintStart_toStartOf="@+id/tableLayout"
-        app:layout_constraintTop_toBottomOf="@+id/button_edit_comment_and_cancel"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintEnd_toStartOf="@+id/comment_set_public"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/button_edit_comment_and_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <Button
         android:id="@+id/button_edit_comment_and_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
         android:text="EDIT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.099"
-        app:layout_constraintStart_toStartOf="@+id/tableLayout"
-        app:layout_constraintTop_toBottomOf="@+id/table_comment_layout"
-        app:layout_constraintVertical_bias="0.122" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="Poster:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintEnd_toStartOf="@+id/comment_set_public"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="72dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="Comment:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.094"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
-    <TableLayout
-        android:id="@+id/tableLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-27dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:text="Posted by:"
+                    android:textSize="16sp"
+                    tools:layout_editor_absoluteX="362dp"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/et_first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="75dp"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="Vorname"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="Posted at:"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/et_comment_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="75dp"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="Posted Date"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:layout_editor_absoluteX="0dp">
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:padding="3dip"
-                android:text="Username" />
-
-            <TextView
-                android:id="@+id/et_username"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Username" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/email"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="3dip"
-                android:text="Email" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/et_email"
-                android:layout_height="match_parent"
-                android:enabled="false"
-                android:padding="3dip" />
-        </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="Comment"
+                    android:textSize="16sp" />
 
-        <TableRow>
+                <EditText
+                    android:id="@+id/et_comment_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:enabled="false"
+                    android:inputType="textMultiLine"
+                    android:padding="3dip"
+                    android:text="Content"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:padding="3dip"
-                android:text="Rolle" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/et_role"
-                android:layout_height="match_parent"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Rolle" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="Vorname" />
-
-            <TextView
-                android:id="@+id/et_first_name"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Vorname" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="Nachname" />
-
-            <TextView
-                android:id="@+id/et_last_name"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Nachname" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="Matrikelnummer" />
-
-            <TextView
-                android:id="@+id/et_student_number"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Matrikelnummer" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="Studiengang" />
-
-            <TextView
-                android:id="@+id/et_course"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Studiengang" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="Prüfungsordnung" />
-
-            <TextView
-                android:id="@+id/et_ex_regulations"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Pruefungsordnung" />
-        </TableRow>
-
-    </TableLayout>
-
-    <TableLayout
-        android:id="@+id/table_comment_layout"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginRight="128dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:padding="3dip"
-                android:text="Posted Date" />
-
-            <TextView
-                android:id="@+id/et_comment_date"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:layout_weight="1"
-                android:enabled="false"
-                android:padding="3dip"
-                android:text="Posted Date" />
+                android:background="?android:attr/listDivider" />
 
-        </TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <Switch
+                    android:id="@+id/switch_comment_edited"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dip"
+                    android:text="Edited" />
 
-            <Switch
-                android:id="@+id/switch_comment_edited"
-                android:padding="3dip"
-                android:text="Edited" />
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF" />
 
-            <Switch
-                android:id="@+id/switch_comment_restricted"
-                android:padding="3dip"
-                android:text="Restricted" />
+                <Switch
+                    android:id="@+id/switch_comment_restricted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="3dip"
+                    android:text="Restricted" />
 
-        </TableRow>
+            </LinearLayout>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:padding="3dip"
-                android:text="Comment" />
-
-            <EditText
-                android:id="@+id/et_comment_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:inputType="textMultiLine"
-                android:padding="3dip"
-                android:text="Content" />
-        </TableRow>
-
-    </TableLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
