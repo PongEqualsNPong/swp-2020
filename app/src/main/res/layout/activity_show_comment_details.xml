@@ -182,6 +182,7 @@
                     android:layout_margin="5dp"
                     android:enabled="false"
                     android:inputType="textMultiLine"
+                    android:maxLines="6"
                     android:padding="3dip"
                     android:text="Content"
                     android:textSize="20sp" />
