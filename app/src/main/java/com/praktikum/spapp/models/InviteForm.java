@@ -8,18 +8,9 @@ import java.util.ArrayList;
 public class InviteForm {
 
     private String email;
-    private int projectId;
+    private Long projectId;
     private Role role;
-    private String projectRights;
-
-    public InviteForm(String email, int projectId, Role role, String projectRights) {
-        this.email = email;
-        this.projectId = projectId;
-        this.role = role;
-        this.projectRights = projectRights;
-    }
-    public InviteForm(){
-    };
+    private projectRights projectRights;
 
     public String getEmail() {
         return email;
@@ -29,11 +20,11 @@ public class InviteForm {
         this.email = email;
     }
 
-    public int getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -45,11 +36,16 @@ public class InviteForm {
         this.role = role;
     }
 
-    public String getProjectRights() {
+    public projectRights getProjectRights() {
         return projectRights;
     }
 
-    public void setProjectRights(String projectRights) {
+    public void setProjectRights(projectRights projectRights) {
         this.projectRights = projectRights;
+    }
+
+    public enum projectRights {
+        handler,
+        processor
     }
 }

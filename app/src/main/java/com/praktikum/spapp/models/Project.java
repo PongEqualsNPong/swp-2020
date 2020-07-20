@@ -46,11 +46,11 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<User> getHandler() {
+    public ArrayList<User> getHandlers() {
         return handlers;
     }
 
-    public void setHandler(ArrayList<User> handler) {
+    public void setHandlers(ArrayList<User> handler) {
         this.handlers = handler;
     }
 

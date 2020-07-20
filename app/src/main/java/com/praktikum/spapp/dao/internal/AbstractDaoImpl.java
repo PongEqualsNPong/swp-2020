@@ -5,6 +5,7 @@ import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -66,7 +67,7 @@ public abstract class AbstractDaoImpl {
                 request = new Request.Builder()
                         .url(api + path)
                         .header("Authorization", session.getTokenType() + " " + session.getAccessToken())
-                        .delete()
+                        .delete(body)
                         .build();
                 return client.newCall(request).execute();
         }
@@ -79,7 +80,7 @@ public abstract class AbstractDaoImpl {
     }
 
     /**
-     * If the request is successful (e.g. status 200) the returned json still might be an error. In this case the error message is extracted
+     * If the request is successful (e.g. status 200) the returned json still might be an error. In this case the error message hopefully is extracted
      * and thrown within a new ResponseException.
      *
      * @param responseString
@@ -91,7 +92,6 @@ public abstract class AbstractDaoImpl {
         }
     }
 
-
     /**
      * The http request types
      */
@@ -101,4 +101,6 @@ public abstract class AbstractDaoImpl {
         PUT,
         DELETE
     }
+
+    protected static User createDummyUser(){return null;}
 }

@@ -18,14 +18,10 @@ import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.service.ProjectService;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterUser;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class FragmentProjectOverview extends Fragment {
     View view;
@@ -87,7 +83,7 @@ public class FragmentProjectOverview extends Fragment {
 
         // RECYCLER
         RecyclerView recyclerViewHandler = view.findViewById(R.id.pd_overview_recycler_handlers);
-        RecyclerViewAdapterUser adapterHandler = new RecyclerViewAdapterUser(project.getHandler(), getContext());
+        RecyclerViewAdapterUser adapterHandler = new RecyclerViewAdapterUser(project.getHandlers(), getContext());
         recyclerViewHandler.setAdapter(adapterHandler);
         recyclerViewHandler.setLayoutManager(new LinearLayoutManager(getContext()));
 

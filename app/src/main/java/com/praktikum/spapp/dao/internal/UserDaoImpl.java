@@ -11,6 +11,8 @@ import com.praktikum.spapp.models.InviteForm;
 import com.praktikum.spapp.models.RegisterForm;
 import com.praktikum.spapp.models.Session;
 import com.praktikum.spapp.models.User;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -22,6 +24,11 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         this.session = session;
     }
 
+    public UserDaoImpl() {
+    }
+
+    ;
+
     @Override
     public String inviteUser(InviteForm form) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
@@ -29,17 +36,23 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
             Response response = httpRequestMaker("/api/user/addUserInvitation", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
-            return Utils.parseForJsonObject(responseString, "InvitationLinkUrl");
+            return Utils.parseForJsonObject(responseString, "InvitationLink");
         } catch (IOException e) {
             throw new ResponseException(e);
         }
     }
 
     @Override
-    public void acceptInvite(RegisterForm form) throws ResponseException {
+    public void acceptInvite(RegisterForm form, String invitationLinkUrl) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
+        RequestBody body = RequestBody.create(data.toString(), JSON);
         try {
-            Response response = httpRequestMaker("/api/user/byInvitation/"  , requestTypes.POST, data);
+            Request request = new Request.Builder()
+                    .url(api + "/api/user/byInvitation/" + invitationLinkUrl)
+
+                    .post(body)
+                    .build();
+            Response response = client.newCall(request).execute();
             String responseString = response.body().string();
             responseCheck(responseString);
         } catch (IOException e) {
@@ -49,15 +62,13 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     @Override
     public ArrayList<User> fetchAll() throws ResponseException {
-        ArrayList<User> list = null;
         try {
             Response response = httpRequestMaker("/api/user/fetchall", requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
             String jsonString = Utils.parseForJsonObject(responseString, "result");
-            list = new Gson().fromJson(jsonString, new TypeToken<ArrayList<User>>() {
+            return new Gson().fromJson(jsonString, new TypeToken<ArrayList<User>>() {
             }.getType());
-            return list;
         } catch (IOException e) {
             throw new ResponseException(e);
         }
@@ -89,14 +100,12 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     @Override
     public User getUserByEmail(String email) throws ResponseException {
-        User user = null;
         try {
             Response response = httpRequestMaker("/api/user/getUserByEmail/" + email, requestTypes.GET);
             String responseString = response.body().string();
             responseCheck(responseString);
-            user = new Gson().fromJson(responseString, new TypeToken<User>() {
+            return new Gson().fromJson(responseString, new TypeToken<User>() {
             }.getType());
-            return user;
         } catch (IOException e) {
             throw new ResponseException(e);
         }
@@ -104,7 +113,6 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     @Override
     public String getUserEmailByUsername(String username) throws ResponseException {
-        String email = null;
         try {
             Response response = httpRequestMaker("/api/user/getUserEmailByUserName/" + username, requestTypes.GET);
             String responseString = response.body().string();
@@ -117,31 +125,54 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     @Override
     public User getUserByUsername(String username) throws ResponseException {
-        User user = null;
         try {
             Response response = httpRequestMaker("/api/user/getUserByUserName/" + username, requestTypes.GET);
             String responseString = response.body().string();
-            //responseCheck(responseString);
-            user = new Gson().fromJson(responseString, new TypeToken<User>() {
+
+//            responseCheck(responseString);
+            return new Gson().fromJson(responseString, new TypeToken<User>() {
             }.getType());
-            return user;
         } catch (IOException e) {
             throw new ResponseException(e);
         }
     }
 
     @Override
-    public void deleteUserByEmailHard(String email) {
+    public void deleteUserByEmailHard(String email) throws ResponseException {
+        JsonObject data = new JsonObject();
+        data.addProperty("email", email);
+        try {
+            Response response = httpRequestMaker("/api/user/deleteUserByEmailHardDelete", requestTypes.DELETE, data);
+            String responseString = response.body().string();
+            responseCheck(responseString);
+        } catch (IOException e) {
+            throw new ResponseException(e);
+        }
+    }
+
+    @Override
+    public void deleteUserByEmail(String email) throws ResponseException {
+        JsonObject data = new JsonObject();
+        data.addProperty("email", email);
+        try {
+            Response response = httpRequestMaker("/api/user/deleteUserByEmail", requestTypes.DELETE, data);
+            String responseString = response.body().string();
+            responseCheck(responseString);
+        } catch (IOException e) {
+            throw new ResponseException(e);
+        }
 
     }
 
     @Override
-    public void deleteUserByEmail(String email) {
-
-    }
-
-    @Override
-    public void deleteUserSelf() {
+    public void deleteUserSelf() throws ResponseException {
+        try {
+            Response response = httpRequestMaker("/api/user/deleteSelf", requestTypes.DELETE);
+            String responseString = response.body().string();
+            responseCheck(responseString);
+        } catch (IOException e) {
+            throw new ResponseException(e);
+        }
 
     }
 }

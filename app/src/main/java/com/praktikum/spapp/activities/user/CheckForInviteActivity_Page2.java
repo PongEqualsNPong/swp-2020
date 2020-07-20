@@ -12,14 +12,18 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.RegisterForm;
 import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.UserService;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 import com.praktikum.spapp.common.Utils;
 
 import java.io.IOException;
 
 public class CheckForInviteActivity_Page2 extends AppCompatActivity implements View.OnClickListener {
+    UserService userService = new UserServiceImpl(SessionManager.getSession());
 
     //string from intent
     String userName, userPassword, studentNumber, firstName, lastName, invitationLink;
@@ -75,30 +79,18 @@ public class CheckForInviteActivity_Page2 extends AppCompatActivity implements V
 
                 new Thread(() -> {
                     try {
-                        UserServiceImpl userServiceImpl = new UserServiceImpl(new Session());
-                        userServiceImpl.acceptInvite(new RegisterForm());
-                        if (Utils.isSuccess("hihi")) {
-                            runOnUiThread(() -> Snackbar.make(view, "Accepted the Invitation, now get out", Snackbar.LENGTH_LONG).show());
-                        } else {
-                            runOnUiThread(() -> Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
-                        }
-
-                    } /**catch (IOException e) {
-                     runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
-                     } */ catch (Exception e) {
-                        runOnUiThread(() -> Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show());
+                        userService.acceptInvite(new RegisterForm(), "");
+                        runOnUiThread(() -> Snackbar.make(view, "Accepted the Invitation, now get out", Snackbar.LENGTH_LONG).show());
+                    } catch (ResponseException e) {
+                        runOnUiThread(() -> Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show());
                     }
                 }).start();
-
                 break;
             case R.id.checkInvite2_Cancel:
-                uname.setText(" ");
-                pwd.setText(" ");
-                matnr.setText(" ");
-
+                uname.setText("");
+                pwd.setText("");
+                matnr.setText("");
                 break;
-
         }
     }
-
 }

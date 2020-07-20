@@ -1,5 +1,7 @@
 package com.praktikum.spapp.service.internal;
 
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.praktikum.spapp.common.HttpClient;
@@ -18,6 +20,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class CommentServiceImpl extends Service implements CommentService {
@@ -30,17 +34,23 @@ public class CommentServiceImpl extends Service implements CommentService {
 
     @Override
     public Comment createComment(Long projectId, boolean restricted, String message) throws ResponseException {
-        return null;
+        return dao.createComment(projectId, restricted, message);
     }
 
     @Override
     public ArrayList<Comment> getAllComments(Long projectId) throws ResponseException {
-        return null;
+        return dao.getComments(projectId);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public ArrayList<Comment> getPublicComments(Long projectId) throws ResponseException {
-        return null;
+        ArrayList<Comment> allComments = dao.getComments(projectId);
+        List<Comment> filtered = allComments
+                .stream()
+                .filter(c -> !c.isRestricted())
+                .collect(Collectors.toList());
+        return new ArrayList<>(filtered);
     }
 
     @Override
@@ -50,12 +60,12 @@ public class CommentServiceImpl extends Service implements CommentService {
 
     @Override
     public Comment updateComment(Long commentId, boolean restricted, String message) throws ResponseException {
-        return null;
+        return dao.updateComment(commentId, restricted, message);
     }
 
     @Override
     public void deleteComment(Long commentId) throws ResponseException {
-
+        dao.deleteComment(commentId);
     }
 
 

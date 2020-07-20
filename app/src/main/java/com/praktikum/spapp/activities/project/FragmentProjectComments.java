@@ -28,13 +28,18 @@ import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.service.UserService;
 import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
+import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 
 import java.util.ArrayList;
 
 public class FragmentProjectComments extends Fragment {
+
+    CommentService commentService = new CommentServiceImpl(SessionManager.getSession());
+
 
     UserService service = new UserServiceImpl(SessionManager.getSession());
     RecyclerViewAdapterComment adapter;
@@ -89,8 +94,40 @@ public class FragmentProjectComments extends Fragment {
 
             }).start();
 
+        UserService userService = new UserServiceImpl(SessionManager.getSession());
+        User currentUser;
 
+//        try {
+//            if (Utils.isEmail(SessionManager.getSession().getCurrentUsername())) {
+//                currentUser = userService.getUserByEmail(SessionManager.getSession().getCurrentUsername());
+//            } else {
+//                currentUser = userService.getUserByUsername(SessionManager.getSession().getCurrentUsername());
+//            }
+//        } catch (ResponseException e) {
+//            currentUser = null;
+//        }
+//
+//
+//        boolean isAdmin = currentUser.getRoles()
+//                .stream()
+//                .noneMatch(x -> x.equals(Role.ROLE_USER));
+//        if (!isAdmin) {
+//            try {
+//                comments = commentService.getPublicComments(project.getId());
+//            } catch (ResponseException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        recyclerView.setAdapter(adapter);
 
+//        commentDeleteButton.setOnClickListener((view) -> {
+//            try {
+//                commentService.deleteComment(comment.getId());
+//                getActivity().runOnUiThread(() -> Snackbar.make(view, "Comment succesfully deleted.", Snackbar.LENGTH_LONG));
+//            } catch (ResponseException e) {
+//                getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting comment failed", Snackbar.LENGTH_LONG));
+//            }
+//        });
         return view;
     }
 
