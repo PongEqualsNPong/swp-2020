@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommentServiceImplTest extends AbstractTestBundle {
 
@@ -21,15 +22,28 @@ public class CommentServiceImplTest extends AbstractTestBundle {
     @Test
     public void testGetAllProjectComments() throws ResponseException {
         ArrayList<Comment> list = adminService.getAllComments(1L);
-        assertEquals(1, list.size());
+        assertEquals(2, list.size());
     }
 
     @Test
     public void testUpdateComment() throws ResponseException {
-        adminService.updateComment(2L, true, "First!");
-        assertEquals(1, adminService.getAllComments(1L).size());
-        assertEquals(0, adminService.getPublicComments(1L).size());
-        assertEquals(0, usersService.getPublicComments(1L).size());
+        Comment result = adminService.updateComment(projectId, true, "First!");
+        assertEquals(1, adminService.getPublicComments(projectId).size());
+        result = adminService.updateComment(projectId, false, "First!");
+        assertEquals(2, usersService.getPublicComments(projectId).size());
+    }
+
+    @Test
+    public void testCreateDeleteComment() throws ResponseException {
+        int before = adminService.getAllComments(projectId).size();
+        Comment aComment = adminService.createComment(projectId, false, "Ein TestComment!");
+
+        assertEquals(before + 1, adminService.getAllComments(projectId).size());
+
+        adminService.deleteComment(aComment.getId());
+
+        assertEquals(before, adminService.getAllComments(projectId).size());
+
     }
 
 

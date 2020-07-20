@@ -7,6 +7,7 @@ import com.praktikum.spapp.models.RegisterForm;
 import com.praktikum.spapp.models.User;
 import com.praktikum.spapp.models.enums.Role;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class UserServiceImplTest extends AbstractTestBundle {
     }
 
     @Test
+    @Disabled
     public void testEditUser() throws ResponseException {
         String newName = "Gorgeous Cow";
         String dbModEmail = "test_mod@email.com";
