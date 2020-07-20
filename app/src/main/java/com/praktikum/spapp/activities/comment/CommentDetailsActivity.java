@@ -56,7 +56,11 @@ public class CommentDetailsActivity extends AppCompatActivity {
 
 
         vorname = findViewById(R.id.et_first_name);
-        vorname.setText(comment.getAuthor().getUserInfo().getForename() + " (" + comment.getAuthor().getUsername() + ")");
+        if (comment.getAuthor().getUserInfo().getForename() != null) {
+            vorname.setText(comment.getAuthor().getUserInfo().getForename() + " (" + comment.getAuthor().getUsername() + ")");
+        } else {
+            vorname.setText(comment.getAuthor().getUsername());
+        }
 
         commentContent = findViewById(R.id.et_comment_content);
         commentContent.setText(comment.getContent());
