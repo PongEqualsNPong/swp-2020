@@ -46,6 +46,7 @@ public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerVie
             intent.putExtra("project", projects.get(i));
             //If appoints changed from intern it will put this boolean as true.
             intent.putExtra("changed", false);
+            intent.putExtra("createdComment", false);
             aContext.startActivity(intent);
         });
 

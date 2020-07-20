@@ -1,6 +1,7 @@
 package com.praktikum.spapp.activities.project;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.appointment.CreateAppointmentActivity;
+import com.praktikum.spapp.activities.comment.CreateCommentActivity;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.User;
@@ -49,6 +53,7 @@ public class FragmentProjectComments extends Fragment {
     Button commenSetRestrictedButton;
     Button commentSetPublicButton;
     View view;
+    Button button_create_comment;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -56,12 +61,18 @@ public class FragmentProjectComments extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.fragment_project_comments, container, false);
 
+
         view = inflater.inflate(R.layout.fragment_project_comments, container, false);
         Comment comment = (Comment) getArguments().getSerializable("comments");
         Project project = (Project) getArguments().getSerializable("project");
+        boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         setHasOptionsMenu(true);
-
-
+        button_create_comment = view.findViewById(R.id.button_create_comment);
+        button_create_comment.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CreateCommentActivity.class);
+            intent.putExtra("project", project);
+            startActivity(intent);
+        });
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
@@ -85,7 +96,9 @@ public class FragmentProjectComments extends Fragment {
                     }
                     getActivity().runOnUiThread(() -> {
                         adapter = new RecyclerViewAdapterComment(comments, view.getContext());
-
+                        if (createdComment){
+                            Snackbar.make(view, "Your comment have been created.", Snackbar.LENGTH_LONG).show();
+                        }
                         recyclerView.setAdapter(adapter);
                     });
                 } catch (ResponseException e) {
@@ -93,6 +106,8 @@ public class FragmentProjectComments extends Fragment {
                 }
 
             }).start();
+
+
 
         UserService userService = new UserServiceImpl(SessionManager.getSession());
         User currentUser;

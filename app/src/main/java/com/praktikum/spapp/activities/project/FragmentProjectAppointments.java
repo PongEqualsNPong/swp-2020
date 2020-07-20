@@ -46,6 +46,7 @@ public class FragmentProjectAppointments extends Fragment {
         button_create_appointment = view.findViewById(R.id.button_create_appointment);
         Project project = (Project) getArguments().getSerializable("project");
         boolean changed = (boolean) getArguments().getSerializable("changed");
+        boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         button_create_appointment.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), CreateAppointmentActivity.class);
             intent.putExtra("project", project);

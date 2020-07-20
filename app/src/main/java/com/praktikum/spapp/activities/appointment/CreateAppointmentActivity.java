@@ -193,6 +193,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                                     Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
                                     intent.putExtra("project", project);
                                     intent.putExtra("changed", true);
+                                    intent.putExtra("createdComment", false);
                                     startActivity(intent);
                                 });
                             } catch (ResponseException e) {
