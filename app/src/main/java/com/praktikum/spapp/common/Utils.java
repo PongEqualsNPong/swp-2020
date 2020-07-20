@@ -50,7 +50,11 @@ public class Utils {
         if (bElement.isJsonArray()) {
             return bElement.toString();
         } else {
-            return bElement.getAsString();
+            try {
+                return bElement.getAsString();
+            } catch (UnsupportedOperationException e) {
+                return bElement.toString();
+            }
         }
     }
 
