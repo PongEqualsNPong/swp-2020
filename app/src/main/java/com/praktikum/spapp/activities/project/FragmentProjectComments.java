@@ -1,6 +1,8 @@
 package com.praktikum.spapp.activities.project;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +56,7 @@ public class FragmentProjectComments extends Fragment {
     Button commentSetPublicButton;
     View view;
     Button button_create_comment;
+    Button button_tooltip;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -76,6 +79,28 @@ public class FragmentProjectComments extends Fragment {
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
+
+
+        button_tooltip = view.findViewById(R.id.ProjectComment_tooltip);
+        button_tooltip.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setMessage("To filter out Restricted comment, simply type \"restricted\" on the search bar." +
+                    "           \n To filter out unrestricted comments, type \"not restricted \" ");
+            builder.setCancelable(true);
+            builder.setPositiveButton(
+                    "OKAY",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                        }
+                    }
+            );
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
