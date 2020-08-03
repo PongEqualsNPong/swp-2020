@@ -73,7 +73,7 @@ public class RecyclerViewAdapterAppointment extends RecyclerView.Adapter<Recycle
         viewHolder.parentLayout.setOnClickListener(view -> {
             Intent intent = new Intent(aContext, AppointmentDetailsActivity.class);
             intent.putExtra("appointment", appointments.get(i));
-            intent.putExtra("appointmentId", i);
+            intent.putExtra("appointmentId", new Long(i));
             aContext.startActivity(intent);
         });
     }

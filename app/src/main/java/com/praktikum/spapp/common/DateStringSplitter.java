@@ -91,15 +91,21 @@ public class DateStringSplitter {
         String hour = arrayTime[0];
         String[] hourLengthCheck = hour.split("");
         String minute = arrayTime[1].substring(0, 2);
-        String[] minuteLengthCheck = minute.split("");
+        String minuteReplaced = minute.replaceAll(" ","");
+        String[] minuteLengthCheck = minuteReplaced.split("");
         String locale = context.getResources().getConfiguration().locale.getCountry();
         TimeZone tz = TimeZone.getDefault();
 
         LocalDateTime now = LocalDateTime.now();
         ZoneId zone = ZoneId.of(tz.getID());
         ZoneOffset zoneOffSet = zone.getRules().getOffset(now);
-    String zoneOffset = zoneOffSet.toString();
-        return year + "-" + (monthLengthCheck.length == 1 ? "0" + month : month) + "-" + (dayLengthCheck.length == 1 ? "0" + day : day) + "T" + (hourLengthCheck.length == 1 ? "0" + hour : hour)+ ":" + (minuteLengthCheck.length == 1 ? "0" + minute : minute) + ":00.000000" + zoneOffset;
+        String zoneOffset = zoneOffSet.toString();
+        String checkDay = (dayLengthCheck.length == 1 ? "0" + day : day);
+        String checkMonth = (monthLengthCheck.length == 1 ? "0" + month : month);
+        String checkMinute = minuteLengthCheck.length == 1 ? "0" + minuteReplaced : minuteReplaced;
+        String checkHour = (hourLengthCheck.length == 1 ? "0" + hour : hour);
+        String timeISOFormat = year + "-" + checkMonth + "-" + checkDay + "T" + checkHour + ":" + checkMinute + ":00.000000" + zoneOffset;
+        return timeISOFormat;
     }
 
 }

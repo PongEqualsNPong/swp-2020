@@ -8,14 +8,15 @@ import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 import java.util.ArrayList;
 
 public class AppointmentServiceImplTest extends AbstractTestBundle {
-
+    /* The project id. */
     private final Long PROJECT_ID = 1L;
-
+    /* The appointment id. */
     private final Long APPOINTEMENT_ID = 1L;
 
     AppointmentService service = new AppointmentServiceImpl(SessionManager.getSession());
@@ -23,7 +24,7 @@ public class AppointmentServiceImplTest extends AbstractTestBundle {
     @Test
     public void testGetAppointments() throws ResponseException {
         ArrayList<Appointment> list = service.fetchAppointments(PROJECT_ID);
-        assertEquals(2, list.size());
+        assertTrue(!list.isEmpty());
     }
 
     @Test
@@ -31,8 +32,14 @@ public class AppointmentServiceImplTest extends AbstractTestBundle {
         JsonObject data = new JsonObject();
         data.addProperty("name", "Ein Treffen");
         data.addProperty("description", "Nichts besonderes");
-        Appointment anAppointment = service.updateAppointment(data, APPOINTEMENT_ID);
-        assertEquals("Ein Treffen", anAppointment.getName());
+        service.updateAppointment(data, APPOINTEMENT_ID);
+
+        ArrayList<Appointment> list = service.fetchAppointments(PROJECT_ID);
+        Appointment anAppointment = list.stream()
+                .filter(s -> s.getId().equals(APPOINTEMENT_ID))
+                .findFirst()
+                .orElse(null);
+        assertTrue(anAppointment.getName().contains("Ein Treffen"));
 
         // clean up
         data = new JsonObject();
@@ -42,9 +49,10 @@ public class AppointmentServiceImplTest extends AbstractTestBundle {
 
     @Test
     public void testCreateDeleteAppointment() throws ResponseException {
-        Appointment anAppointment = service.fetchAppointments(PROJECT_ID).get(0);
         int before = service.fetchAppointments(PROJECT_ID).size();
 
+        Appointment anAppointment = service.fetchAppointments(PROJECT_ID).get(0);
+        anAppointment.setId(null);
         Appointment bAppointment = service.createAppointment(anAppointment, PROJECT_ID);
         assertEquals(before + 1, service.fetchAppointments(PROJECT_ID).size());
 
@@ -52,5 +60,11 @@ public class AppointmentServiceImplTest extends AbstractTestBundle {
         assertEquals(before, service.fetchAppointments(PROJECT_ID).size());
     }
 
+    @Test
+    public void testCreateThrowsException() throws ResponseException {
+        Appointment anAppointment = service.fetchAppointments(PROJECT_ID).get(0);
+        anAppointment.setId(null);
+        anAppointment.setStartDate(null);
 
+    }
 }

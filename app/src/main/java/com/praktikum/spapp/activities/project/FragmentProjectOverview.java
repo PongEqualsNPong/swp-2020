@@ -53,7 +53,7 @@ public class FragmentProjectOverview extends Fragment {
 
         editAndSaveButton = view.findViewById(R.id.pd_overview_edit_button);
         deleteAndCancelButton = view.findViewById(R.id.pd_overview_save_or_delete_button);
-        deleteProjectButton = view.findViewById(R.id.pd_overview_delete_projectButton);
+        //deleteProjectButton = view.findViewById(R.id.pd_overview_delete_projectButton);
 
 
         // SPINNER

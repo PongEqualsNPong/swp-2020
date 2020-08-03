@@ -26,7 +26,7 @@ public class CommentServiceImplTest extends AbstractTestBundle {
     }
 
     @Test
-    public void testUpdateComment() throws ResponseException {
+    public void testUpdateThrowsExceptionComment() throws ResponseException {
         Comment result = adminService.updateComment(projectId, true, "First!");
         assertEquals(1, adminService.getPublicComments(projectId).size());
         result = adminService.updateComment(projectId, false, "First!");

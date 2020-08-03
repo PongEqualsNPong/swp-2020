@@ -12,7 +12,7 @@ public interface AppointmentService {
 
     ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException;
 
-    Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException;
+    void updateAppointment(JsonObject data, Long appointmentId) throws ResponseException;
 
     void deleteAppointment(Long appointmentId) throws ResponseException;
 

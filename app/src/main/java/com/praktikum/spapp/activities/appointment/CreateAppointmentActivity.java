@@ -2,18 +2,34 @@ package com.praktikum.spapp.activities.appointment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.general.WelcomeActivity;
+import com.praktikum.spapp.activities.project.FragmentProjectAppointments;
+import com.praktikum.spapp.activities.project.FragmentProjectOverview;
+import com.praktikum.spapp.activities.project.ProjectDetailActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.enums.AppointmentType;
+import com.praktikum.spapp.service.AppointmentService;
+import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,6 +52,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_appointment);
+        AppointmentService appointmentService = new AppointmentServiceImpl(SessionManager.getSession());
         Project project = (Project) getIntent().getSerializableExtra("project");
         Spinner ct_types = (Spinner) findViewById(R.id.ct_types);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -136,37 +153,60 @@ public class CreateAppointmentActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                JsonObject data = new JsonObject();
-                data.addProperty("name", ct_name.getText().toString());
-                data.addProperty("description", ct_types.getSelectedItem().toString());
-                data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
-                data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
-                data.addProperty("type", ct_description.getText().toString());
-                new Thread(() -> {
-                    try {
-//                        String responseString = new AppointmentsServiceImpl().appointmentCreate(finalBodyJson, project.getId());
-//                        if (Utils.isSuccess(responseString)) {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, "Con fuckign gratys, your changes were saved.", Snackbar.LENGTH_LONG).show();
-//
-//
-//                            });
-//                        } else {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-//                            });
-//
-//                        }
+                Calendar beginTime = Calendar.getInstance();
 
-                    } catch (Exception e) {
-                        runOnUiThread(() -> {
-                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-                        });
+                Integer startYear = DateStringSplitter.yearPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startMonth = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startDay = DateStringSplitter.dayPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+
+                Integer startHour = DateStringSplitter.hourPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                Integer startMinute = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+
+                beginTime.set(startYear, startMonth, startDay, startHour, startMinute);
+
+                Calendar endTime = Calendar.getInstance();
+
+                Integer endYear = DateStringSplitter.yearPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endMonth = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endDay = DateStringSplitter.dayPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+
+                Integer endHour = DateStringSplitter.hourPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                Integer endMinute = DateStringSplitter.monthPrettyPrint(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+
+                endTime.set(endYear, endMonth, endDay, endHour, endMinute);
+                long csdfd = endTime.getTimeInMillis();
+                long sdofkn = beginTime.getTimeInMillis();
+                if (!(endTime.getTimeInMillis() < beginTime.getTimeInMillis())) {
+
+                    Appointment newAppointment = new Appointment();
+                    newAppointment.setName(ct_name.getText().toString());
+                    newAppointment.setDescription(ct_description.getText().toString());
+                    newAppointment.setStartDate(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                    newAppointment.setEndDate(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                    if (!(ct_types.getSelectedItem().toString().toUpperCase().equals("NONE"))) {
+                        newAppointment.setType(AppointmentType.valueOf(ct_types.getSelectedItem().toString().toUpperCase()));
                     }
-
-
-                }).start();
+                    new Thread(() -> {
+                        try {
+                            appointmentService.createAppointment(newAppointment, project.getId());
+                            runOnUiThread(() -> {
+                                Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
+                                intent.putExtra("project", project);
+                                intent.putExtra("changed", true);
+                                intent.putExtra("createdComment", false);
+                                startActivity(intent);
+                            });
+                        } catch (ResponseException e) {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            });
+                        }
+                    }).start();
+                } else {
+                    Snackbar.make(view, "The start date cannot be later than the end date!", Snackbar.LENGTH_LONG).show();
+                }
             }
+
         });
 
     }

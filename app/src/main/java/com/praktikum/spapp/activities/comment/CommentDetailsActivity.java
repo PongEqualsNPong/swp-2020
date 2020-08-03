@@ -30,13 +30,7 @@ public class CommentDetailsActivity extends AppCompatActivity {
 
     CommentService service = new CommentServiceImpl(SessionManager.getSession());
 
-    private TextView username;
-    private TextView email;
     private TextView vorname;
-    private TextView nachname;
-    private TextView matrikelnummer;
-    private TextView studiengang;
-    private TextView pruefungsordnung;
 
     private EditText commentContent;
     private TextView commentDate;
@@ -60,26 +54,13 @@ public class CommentDetailsActivity extends AppCompatActivity {
 
         Comment comment = (Comment) getIntent().getSerializableExtra("comment");
 
-        username = findViewById(R.id.et_username);
-        username.setText(comment.getAuthor().getUsername());
-
-        email = findViewById(R.id.et_email);
-        email.setText(comment.getAuthor().getEmail());
 
         vorname = findViewById(R.id.et_first_name);
-        vorname.setText(comment.getAuthor().getUserInfo().getForename());
-
-        nachname = findViewById(R.id.et_last_name);
-        nachname.setText(comment.getAuthor().getUserInfo().getSurname());
-
-        matrikelnummer = findViewById(R.id.et_student_number);
-        matrikelnummer.setText("" + comment.getAuthor().getUserInfo().getStudentNumber());
-
-        studiengang = findViewById(R.id.et_course);
-        studiengang.setText(comment.getAuthor().getUserInfo().getCourseOfStudy());
-
-        pruefungsordnung = findViewById(R.id.et_ex_regulations);
-        pruefungsordnung.setText(comment.getAuthor().getUserInfo().getExaminationRegulations());
+        if (comment.getAuthor().getUserInfo().getForename() != null) {
+            vorname.setText(comment.getAuthor().getUserInfo().getForename() + " (" + comment.getAuthor().getUsername() + ")");
+        } else {
+            vorname.setText(comment.getAuthor().getUsername());
+        }
 
         commentContent = findViewById(R.id.et_comment_content);
         commentContent.setText(comment.getContent());
@@ -171,7 +152,7 @@ public class CommentDetailsActivity extends AppCompatActivity {
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
                         public void run() {
-                            commentIsRestricted.setChecked(comment.isRestricted());
+                            commentIsRestricted.setChecked(true);
                         }
                     });
                     Looper.loop();
@@ -190,7 +171,7 @@ public class CommentDetailsActivity extends AppCompatActivity {
                     Handler handler = new Handler();
                     handler.post(new Runnable() {
                         public void run() {
-                            commentIsRestricted.setChecked(comment.isRestricted());
+                            commentIsRestricted.setChecked(false);
                         }
                     });
                     Looper.loop();

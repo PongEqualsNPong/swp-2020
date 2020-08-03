@@ -20,17 +20,13 @@ public abstract class AbstractTestBundle {
     static Session userSession;
 
     @BeforeAll
-    public static void adminAuth() throws ResponseException {
+    public static void auth() throws ResponseException {
         AuthenticationService adminAuth = new AuthenticationServiceImpl();
         adminAuth.logonServer(USERNAME_ADMIN, PASSWORD_ADMIN);
         adminSession = SessionManager.getSession();
-    }
 
-    @BeforeAll
-    public static void userAuth() throws ResponseException {
         AuthenticationService userAuth = new AuthenticationServiceImpl();
         userAuth.logonServer(USERNAME_USER, PASSWORD_USER);
         userSession = SessionManager.getSession();
     }
-
 }

@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -28,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activities.general.WelcomeActivity;
 import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.service.AppointmentService;
@@ -38,13 +42,16 @@ import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
 
 public class AppointmentDetailsActivity extends AppCompatActivity {
 
     AppointmentService service = new AppointmentServiceImpl(SessionManager.getSession());
+
     private EditText et_name;
     private EditText et_startDate;
     private EditText et_endDate;
@@ -59,10 +66,12 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
     private TimePickerDialog timeEndPicker;
     private Dialog myDialog;
     private Button button_delete_appointment_and_cancel;
+    private Button btnEdit;
     private Button button_export_to_calendar;
     private Integer appointmentId;
     ArrayList<Project> projectArrayList;
     private Context aContext;
+    int uniqueId = 0;
     private boolean editedSaved = false;
 
     @Override
@@ -82,6 +91,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
         Spinner et_types = (Spinner) findViewById(R.id.et_types);
         et_types.setEnabled(false);
         myDialog = new Dialog(this);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.appointment_types, android.R.layout.simple_spinner_item);
@@ -149,16 +159,52 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                 Integer endMinute = DateStringSplitter.monthPrettyPrint(appointment.getEndDate());
 
                 endTime.set(endYear, endMonth, endDay, endHour, endMinute);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
-                        .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
-                        .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
-                        .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
-                v.getContext().startActivity(intent);
+
+
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                String highScore = sharedPref.getString("SAVED_APPOINTMENT", "false");
+                String [] stringArray = highScore.split("");
+                int sad = stringArray.length;
+                boolean setted = false;
+                if(!(highScore.equals("false"))) {
+                    for (int i = 0; i < stringArray.length; i++) {
+                        if (Long.parseLong(stringArray[i]) == appointmentId) {
+                            setted = true;
+                        }
+                    }
+                }
+                if(!setted) {
+                    Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, appointmentId);
+                    Intent intent = new Intent(Intent.ACTION_INSERT)
+                            .setData(uri)
+                            .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
+                            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
+                            .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+                            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
+
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    String appointments = sharedPref.getString("SAVED_APPOINTMENT", "false");
+                    editor.putString("SAVED_APPOINTMENT", appointments += Long.toString(appointmentId));
+                    editor.commit();
+                    v.getContext().startActivity(intent);
+                }else{
+                    /*Uri uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, appointmentId);
+                    Intent intent = new Intent(Intent.ACTION_EDIT)
+                            .setData(uri)
+                            .putExtra(CalendarContract.Events.TITLE, et_name.getText().toString() + "" + (et_types.getSelectedItem().toString().equals("None") ? "" : " (" + et_types.getSelectedItem().toString() + ")")) // Simple title
+                            .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis() + 1320000)
+                            .putExtra(CalendarContract.Events.DESCRIPTION, et_description.getText().toString()) // Description
+                            .putExtra(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_PRIVATE)
+                            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_FREE);
+                    v.getContext().startActivity(intent);
+                    Snackbar.make(v, "Appointment updated.", Snackbar.LENGTH_LONG).show();*/
+                    ShowExportPopup(appointment, v);
+                }
             }
         });
 
@@ -238,7 +284,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
 
                             new Thread(() -> {
                                 try {
-                                    Appointment result = service.updateAppointment(data, appointment.getId());
+                                    service.updateAppointment(data, appointment.getId());
                                     runOnUiThread(() -> {
 
                                         editMode.set(false);
@@ -254,11 +300,13 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                                         button_export_to_calendar.setVisibility(View.VISIBLE);
 
 
-                                        et_name.setText(result.getName());
+                                        /*et_name.setText(result.getName());
                                         et_startDate.setText(result.getStartDate());
                                         et_endDate.setText(result.getEndDate());
                                         et_description.setText(result.getDescription());
 
+
+                                         */
                                         editedSaved = true;
                                         Snackbar.make(view, "You have successfully saved your changes.", Snackbar.LENGTH_LONG).show();
 
@@ -324,23 +372,51 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new Thread(() -> {
-//                    try {
-//                        String responseString = new AppointmentsServiceImpl(new Session()).appointmentDelete(appointment.getId());
-//                        if (Utils.isSuccess(responseString)) {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, "Con fuckign gratys, you delete a appointment.", Snackbar.LENGTH_LONG).show();
-//                            });
-//                        } else {
-//                            runOnUiThread(() -> {
-//                                Snackbar.make(view, Utils.parseForJsonObject(responseString, "Error"), Snackbar.LENGTH_LONG).show();
-//                            });
-//                        }
-//                    } catch (Exception e) {
-//                        runOnUiThread(() -> {
-//                            Snackbar.make(view, "Whoops, something went wrong.", Snackbar.LENGTH_LONG).show();
-//                        });
-//                    }
+                    try {
+                        service.deleteAppointment(appointment.getId());
+                        Snackbar.make(view, "You deleted this appointment.", Snackbar.LENGTH_LONG).show();
+                        aContext = v.getContext();
+                        editedSaved = true;
+                    } catch (ResponseException e) {
+                        runOnUiThread(() -> {
+                            Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                        });
+                   }
                 }).start();
+
+                myDialog.dismiss();
+            }
+        });
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    public void ShowExportPopup(Appointment appointment, View view) {
+        TextView txtclose;
+        Button btnDelete;
+        Appointment appointment1 = appointment;
+
+        myDialog.setContentView(R.layout.activity_export_appointment_pop_up);
+        txtclose =(TextView) myDialog.findViewById(R.id.txtclose);
+        TextView exportTitle = (TextView) myDialog.findViewById(R.id.exportTitle);
+        TextView exportDescription = (TextView) myDialog.findViewById(R.id.exportDescription);
+        TextView exportStartDate = (TextView) myDialog.findViewById(R.id.exportStartDate);
+        TextView exportEndDate = (TextView) myDialog.findViewById(R.id.exportEndDate);
+        exportTitle.setText(appointment.getName());
+        exportDescription.setText(appointment.getDescription());
+        exportStartDate.setText("Start " + DateStringSplitter.datePrettyPrint(appointment.getStartDate()) + " " + DateStringSplitter.timePrettyPrint(appointment.getStartDate()));
+        exportEndDate.setText("End " + DateStringSplitter.datePrettyPrint(appointment.getEndDate()) + " " + DateStringSplitter.timePrettyPrint(appointment.getEndDate()));
+
+        btnEdit = (Button) myDialog.findViewById(R.id.btnEdit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
                 myDialog.dismiss();
             }

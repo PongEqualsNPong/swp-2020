@@ -1,6 +1,9 @@
 package com.praktikum.spapp.activities.project;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,24 +24,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.appointment.CreateAppointmentActivity;
+import com.praktikum.spapp.activities.comment.CreateCommentActivity;
 import com.praktikum.spapp.common.SessionManager;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.models.enums.Role;
-import com.praktikum.spapp.service.CommentService;
-import com.praktikum.spapp.service.UserService;
-import com.praktikum.spapp.service.internal.CommentServiceImpl;
+import com.praktikum.spapp.service.AppointmentService;
+import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.models.Comment;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+import com.praktikum.spapp.service.CommentService;
+import com.praktikum.spapp.service.UserService;
+import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
+import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 
 import java.util.ArrayList;
 
 public class FragmentProjectComments extends Fragment {
+
     CommentService commentService = new CommentServiceImpl(SessionManager.getSession());
 
+
+    UserService service = new UserServiceImpl(SessionManager.getSession());
     RecyclerViewAdapterComment adapter;
     ArrayList<Comment> comments;
     Button commentDeleteButton;
@@ -46,6 +55,8 @@ public class FragmentProjectComments extends Fragment {
     Button commenSetRestrictedButton;
     Button commentSetPublicButton;
     View view;
+    Button button_create_comment;
+    Button button_tooltip;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -53,21 +64,75 @@ public class FragmentProjectComments extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.fragment_project_comments, container, false);
 
+
         view = inflater.inflate(R.layout.fragment_project_comments, container, false);
         Comment comment = (Comment) getArguments().getSerializable("comments");
         Project project = (Project) getArguments().getSerializable("project");
+        boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         setHasOptionsMenu(true);
-
-
+        button_create_comment = view.findViewById(R.id.button_create_comment);
+        button_create_comment.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), CreateCommentActivity.class);
+            intent.putExtra("project", project);
+            startActivity(intent);
+        });
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
-//        commentViewallButton = view.findViewById(R.id.comment_viewall_button);
+        //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
+
+
+        button_tooltip = view.findViewById(R.id.ProjectComment_tooltip);
+        button_tooltip.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setMessage("To filter out Restricted comment, simply type \"restricted\" on the search bar." +
+                    "           \n To filter out unrestricted comments, type \"not restricted \" ");
+            builder.setCancelable(true);
+            builder.setPositiveButton(
+                    "OKAY",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                        }
+                    }
+            );
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         comments = project.getComments();
         // filter out all the restricted comments
         //comments.removeIf(x -> x.isRestricted());
+        /*AuthenticationService authenticationService = new AuthenticationService();
+        Token resBody = authenticationService.getToken();
+        User thisUser = resBody.getCurrentUser();
+        */
+            new Thread(() -> {
+                User currentUser;
+                try {
+                    currentUser = service.getUserByUsername(SessionManager.getSession().getCurrentUsername());
+                    System.out.println(currentUser.getRoles().get(0));
+                    if (currentUser.getRoles().get(0).toString().equals("ROLE_USER")) {
+                        comments.removeIf(x -> x.isRestricted());
+                    }
+                    getActivity().runOnUiThread(() -> {
+                        adapter = new RecyclerViewAdapterComment(comments, view.getContext());
+                        if (createdComment){
+                            Snackbar.make(view, "Your comment have been created.", Snackbar.LENGTH_LONG).show();
+                        }
+                        recyclerView.setAdapter(adapter);
+                    });
+                } catch (ResponseException e) {
+                    e.printStackTrace();
+                }
+
+            }).start();
+
+
 
         UserService userService = new UserServiceImpl(SessionManager.getSession());
         User currentUser;
@@ -93,9 +158,6 @@ public class FragmentProjectComments extends Fragment {
 //                e.printStackTrace();
 //            }
 //        }
-
-        adapter = new RecyclerViewAdapterComment(comments, view.getContext());
-
         recyclerView.setAdapter(adapter);
 
 //        commentDeleteButton.setOnClickListener((view) -> {
@@ -108,6 +170,7 @@ public class FragmentProjectComments extends Fragment {
 //        });
         return view;
     }
+
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -130,4 +193,3 @@ public class FragmentProjectComments extends Fragment {
 
     }
 }
-
