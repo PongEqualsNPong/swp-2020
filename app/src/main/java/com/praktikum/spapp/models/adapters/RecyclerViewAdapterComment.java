@@ -87,6 +87,10 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         return userFilter;
     }
 
+    /**
+     * @input: filter query.
+     */
+
     public Filter userFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

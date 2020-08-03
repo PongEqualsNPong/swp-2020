@@ -80,7 +80,9 @@ public class FragmentProjectComments extends Fragment {
         //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
 
 
-
+        /**
+         * Create Tooltip for Filtering
+         */
         button_tooltip = view.findViewById(R.id.ProjectComment_tooltip);
         button_tooltip.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
@@ -171,6 +173,11 @@ public class FragmentProjectComments extends Fragment {
         return view;
     }
 
+    /**
+     * Create option menu with search bar
+     * @param menu
+     * @param inflater
+     */
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 

@@ -148,7 +148,10 @@ public class FragmentProjectOverview extends Fragment {
             }
         });
 
-
+        /**
+         * delete: delete project
+         * cancel: cancel changes
+         */
         deleteAndCancelButton.setOnClickListener((View view) -> {
             switch (editMode) {
                 case 0:
