@@ -20,6 +20,13 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
         this.session = session;
     }
 
+    /**
+     *
+     * @param appointment
+     * @param projectId
+     * @return new Appointment in project
+     * @throws ResponseException
+     */
     @Override
     public Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(appointment));
@@ -35,6 +42,12 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
         }
     }
 
+    /**
+     * get all available Appointment
+     * @param projectId
+     * @return
+     * @throws ResponseException
+     */
     @Override
     public ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException {
         try {
@@ -49,6 +62,13 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
         }
     }
 
+    /**
+     *
+     * @param data
+     * @param appointmentId
+     * @return Appointment with updated content and matching appointmentID
+     * @throws ResponseException
+     */
     @Override
     public Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
         try {
@@ -63,6 +83,11 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
         }
     }
 
+    /**
+     * Delete existing appointment
+     * @param appointmentId
+     * @throws ResponseException
+     */
     @Override
     public void deleteAppointment(Long appointmentId) throws ResponseException {
         try {

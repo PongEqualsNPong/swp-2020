@@ -9,6 +9,8 @@ import com.praktikum.spapp.dao.ProjectDao;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.service.AuthenticationService;
+
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -20,6 +22,12 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
         this.session = session;
     }
 
+    /**
+     *
+     * @param project
+     * @return a Response String
+     * @throws ResponseException
+     */
     @Override
     public Long createProject(Project project) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(project));
@@ -27,7 +35,7 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
             Response response = httpRequestMaker("/api/project/init", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
-            String result = Utils.parseForJsonObject(responseString, "projectId");
+            String result = Utils.parseForJsonObject(responseString.toString(), "projectId");
             return Long.parseLong(result);
         } catch (IOException e) {
             throw new ResponseException(e);
@@ -47,6 +55,11 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
         }
     }
 
+    /**
+     *
+     * @return A list of All Projects
+     * @throws ResponseException
+     */
     @Override
     public ArrayList<Project> fetchAllProjects() throws ResponseException {
         try {
@@ -62,6 +75,11 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
         }
     }
 
+    /**
+     *
+     * @return a list of project only available to user
+     * @throws ResponseException
+     */
     @Override
     public ArrayList<Project> fetchCurrentUserProjects() throws ResponseException {
         ArrayList<Project> list = null;
@@ -78,6 +96,12 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
         }
     }
 
+    /**
+     *
+     * @param id project ID
+     * @param data project contents to be updated
+     * @throws ResponseException
+     */
     @Override
     public void updateProject(Long id, JsonObject data) throws ResponseException {
         try {
@@ -89,6 +113,11 @@ public class ProjectDaoImpl extends AbstractDaoImpl implements ProjectDao {
         }
     }
 
+    /**
+     *
+     * @param id project ID to be deleted
+     * @throws ResponseException
+     */
     @Override
     public void deleteProject(Long id) throws ResponseException {
         try {

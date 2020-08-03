@@ -29,6 +29,12 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     ;
 
+    /**
+     *
+     * @param form
+     * @return
+     * @throws ResponseException
+     */
     @Override
     public String inviteUser(InviteForm form) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
@@ -42,6 +48,12 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param form register form
+     * @param invitationLinkUrl invitation URL got from invitation activity
+     * @throws ResponseException
+     */
     @Override
     public void acceptInvite(RegisterForm form, String invitationLinkUrl) throws ResponseException {
         JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(form));
@@ -60,6 +72,12 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @return list of all users
+     * @throws ResponseException
+     */
+
     @Override
     public ArrayList<User> fetchAll() throws ResponseException {
         try {
@@ -74,6 +92,11 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param data: user fields to be edited
+     * @throws ResponseException
+     */
     @Override
     public void editUser(JsonObject data) throws ResponseException {
         try {
@@ -84,6 +107,13 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
             throw new ResponseException(e);
         }
     }
+
+    /**
+     *
+     * @param email
+     * @return Username with matching email
+     * @throws ResponseException
+     */
 
     @Override
     public String getUsernameByEmail(String email) throws ResponseException {
@@ -98,6 +128,13 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param email
+     * @return User with matching email
+     * @throws ResponseException
+     */
+
     @Override
     public User getUserByEmail(String email) throws ResponseException {
         try {
@@ -111,6 +148,13 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @return Email with matching username
+     * @throws ResponseException
+     */
+
     @Override
     public String getUserEmailByUsername(String username) throws ResponseException {
         try {
@@ -123,6 +167,12 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @return User with matching username
+     * @throws ResponseException
+     */
     @Override
     public User getUserByUsername(String username) throws ResponseException {
         try {
@@ -137,6 +187,11 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param email
+     * @throws ResponseException
+     */
     @Override
     public void deleteUserByEmailHard(String email) throws ResponseException {
         JsonObject data = new JsonObject();
@@ -150,6 +205,11 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
         }
     }
 
+    /**
+     *
+     * @param email
+     * @throws ResponseException
+     */
     @Override
     public void deleteUserByEmail(String email) throws ResponseException {
         JsonObject data = new JsonObject();
@@ -164,6 +224,10 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
 
     }
 
+    /**
+     *
+     * @throws ResponseException
+     */
     @Override
     public void deleteUserSelf() throws ResponseException {
         try {

@@ -19,6 +19,15 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         this.session = session;
     }
 
+    /**
+     *
+     * @param projectId
+     * @param restricted
+     * @param message
+     * @return a new Comment with message content, project ID and restricted status
+     * @throws ResponseException
+     */
+
     @Override
     public Comment createComment(Long projectId, boolean restricted, String message) throws ResponseException {
         JsonObject data = new JsonObject();
@@ -36,6 +45,12 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         }
     }
 
+    /**
+     *
+     * @param projectId
+     * @return a list of all comments in a project
+     * @throws ResponseException
+     */
     @Override
     public ArrayList<Comment> getComments(Long projectId) throws ResponseException {
         try {
@@ -50,6 +65,14 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         }
     }
 
+    /**
+     *
+     * @param commentId
+     * @param restricted
+     * @param message
+     * @return updated Comment
+     * @throws ResponseException
+     */
     @Override
     public Comment updateComment(Long commentId, boolean restricted, String message) throws ResponseException {
         JsonObject data = new JsonObject();
@@ -67,6 +90,12 @@ public class CommentDaoImpl extends AbstractDaoImpl implements CommentDao {
         }
     }
 
+    /**
+     *
+     * @param commentId
+     * @throws ResponseException
+     * @return comment is deleted from project
+     */
     @Override
     public void deleteComment(Long commentId) throws ResponseException {
         try {

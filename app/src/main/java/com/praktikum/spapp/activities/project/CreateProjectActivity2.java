@@ -76,7 +76,7 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
                             runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
                         }
                     } catch (Exception e) {
-                        runOnUiThread(() ->Snackbar.make(view, e.getMessage().toString(), Snackbar.LENGTH_LONG).show() );
+                        runOnUiThread(() ->Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show() );
 
                         e.printStackTrace();
                     }
