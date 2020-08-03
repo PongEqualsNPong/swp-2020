@@ -3,6 +3,7 @@ package com.praktikum.spapp.common;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 
 import java.io.IOException;
@@ -58,12 +59,19 @@ public class Utils {
         }
     }
 
-    public static boolean isSuccess(String responseString) {
+    public static boolean isSuccess(String responseString) throws ResponseException {
 
-        String isSuccess = parseForJsonObject(responseString, "success");
-        if (isSuccess.contains("1")) {
-            return true;
-        } else {
+        try {
+            String isSuccess = parseForJsonObject(responseString, "success");
+            if (isSuccess.contains("1")) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            if (parseForJsonObject(responseString, "status").contains("403")) {
+                throw new ResponseException("Your are not authorized for this.");
+            }
             return false;
         }
     }
