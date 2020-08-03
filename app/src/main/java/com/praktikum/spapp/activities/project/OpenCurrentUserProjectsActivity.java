@@ -10,16 +10,14 @@ import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Session;
-import com.praktikum.spapp.service.ProjectService;
-import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.models.Project;
 import com.praktikum.spapp.models.adapters.RecyclerViewAdapterProject;
+import com.praktikum.spapp.service.ProjectService;
+import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class OpenAllProjectsActivity extends AppCompatActivity {
+public class OpenCurrentUserProjectsActivity extends AppCompatActivity {
     ArrayList<Project> projectArrayList;
     ProjectService service = new ProjectServiceImpl(SessionManager.getSession());
     CardView noProjectsMessage;
@@ -32,14 +30,15 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                this.projectArrayList = service.fetchAllProjects();
+                this.projectArrayList = service.fetchCurrentUserProjects();
                 if (projectArrayList.isEmpty()) {
-                    noProjectsMessage.setVisibility(View.VISIBLE);
+                    runOnUiThread(() -> noProjectsMessage.setVisibility(View.VISIBLE));
                 } else {
                     runOnUiThread(this::initRecyclerView);
                 }
+                runOnUiThread(this::initRecyclerView);
             } catch (ResponseException e) {
-                runOnUiThread(Snackbar.make(findViewById(R.id.activity_open_all_projects), e.getMessage() + " Please return to the previous page.", Snackbar.LENGTH_LONG)::show);
+                runOnUiThread(Snackbar.make(findViewById(R.id.welcome), e.getMessage() + " Please return to the previous page.", Snackbar.LENGTH_LONG)::show);
             }
         }).start();
     }

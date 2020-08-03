@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.project.OpenCurrentUserProjectsActivity;
 import com.praktikum.spapp.activities.project.ProjectDetailActivity;
 import com.praktikum.spapp.activities.project.CreateProjectActivity2;
 import com.praktikum.spapp.activities.project.OpenAllProjectsActivity;
@@ -39,11 +40,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     Button buttonViewProjects;
     Button buttonAppointment;
     Context wcontext;
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-            Intent intent = new Intent(wcontext, LoginActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(wcontext, LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         buttonOpenProject = findViewById(R.id.button_openproject);
         buttonOpenProject.setOnClickListener(this);
 
-        buttonViewProjects = findViewById(R.id.button_viewprojects);
+        buttonViewProjects = findViewById(R.id.button_view_current_user_projects);
         buttonViewProjects.setOnClickListener(this);
 
         CheckForInvite = findViewById(R.id.button_acceptInvite);
@@ -96,9 +98,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
 
-            case R.id.button_viewprojects:
-
-                startActivityProjectDetail();
+            case R.id.button_view_current_user_projects:
+                startActivityCurrentUserProjects();
+                break;
 
         }
     }
@@ -113,7 +115,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
         }
         return true;
-}
+    }
 
     // create the menu
     @Override
@@ -147,10 +149,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(intent);
     }
 
-    private void startActivityProjectDetail() {
-        startActivity(new Intent(this, ProjectDetailActivity.class));
+    private void startActivityCurrentUserProjects() {
+        startActivity(new Intent(this, OpenCurrentUserProjectsActivity.class));
     }
-
 
 
 }

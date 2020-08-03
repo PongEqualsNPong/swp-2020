@@ -2,7 +2,6 @@ package com.praktikum.spapp.activities.appointment;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,17 +12,10 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.general.WelcomeActivity;
-import com.praktikum.spapp.activities.project.FragmentProjectAppointments;
-import com.praktikum.spapp.activities.project.FragmentProjectOverview;
 import com.praktikum.spapp.activities.project.ProjectDetailActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.common.SessionManager;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;

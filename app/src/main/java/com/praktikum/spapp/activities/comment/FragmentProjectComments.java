@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities.project;
+package com.praktikum.spapp.activities.comment;
 
 
 import android.app.AlertDialog;
@@ -55,8 +55,8 @@ public class FragmentProjectComments extends Fragment {
     Button commenSetRestrictedButton;
     Button commentSetPublicButton;
     View view;
-    Button button_create_comment;
-    Button button_tooltip;
+    Button buttonCreateComment;
+    Button buttonToolTip;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -70,37 +70,14 @@ public class FragmentProjectComments extends Fragment {
         Project project = (Project) getArguments().getSerializable("project");
         boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         setHasOptionsMenu(true);
-        button_create_comment = view.findViewById(R.id.button_create_comment);
-        button_create_comment.setOnClickListener(view -> {
+        buttonCreateComment = view.findViewById(R.id.button_create_comment);
+        buttonCreateComment.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), CreateCommentActivity.class);
             intent.putExtra("project", project);
             startActivity(intent);
         });
         commentDeleteButton = view.findViewById(R.id.comment_delete_button);
         //commentViewallButton = view.findViewById(R.id.comment_viewall_button);
-
-
-
-        button_tooltip = view.findViewById(R.id.ProjectComment_tooltip);
-        button_tooltip.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-            builder.setMessage("To filter out Restricted comment, simply type \"restricted\" on the search bar." +
-                    "           \n To filter out unrestricted comments, type \"not restricted \" ");
-            builder.setCancelable(true);
-            builder.setPositiveButton(
-                    "OKAY",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            dialog.cancel();
-                        }
-                    }
-            );
-
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        });
 
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -111,27 +88,26 @@ public class FragmentProjectComments extends Fragment {
         Token resBody = authenticationService.getToken();
         User thisUser = resBody.getCurrentUser();
         */
-            new Thread(() -> {
-                User currentUser;
-                try {
-                    currentUser = service.getUserByUsername(SessionManager.getSession().getCurrentUsername());
-                    System.out.println(currentUser.getRoles().get(0));
-                    if (currentUser.getRoles().get(0).toString().equals("ROLE_USER")) {
-                        comments.removeIf(x -> x.isRestricted());
-                    }
-                    getActivity().runOnUiThread(() -> {
-                        adapter = new RecyclerViewAdapterComment(comments, view.getContext());
-                        if (createdComment){
-                            Snackbar.make(view, "Your comment have been created.", Snackbar.LENGTH_LONG).show();
-                        }
-                        recyclerView.setAdapter(adapter);
-                    });
-                } catch (ResponseException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            User currentUser;
+            try {
+                currentUser = service.getUserByUsername(SessionManager.getSession().getCurrentUsername());
+                System.out.println(currentUser.getRoles().get(0));
+                if (currentUser.getRoles().get(0).toString().equals("ROLE_USER")) {
+                    comments.removeIf(x -> x.isRestricted());
                 }
+                getActivity().runOnUiThread(() -> {
+                    adapter = new RecyclerViewAdapterComment(comments, view.getContext());
+                    if (createdComment) {
+                        Snackbar.make(view, "Your comment have been created.", Snackbar.LENGTH_LONG).show();
+                    }
+                    recyclerView.setAdapter(adapter);
+                });
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
 
-            }).start();
-
+        }).start();
 
 
         UserService userService = new UserServiceImpl(SessionManager.getSession());

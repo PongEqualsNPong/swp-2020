@@ -15,4 +15,24 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewNoProjects"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:visibility="gone"
+    >
+        <TextView
+                android:text="You are not part of any Projects yet.
+                \Come back when you have been assgined to a Project."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:padding="8dp"/>
+    </androidx.cardview.widget.CardView>
+
+
 </RelativeLayout>

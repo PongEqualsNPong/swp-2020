@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities.project;
+package com.praktikum.spapp.activities.appointment;
 
 
 import android.content.Intent;
