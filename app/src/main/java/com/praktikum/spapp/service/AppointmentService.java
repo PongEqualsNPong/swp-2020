@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface AppointmentService {
 
-    String createAppointment(JsonObject appointment, Long projectId) throws ResponseException;
+    Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException;
 
     ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException;
 

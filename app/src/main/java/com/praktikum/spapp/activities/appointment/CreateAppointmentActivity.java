@@ -27,6 +27,7 @@ import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.models.Appointment;
 import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.models.enums.AppointmentType;
 import com.praktikum.spapp.service.AppointmentService;
 import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 
@@ -177,32 +178,31 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                 long sdofkn = beginTime.getTimeInMillis();
                 if (!(endTime.getTimeInMillis() < beginTime.getTimeInMillis())) {
 
-
-                    JsonObject data = new JsonObject();
-                    data.addProperty("name", ct_name.getText().toString());
-                    data.addProperty("description", ct_description.getText().toString());
-                    data.addProperty("startDate", DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
-                    data.addProperty("endDate", DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
+                    Appointment newAppointment = new Appointment();
+                    newAppointment.setName(ct_name.getText().toString());
+                    newAppointment.setDescription(ct_description.getText().toString());
+                    newAppointment.setStartDate(DateStringSplitter.changeToDateFormat(ct_startDate.getText().toString(), ct_startTime.getText().toString(), view.getContext()));
+                    newAppointment.setEndDate(DateStringSplitter.changeToDateFormat(ct_endDate.getText().toString(), ct_endTime.getText().toString(), view.getContext()));
                     if (!(ct_types.getSelectedItem().toString().toUpperCase().equals("NONE"))) {
-                        data.addProperty("type", ct_types.getSelectedItem().toString().toUpperCase());
+                        newAppointment.setType(AppointmentType.valueOf(ct_types.getSelectedItem().toString().toUpperCase()));
                     }
-                        new Thread(() -> {
-                            try {
-                                appointmentService.createAppointment(data, project.getId());
-                                runOnUiThread(() -> {
-                                    Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
-                                    intent.putExtra("project", project);
-                                    intent.putExtra("changed", true);
-                                    intent.putExtra("createdComment", false);
-                                    startActivity(intent);
-                                });
-                            } catch (ResponseException e) {
-                                runOnUiThread(() -> {
-                                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
-                                });
-                            }
-                        }).start();
-                }else{
+                    new Thread(() -> {
+                        try {
+                            appointmentService.createAppointment(newAppointment, project.getId());
+                            runOnUiThread(() -> {
+                                Intent intent = new Intent(view.getContext(), ProjectDetailActivity.class);
+                                intent.putExtra("project", project);
+                                intent.putExtra("changed", true);
+                                intent.putExtra("createdComment", false);
+                                startActivity(intent);
+                            });
+                        } catch (ResponseException e) {
+                            runOnUiThread(() -> {
+                                Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                            });
+                        }
+                    }).start();
+                } else {
                     Snackbar.make(view, "The start date cannot be later than the end date!", Snackbar.LENGTH_LONG).show();
                 }
             }

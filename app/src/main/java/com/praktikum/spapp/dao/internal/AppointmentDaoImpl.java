@@ -21,15 +21,15 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     }
 
     @Override
-    public String createAppointment(JsonObject appointment, Long projectId) throws ResponseException {
+    public Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException {
+        JsonObject data = (JsonObject) new JsonParser().parse(new Gson().toJson(appointment));
         try {
-            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", requestTypes.POST, appointment);
+            Response response = httpRequestMaker("/api/projects/" + projectId.toString() + "/appointments", requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
-            //String resultString = Utils.parseForJsonObject(responseString, "appointment");
-            //return new Gson().fromJson(resultString, new TypeToken<Appointment>() {
-            //}.getType());
-            return "success";
+            String resultString = Utils.parseForJsonObject(responseString, "appointment");
+            return new Gson().fromJson(resultString, new TypeToken<Appointment>() {
+            }.getType());
         } catch (IOException e) {
             throw new ResponseException(e);
         }
@@ -50,11 +50,14 @@ public class AppointmentDaoImpl extends AbstractDaoImpl implements AppointmentDa
     }
 
     @Override
-    public void updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
+    public Appointment updateAppointment(JsonObject data, Long appointmentId) throws ResponseException {
         try {
             Response response = httpRequestMaker("/api/appointments/" + appointmentId.toString(), requestTypes.POST, data);
             String responseString = response.body().string();
             responseCheck(responseString);
+            String resultString = Utils.parseForJsonObject(responseString, "appointment");
+            return new Gson().fromJson(resultString, new TypeToken<Appointment>() {
+            }.getType());
         } catch (IOException e) {
             throw new ResponseException(e);
         }

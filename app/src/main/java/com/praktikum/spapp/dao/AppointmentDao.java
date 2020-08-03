@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public interface AppointmentDao {
 
-    String createAppointment(JsonObject appointment, Long projectId) throws ResponseException;
+    Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException;
 
     ArrayList<Appointment> fetchAppointments(Long projectId) throws ResponseException;
 
-    void updateAppointment(JsonObject data, Long projectId) throws ResponseException;
+    Appointment updateAppointment(JsonObject data, Long projectId) throws ResponseException;
 
     void deleteAppointment(Long projectId) throws ResponseException;
 

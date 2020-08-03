@@ -20,7 +20,7 @@ public class AppointmentServiceImpl extends Service implements AppointmentServic
     }
 
     @Override
-    public String createAppointment(JsonObject appointment, Long projectId) throws ResponseException {
+    public Appointment createAppointment(Appointment appointment, Long projectId) throws ResponseException {
         return dao.createAppointment(appointment, projectId);
     }
 
