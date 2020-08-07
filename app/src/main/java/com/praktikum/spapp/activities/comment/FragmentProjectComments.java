@@ -110,6 +110,27 @@ public class FragmentProjectComments extends Fragment {
         }).start();
 
 
+        buttonToolTip = view.findViewById(R.id.ProjectComment_tooltip);
+        buttonToolTip.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setMessage("To filter out Restricted comment, simply type \"restricted\" on the search bar." +
+                    "           \n To filter out unrestricted comments, type \"not restricted \" ");
+            builder.setCancelable(true);
+            builder.setPositiveButton(
+                    "OKAY",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            dialog.cancel();
+                        }
+                    }
+            );
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        });
+
         UserService userService = new UserServiceImpl(SessionManager.getSession());
         User currentUser;
 
