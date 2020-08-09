@@ -4,7 +4,7 @@ package com.praktikum.spapp.service;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Project;
+import com.praktikum.spapp.model.Project;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import org.junit.jupiter.api.Test;
 

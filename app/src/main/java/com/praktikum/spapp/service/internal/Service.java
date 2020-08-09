@@ -1,7 +1,7 @@
 package com.praktikum.spapp.service.internal;
 
 
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Session;
 
 public abstract class Service {
 

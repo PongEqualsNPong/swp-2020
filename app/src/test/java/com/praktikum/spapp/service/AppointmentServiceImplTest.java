@@ -3,7 +3,7 @@ package com.praktikum.spapp.service;
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Appointment;
+import com.praktikum.spapp.model.Appointment;
 import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 import org.junit.jupiter.api.Test;
 

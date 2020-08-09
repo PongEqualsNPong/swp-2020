@@ -1,7 +1,7 @@
 package com.praktikum.spapp.dao;
 
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Session;
 
 public interface AuthenticationDao {
 

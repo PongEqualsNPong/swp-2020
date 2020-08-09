@@ -1,8 +1,7 @@
 package com.praktikum.spapp.service;
 
-import android.app.RecoverableSecurityException;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Comment;
+import com.praktikum.spapp.model.Comment;
 import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import org.junit.jupiter.api.Test;
 

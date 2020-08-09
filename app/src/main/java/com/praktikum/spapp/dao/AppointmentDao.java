@@ -2,7 +2,7 @@ package com.praktikum.spapp.dao;
 
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Appointment;
+import com.praktikum.spapp.model.Appointment;
 
 import java.util.ArrayList;
 

@@ -2,10 +2,10 @@ package com.praktikum.spapp.service;
 
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.InviteForm;
-import com.praktikum.spapp.models.RegisterForm;
-import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.models.enums.Role;
+import com.praktikum.spapp.model.InviteForm;
+import com.praktikum.spapp.model.RegisterForm;
+import com.praktikum.spapp.model.User;
+import com.praktikum.spapp.model.enums.Role;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

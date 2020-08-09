@@ -2,9 +2,9 @@ package com.praktikum.spapp.service;
 
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.InviteForm;
-import com.praktikum.spapp.models.RegisterForm;
-import com.praktikum.spapp.models.User;
+import com.praktikum.spapp.model.InviteForm;
+import com.praktikum.spapp.model.RegisterForm;
+import com.praktikum.spapp.model.User;
 
 import java.util.ArrayList;
 

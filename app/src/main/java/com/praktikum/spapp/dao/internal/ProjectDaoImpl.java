@@ -7,9 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.ProjectDao;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.Session;
-import com.praktikum.spapp.service.AuthenticationService;
+import com.praktikum.spapp.model.Project;
+import com.praktikum.spapp.model.Session;
 
 import okhttp3.Response;
 

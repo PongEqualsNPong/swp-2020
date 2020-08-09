@@ -2,22 +2,14 @@ package com.praktikum.spapp.service.internal;
 
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.common.SessionManager;
-import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.CommentDao;
 import com.praktikum.spapp.dao.internal.CommentDaoImpl;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Comment;
+import com.praktikum.spapp.model.Comment;
 
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.CommentService;
-import org.json.JSONObject;
-
-import okhttp3.Request;
-import okhttp3.Response;
 
 import java.util.ArrayList;
 import java.util.List;

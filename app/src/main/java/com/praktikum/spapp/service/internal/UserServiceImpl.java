@@ -5,7 +5,7 @@ import com.praktikum.spapp.common.HttpClient;
 import com.praktikum.spapp.dao.UserDao;
 import com.praktikum.spapp.dao.internal.UserDaoImpl;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.*;
+import com.praktikum.spapp.model.*;
 
 import com.praktikum.spapp.service.UserService;
 import okhttp3.Request;

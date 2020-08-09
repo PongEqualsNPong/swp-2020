@@ -1,6 +1,6 @@
 package com.praktikum.spapp.common;
 
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Session;
 
 public class SessionManager {
 

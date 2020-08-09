@@ -1,7 +1,7 @@
 package com.praktikum.spapp.service;
 
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Comment;
+import com.praktikum.spapp.model.Comment;
 
 import java.util.ArrayList;
 

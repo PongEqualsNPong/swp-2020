@@ -1,14 +1,11 @@
 package com.praktikum.spapp.dao.internal;
 
 import com.google.gson.JsonObject;
-import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Session;
-import com.praktikum.spapp.models.User;
-import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
+import com.praktikum.spapp.model.Session;
+import com.praktikum.spapp.model.User;
 import okhttp3.*;
-import org.json.JSONObject;
 
 import java.io.IOException;
 

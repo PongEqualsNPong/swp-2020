@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import com.praktikum.spapp.dao.AppointmentDao;
 import com.praktikum.spapp.dao.internal.AppointmentDaoImpl;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Appointment;
+import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.AppointmentService;
 
 import java.util.ArrayList;

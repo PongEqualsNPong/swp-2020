@@ -2,10 +2,8 @@ package com.praktikum.spapp.service;
 
 import com.google.gson.JsonObject;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Project;
-import org.json.JSONObject;
+import com.praktikum.spapp.model.Project;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public interface ProjectService {

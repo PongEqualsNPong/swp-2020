@@ -2,7 +2,7 @@ package com.praktikum.spapp.service;
 
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 

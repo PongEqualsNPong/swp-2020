@@ -14,30 +14,30 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activities.comment.CreateCommentActivity"
+        <activity android:name=".activity.comment.CreateCommentActivity"
                   android:label="Create Comment"></activity>
-        <activity android:name=".activities.appointment.CreateAppointmentActivity"/>
+        <activity android:name=".activity.appointment.CreateAppointmentActivity"/>
         <activity
-                android:name=".activities.appointment.AppointmentDetailsActivity"
+                android:name=".activity.appointment.AppointmentDetailsActivity"
                 android:label="Appointment"/>
-        <activity android:name=".activities.project.OpenMyProjectsActivity"/>
-        <activity android:name=".activities.project.OpenCurrentUserProjectsActivity"/>
-        <activity android:name=".activities.project.OpenMailActivity"/>
-        <activity android:name=".activities.user.ShowUserDetailsActivity"/>
-        <activity android:name=".activities.user.ShowFetchedUsersActivity"/>
-        <activity android:name=".activities.user.InviteActivity"/>
-        <activity android:name=".activities.project.CreateProjectActivity"/>
-        <activity android:name=".activities.project.CreateProjectActivity2"/>
-        <activity android:name=".activities.comment.CommentDetailsActivity"/>
+        <activity android:name=".activity.project.OpenMyProjectsActivity"/>
+        <activity android:name=".activity.project.OpenCurrentUserProjectsActivity"/>
+        <activity android:name=".activity.project.OpenMailActivity"/>
+        <activity android:name=".activity.user.ShowUserDetailsActivity"/>
+        <activity android:name=".activity.user.ShowFetchedUsersActivity"/>
+        <activity android:name=".activity.user.InviteActivity"/>
+        <activity android:name=".activity.project.CreateProjectActivity"/>
+        <activity android:name=".activity.project.CreateProjectActivity2"/>
+        <activity android:name=".activity.comment.CommentDetailsActivity"/>
         <activity
-                android:name=".activities.general.WelcomeActivity"
+                android:name=".activity.general.WelcomeActivity"
                 android:label="Welcome"/> <!-- <activity android:name=".Login"> -->
         <meta-data
                 android:name="com.google.android.actions"
                 android:resource="@xml/login2"/>
 
         <activity
-                android:name=".activities.general.LoginActivity"
+                android:name=".activity.general.LoginActivity"
                 android:label="Login"
                 android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -46,14 +46,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.user.CheckForInviteActivity"/>
+        <activity android:name=".activity.user.CheckForInviteActivity"/>
         <activity
-                android:name=".activities.project.OpenAllProjectsActivity"
+                android:name=".activity.project.OpenAllProjectsActivity"
                 android:label="Projects"/>
         <activity
-                android:name=".activities.project.ProjectDetailActivity"
+                android:name=".activity.project.ProjectDetailActivity"
                 android:label="Project"/>
-        <activity android:name=".activities.user.CheckForInviteActivity_Page2"/>
+        <activity android:name=".activity.user.CheckForInviteActivity_Page2"/>
 
         <meta-data
                 android:name="com.google.android.actions"

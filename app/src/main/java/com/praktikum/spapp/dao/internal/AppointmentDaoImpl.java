@@ -7,8 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.AppointmentDao;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Appointment;
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Appointment;
+import com.praktikum.spapp.model.Session;
 import okhttp3.Response;
 
 import java.io.IOException;

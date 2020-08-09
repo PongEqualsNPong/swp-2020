@@ -6,8 +6,8 @@ import com.google.gson.reflect.TypeToken;
 import com.praktikum.spapp.common.Utils;
 import com.praktikum.spapp.dao.CommentDao;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.Comment;
-import com.praktikum.spapp.models.Session;
+import com.praktikum.spapp.model.Comment;
+import com.praktikum.spapp.model.Session;
 import okhttp3.Response;
 
 import java.io.IOException;
