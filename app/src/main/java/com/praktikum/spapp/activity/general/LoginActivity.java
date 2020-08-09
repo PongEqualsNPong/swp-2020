@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.service.internal.AuthenticationServiceImpl;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         butLogin.setOnClickListener((View view) -> {
             new Thread(() -> {
                 try {
-                    authService  = new AuthenticationServiceImpl();
+                    authService = new AuthenticationServiceImpl();
                     authService.logonServer(etLoginName.getText().toString(), etLoginPassword.getText().toString());
 
                     //Activity will be shown next Intent will be changed
@@ -64,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (ResponseException e) {
+                    Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
             }).start();
 

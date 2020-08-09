@@ -85,7 +85,7 @@ public abstract class AbstractDaoImpl {
      */
     public static void responseCheck(String responseString) throws ResponseException {
         if (!Utils.isSuccess(responseString.toLowerCase())) {
-            throw new ResponseException(Utils.parseForJsonObject(responseString, "error"));
+            throw new ResponseException(Utils.parseForJsonObject(responseString, "Error"));
         }
     }
 

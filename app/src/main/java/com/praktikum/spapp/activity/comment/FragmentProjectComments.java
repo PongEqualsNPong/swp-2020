@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities.comment;
+package com.praktikum.spapp.activity.comment;
 
 
 import android.app.AlertDialog;
@@ -24,16 +24,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activities.appointment.CreateAppointmentActivity;
-import com.praktikum.spapp.activities.comment.CreateCommentActivity;
+import com.praktikum.spapp.activity.appointment.CreateAppointmentActivity;
+import com.praktikum.spapp.activity.comment.CreateCommentActivity;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.models.User;
+import com.praktikum.spapp.model.User;
 import com.praktikum.spapp.service.AppointmentService;
 import com.praktikum.spapp.service.AuthenticationService;
-import com.praktikum.spapp.models.Comment;
-import com.praktikum.spapp.models.Project;
-import com.praktikum.spapp.models.adapters.RecyclerViewAdapterComment;
+import com.praktikum.spapp.model.Comment;
+import com.praktikum.spapp.model.Project;
+import com.praktikum.spapp.model.adapters.RecyclerViewAdapterComment;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.service.UserService;
 import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
