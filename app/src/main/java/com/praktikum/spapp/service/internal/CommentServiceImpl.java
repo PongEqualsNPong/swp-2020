@@ -20,7 +20,7 @@ public class CommentServiceImpl extends Service implements CommentService {
     CommentDao dao;
 
     public CommentServiceImpl(Session session) {
-        dao = new CommentDaoImpl(SessionManager.getSession());
+        dao = new CommentDaoImpl(session);
         this.session = session;
     }
 
@@ -45,9 +45,15 @@ public class CommentServiceImpl extends Service implements CommentService {
         return new ArrayList<>(filtered);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public ArrayList<Comment> getFilteredComments(Long projectId) throws ResponseException {
-        return null;
+    public ArrayList<Comment> getRestrictedComments(Long projectId) throws ResponseException {
+        ArrayList<Comment> allComments = dao.getComments(projectId);
+        List<Comment> filtered = allComments
+                .stream()
+                .filter(c -> c.isRestricted())
+                .collect(Collectors.toList());
+        return new ArrayList<>(filtered);
     }
 
     @Override

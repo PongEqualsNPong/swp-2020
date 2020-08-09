@@ -12,7 +12,7 @@ public interface CommentService {
 
     ArrayList<Comment> getPublicComments(Long projectId) throws ResponseException;
 
-    ArrayList<Comment> getFilteredComments(Long projectId) throws ResponseException;
+    ArrayList<Comment> getRestrictedComments(Long projectId) throws ResponseException;
 
     Comment updateComment(Long commentId, boolean restricted, String message) throws ResponseException;
 

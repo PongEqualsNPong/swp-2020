@@ -66,7 +66,6 @@ public class FragmentProjectComments extends Fragment {
 
 
         view = inflater.inflate(R.layout.fragment_project_comments, container, false);
-        Comment comment = (Comment) getArguments().getSerializable("comments");
         Project project = (Project) getArguments().getSerializable("project");
         boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         setHasOptionsMenu(true);
