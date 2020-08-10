@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activity.comment.CreateCommentActivity;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.model.Comment;
@@ -56,6 +57,7 @@ public class FragmentProjectComments extends Fragment {
 
 
         view = inflater.inflate(R.layout.fragment_project_comments, container, false);
+        Comment comment = (Comment) getArguments().getSerializable("comments");
         Project project = (Project) getArguments().getSerializable("project");
         boolean createdComment = (boolean) getArguments().getSerializable("createdComment");
         setHasOptionsMenu(true);
