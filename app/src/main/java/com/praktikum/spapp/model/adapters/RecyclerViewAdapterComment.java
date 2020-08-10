@@ -18,6 +18,7 @@ import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.model.Comment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerViewAdapterComment.ViewHolder> implements Filterable {
@@ -25,7 +26,6 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<Comment> comments;
     private ArrayList<Comment> commentsAll;
-
 
 
     private Context aContext;
@@ -44,6 +44,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView commentContent;
@@ -67,7 +68,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
         viewHolder.commentContent.setText(comments.get(i).getContent());
         viewHolder.CommentDate.setText("Posted at: " + DateStringSplitter.datePrettyPrint(comments.get(i).getCreationTime()) + " " + DateStringSplitter.timePrettyPrint(comments.get(i).getCreationTime()));
-        if( comments.get(i).getAuthor() != null) {
+        if (comments.get(i).getAuthor() != null) {
             viewHolder.commentAuthor.setText(comments.get(i).getAuthor().getUsername());
         }
         viewHolder.parentLayout.setOnClickListener(view -> {
@@ -79,7 +80,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-            return comments.size();
+        return comments.size();
     }
 
     @Override
@@ -102,10 +103,9 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
                 for (Comment comment : commentsAll) {
                     //filter based on restricted
 //                    if (comment.getContent().toLowerCase().contains(filterPattern)) {
-                    if(comment.isRestricted() && filterPattern.equals("restricted")) {
+                    if (comment.isRestricted() && filterPattern.equals("restricted")) {
                         filteredList.add(comment);
-                    }
-                    else if(!comment.isRestricted() && filterPattern.equals("not restricted")) {
+                    } else if (!comment.isRestricted() && filterPattern.equals("not restricted")) {
                         filteredList.add(comment);
                     }
                 }
@@ -119,6 +119,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         protected void publishResults(CharSequence constraint, FilterResults results) {
             comments.clear();
             comments.addAll((List) results.values);
+            Collections.sort(comments);
             notifyDataSetChanged();
         }
     };

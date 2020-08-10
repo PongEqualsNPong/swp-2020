@@ -74,7 +74,7 @@ public class FragmentProjectComments extends Fragment {
         for (Comment c : comments) {
             c.setCtAsDate();
         }
-        Collections.reverse(comments);
+        Collections.sort(comments);
         new Thread(() -> {
             User currentUser;
             try {
@@ -86,7 +86,7 @@ public class FragmentProjectComments extends Fragment {
                 getActivity().runOnUiThread(() -> {
                     adapter = new RecyclerViewAdapterComment(comments, view.getContext());
                     if (createdComment) {
-                        Snackbar.make(view, "Your comment have been created.", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(view, "Your comments have been created.", Snackbar.LENGTH_LONG).show();
                     }
                     recyclerView.setAdapter(adapter);
                 });

@@ -33,7 +33,7 @@ public class CommentServiceImpl extends Service implements CommentService {
     @Override
     public ArrayList<Comment> getAllComments(Long projectId) throws ResponseException {
         ArrayList comments = dao.getComments(projectId);
-        Collections.reverse(comments);
+        Collections.sort(comments);
         return comments;
     }
 
@@ -45,7 +45,7 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> !c.isRestricted())
                 .collect(Collectors.toList());
-        Collections.reverse(filtered);
+        Collections.sort(filtered);
         return new ArrayList<>(filtered);
     }
 
@@ -57,7 +57,7 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> c.isRestricted())
                 .collect(Collectors.toList());
-        Collections.reverse(filtered);
+        Collections.sort(filtered);
         return new ArrayList<>(filtered);
     }
 
