@@ -12,6 +12,7 @@ import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.CommentService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,9 @@ public class CommentServiceImpl extends Service implements CommentService {
 
     @Override
     public ArrayList<Comment> getAllComments(Long projectId) throws ResponseException {
-        return dao.getComments(projectId);
+        ArrayList comments = dao.getComments(projectId);
+        Collections.reverse(comments);
+        return comments;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -42,6 +45,7 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> !c.isRestricted())
                 .collect(Collectors.toList());
+        Collections.reverse(filtered);
         return new ArrayList<>(filtered);
     }
 
@@ -53,6 +57,7 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> c.isRestricted())
                 .collect(Collectors.toList());
+        Collections.reverse(filtered);
         return new ArrayList<>(filtered);
     }
 

@@ -1,8 +1,12 @@
 package com.praktikum.spapp.model;
 
-import java.io.Serializable;
+import org.joda.time.DateTime;
 
-public class Comment implements Serializable {
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Date;
+
+public class Comment implements Serializable, Comparator<Comment> {
 
     private Long id;
     private String content;
@@ -10,6 +14,7 @@ public class Comment implements Serializable {
     private boolean wasEdited;
     private String creationTime;
     private User author;
+    private Date ctAsDate;
 
     public Long getId() {
         return id;
@@ -57,5 +62,19 @@ public class Comment implements Serializable {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Date getCtAsDate() {
+        return ctAsDate;
+    }
+
+    public void setCtAsDate() {
+        DateTime dateTime = new DateTime(getCreationTime());
+        this.ctAsDate = dateTime.toDate();
+    }
+
+    @Override
+    public int compare(Comment o1, Comment o2) {
+        return o1.getCtAsDate().compareTo(o2.getCtAsDate());
     }
 }

@@ -71,6 +71,9 @@ dependencies {
     // https://mvnrepository.com/artifact/net.iharder/base64
     implementation group: 'net.iharder', name: 'base64', version: '2.3.8'
 
+    // https://mvnrepository.com/artifact/joda-time/joda-time
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
 
 }
 

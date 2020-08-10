@@ -41,90 +41,88 @@ public class ProjectDetailActivity extends AppCompatActivity {
 
         new Thread(() -> {
             beginActivity = new FragmentProjectOverview();
-        project = (Project) getIntent().getSerializableExtra("project");
-        changed = (boolean) getIntent().getSerializableExtra("changed");
-        createdComment = (boolean) getIntent().getSerializableExtra("createdComment");
+            project = (Project) getIntent().getSerializableExtra("project");
+            changed = (boolean) getIntent().getSerializableExtra("changed");
+            createdComment = (boolean) getIntent().getSerializableExtra("createdComment");
 
 
-        BottomNavigationView botNav = findViewById(R.id.bottom_navigation);
+            BottomNavigationView botNav = findViewById(R.id.bottom_navigation);
 
-        if(changed){
-            botNav.setSelectedItemId(R.id.nav_project_appointments);
-        }else if(createdComment){
-            botNav.setSelectedItemId(R.id.nav_project_comments);
-        }
-
-        botNav.setOnNavigationItemSelectedListener(navListener);
-
-
-
-
-        if(createdComment){
-                    try {
-                        project = service.fetchAllProjects().get(project.getId().intValue() - 1);
-                        bundle.putSerializable("project", project);
-
-                    } catch (ResponseException e) {
-                        e.printStackTrace();
-                    }
-        }else {
-            bundle.putSerializable("project", project);
-        }
-        beginActivity.setArguments(bundle);
-
-        if(changed){
-            if (savedInstanceState == null) {
-                Fragment appointmentDefault = new FragmentProjectAppointments();
-                bundle.putSerializable("createdComment", createdComment);
-                bundle.putSerializable("changed", changed);
-
-                appointmentDefault.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        appointmentDefault).commit();
+            if (changed) {
+                botNav.setSelectedItemId(R.id.nav_project_appointments);
+            } else if (createdComment) {
+                botNav.setSelectedItemId(R.id.nav_project_comments);
             }
-        }else if (createdComment){
-            if (savedInstanceState == null) {
-                Fragment appointmentDefault = new FragmentProjectComments();
-                bundle.putSerializable("createdComment", createdComment);
-                bundle.putSerializable("changed", changed);
 
-                appointmentDefault.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        appointmentDefault).commit();
+            botNav.setOnNavigationItemSelectedListener(navListener);
+
+
+            if (createdComment) {
+                try {
+                    project = service.fetchAllProjects().get(project.getId().intValue() - 1);
+                    bundle.putSerializable("project", project);
+
+                } catch (ResponseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                bundle.putSerializable("project", project);
             }
-        }else {
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        beginActivity).commit();
+            beginActivity.setArguments(bundle);
+
+            if (changed) {
+                if (savedInstanceState == null) {
+                    Fragment appointmentDefault = new FragmentProjectAppointments();
+                    bundle.putSerializable("createdComment", createdComment);
+                    bundle.putSerializable("changed", changed);
+
+                    appointmentDefault.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            appointmentDefault).commit();
+                }
+            } else if (createdComment) {
+                if (savedInstanceState == null) {
+                    Fragment appointmentDefault = new FragmentProjectComments();
+                    bundle.putSerializable("createdComment", createdComment);
+                    bundle.putSerializable("changed", changed);
+
+                    appointmentDefault.setArguments(bundle);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            appointmentDefault).commit();
+                }
+            } else {
+                if (savedInstanceState == null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            beginActivity).commit();
+                }
             }
-        }
         }).start();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = menuItem -> {
         Fragment selectedFragment = null;
 
-            switch (menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
 
-                case R.id.nav_project_overview:
-                    selectedFragment = new FragmentProjectOverview();
-                    bundle.putSerializable("createdComment", false);
-                    bundle.putSerializable("changed", false);
-                    selectedFragment.setArguments(bundle);
-                    break;
-                case R.id.nav_project_comments:
-                    selectedFragment = new FragmentProjectComments();
-                    bundle.putSerializable("createdComment", false);
-                    bundle.putSerializable("changed", false);
-                    selectedFragment.setArguments(bundle);
-                    break;
-                case R.id.nav_project_appointments:
-                    selectedFragment = new FragmentProjectAppointments();
-                    bundle.putSerializable("createdComment", false);
-                    bundle.putSerializable("changed", false);
-                    selectedFragment.setArguments(bundle);
-                    break;
-            }
+            case R.id.nav_project_overview:
+                selectedFragment = new FragmentProjectOverview();
+                bundle.putSerializable("createdComment", false);
+                bundle.putSerializable("changed", false);
+                selectedFragment.setArguments(bundle);
+                break;
+            case R.id.nav_project_comments:
+                selectedFragment = new FragmentProjectComments();
+                bundle.putSerializable("createdComment", false);
+                bundle.putSerializable("changed", false);
+                selectedFragment.setArguments(bundle);
+                break;
+            case R.id.nav_project_appointments:
+                selectedFragment = new FragmentProjectAppointments();
+                bundle.putSerializable("createdComment", false);
+                bundle.putSerializable("changed", false);
+                selectedFragment.setArguments(bundle);
+                break;
+        }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;

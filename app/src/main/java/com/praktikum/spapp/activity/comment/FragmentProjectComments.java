@@ -6,41 +6,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.SearchView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activity.appointment.CreateAppointmentActivity;
-import com.praktikum.spapp.activity.comment.CreateCommentActivity;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
-import com.praktikum.spapp.model.User;
-import com.praktikum.spapp.service.AppointmentService;
-import com.praktikum.spapp.service.AuthenticationService;
 import com.praktikum.spapp.model.Comment;
 import com.praktikum.spapp.model.Project;
+import com.praktikum.spapp.model.User;
 import com.praktikum.spapp.model.adapters.RecyclerViewAdapterComment;
+import com.praktikum.spapp.model.enums.Role;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.service.UserService;
-import com.praktikum.spapp.service.internal.AppointmentServiceImpl;
 import com.praktikum.spapp.service.internal.CommentServiceImpl;
 import com.praktikum.spapp.service.internal.UserServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FragmentProjectComments extends Fragment {
 
@@ -81,19 +71,17 @@ public class FragmentProjectComments extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.comment_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         comments = project.getComments();
-        // filter out all the restricted comments
-        //comments.removeIf(x -> x.isRestricted());
-        /*AuthenticationService authenticationService = new AuthenticationService();
-        Token resBody = authenticationService.getToken();
-        User thisUser = resBody.getCurrentUser();
-        */
+        for (Comment c : comments) {
+            c.setCtAsDate();
+        }
+        Collections.reverse(comments);
         new Thread(() -> {
             User currentUser;
             try {
                 currentUser = service.getUserByUsername(SessionManager.getSession().getCurrentUsername());
                 System.out.println(currentUser.getRoles().get(0));
-                if (currentUser.getRoles().get(0).toString().equals("ROLE_USER")) {
-                    comments.removeIf(x -> x.isRestricted());
+                if (currentUser.getRoles().get(0).equals(Role.ROLE_USER)) {
+                    comments = commentService.getPublicComments(project.getId());
                 }
                 getActivity().runOnUiThread(() -> {
                     adapter = new RecyclerViewAdapterComment(comments, view.getContext());
@@ -169,6 +157,7 @@ public class FragmentProjectComments extends Fragment {
 
     /**
      * Create option menu with search bar
+     *
      * @param menu
      * @param inflater
      */
