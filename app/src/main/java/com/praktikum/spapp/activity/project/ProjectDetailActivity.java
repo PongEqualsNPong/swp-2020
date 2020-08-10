@@ -58,17 +58,17 @@ public class ProjectDetailActivity extends AppCompatActivity {
             botNav.setOnNavigationItemSelectedListener(navListener);
 
 
-            if (createdComment) {
-                try {
-                    project = service.fetchAllProjects().get(project.getId().intValue() - 1);
-                    bundle.putSerializable("project", project);
-
-                } catch (ResponseException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                bundle.putSerializable("project", project);
-            }
+//            if (createdComment) {
+//                try {
+//                    project = service.fetchAllProjects().get(project.getId().intValue() - 1);
+//                    bundle.putSerializable("project", project);
+//
+//                } catch (ResponseException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                bundle.putSerializable("project", project);
+//            }
             beginActivity.setArguments(bundle);
 
             if (changed) {

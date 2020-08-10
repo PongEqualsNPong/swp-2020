@@ -1,7 +1,9 @@
 package com.praktikum.spapp.activity.project;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,8 @@ public class FragmentProjectOverview extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_overview, container, false);
         Project project = (Project) getArguments().getSerializable("project");
+        Handler mHandler = new Handler();
+
 
         // Set Values
         pdTitle = view.findViewById(R.id.pd_overview_et_title);
@@ -163,7 +167,6 @@ public class FragmentProjectOverview extends Fragment {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
                                     dialog.cancel();
                                 }
                             }
@@ -175,7 +178,9 @@ public class FragmentProjectOverview extends Fragment {
                                     new Thread(() -> {
                                         try {
                                             service.deleteProject(project.getId());
-                                            getActivity().runOnUiThread(() -> Snackbar.make(view, "Project succesfully deleted.", Snackbar.LENGTH_LONG));
+                                            getActivity().runOnUiThread(() -> Snackbar.make(getActivity().findViewById(R.id.activity_project_detail), "Project succesfully deleted.", Snackbar.LENGTH_LONG).show());
+                                            mHandler.postDelayed(mUpdateTimeTask, 3000);
+
                                         } catch (ResponseException e) {
                                             getActivity().runOnUiThread(() -> Snackbar.make(view, "Deleting Project failed", Snackbar.LENGTH_LONG));
                                         }
@@ -198,12 +203,18 @@ public class FragmentProjectOverview extends Fragment {
                     editAndSaveButton.setText("EDIT");
                     pdTitle.setText(project.getName());
                     pdDescription.setText(project.getDescription());
-                    spinnerStatus.setSelection(adapterStatus.getPosition(project.getStatus().toString()));
-                    spinnerType.setSelection(adapterType.getPosition(project.getType().toString()));
+//                    spinnerStatus.setSelection(adapterStatus.getPosition(project.getStatus().toString()));
+//                    spinnerType.setSelection(adapterType.getPosition(project.getType().toString()));
             }
         });
         return view;
     }
+
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            startActivity(new Intent(getActivity().getApplicationContext(), OpenAllProjectsActivity.class));
+        }
+    };
 }
 
 

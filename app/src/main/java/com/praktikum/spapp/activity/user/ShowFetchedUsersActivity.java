@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
@@ -35,7 +37,7 @@ public class ShowFetchedUsersActivity extends AppCompatActivity {
                 this.userArrayList = userServiceImpl.fetchAll();
                 runOnUiThread(this::initRecyclerView);
             } catch (ResponseException e) {
-                e.printStackTrace();
+                runOnUiThread(Snackbar.make(findViewById(R.id.activity_show_fetched_users), e.getMessage() + " Please return to the previous page.", BaseTransientBottomBar.LENGTH_INDEFINITE)::show);
             }
         }).start();
     }

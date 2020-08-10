@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
@@ -37,7 +38,7 @@ public class OpenAllProjectsActivity extends AppCompatActivity {
                     runOnUiThread(this::initRecyclerView);
                 }
             } catch (ResponseException e) {
-                runOnUiThread(Snackbar.make(findViewById(R.id.activity_open_all_projects), e.getMessage() + " Please return to the previous page.", Snackbar.LENGTH_LONG)::show);
+                runOnUiThread(Snackbar.make(findViewById(R.id.activity_open_all_projects), e.getMessage() + " Please return to the previous page.", BaseTransientBottomBar.LENGTH_INDEFINITE)::show);
             }
         }).start();
     }

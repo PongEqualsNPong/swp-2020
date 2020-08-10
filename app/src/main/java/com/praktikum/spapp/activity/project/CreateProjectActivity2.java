@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activity.project;
 
+import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
@@ -25,13 +27,12 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
     EditText projectName, projectDesc;
     String givenPN, givenPD;
     Button confirm, cancel, createFullProject;
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    private Handler mHandler = new Handler();
 
-    {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_project2);
-
 
 
         //assign xml elems
@@ -53,7 +54,6 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
         givenPD = projectDesc.getText().toString();
 
 
-
         Project project = new Project();
         project.setName(givenPN);
         project.setDescription(givenPD);
@@ -61,25 +61,15 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
 
         switch (view.getId()) {
             case R.id.createProject2_button_confirm:
-
                 ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(SessionManager.getSession());
-
                 new Thread(() -> {
                     try {
-                        projectServiceImpl.createProject(project) ;
-
-                        //  projectService.projectCreate(project);
-                        if(SessionManager.getSession() != null) {
-                            runOnUiThread(() -> Snackbar.make(view, "get the fuck out", Snackbar.LENGTH_LONG).show());
-
-                        }
-                        else {
-                            runOnUiThread(() ->  Snackbar.make(view, "something happened", Snackbar.LENGTH_LONG).show());
-                        }
-                    } catch (Exception e) {
-                        runOnUiThread(() ->Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show() );
-
+                        projectServiceImpl.createProject(project);
+                        runOnUiThread(() -> Snackbar.make(view, "Your project has been successfully created!", Snackbar.LENGTH_LONG).show());
+                        mHandler.postDelayed(mUpdateTimeTask, 3000);
+                    } catch (ResponseException e) {
                         e.printStackTrace();
+                        runOnUiThread(() -> Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show());
                     }
                 }).start();
 
@@ -87,8 +77,8 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
                 break;
             case R.id.createProject2_button_cancel:
                 //return to the createProject window
-               projectName.setText("");
-               projectDesc.setText("");
+                projectName.setText("");
+                projectDesc.setText("");
                 break;
             case R.id.createProject_buttonCreateExtendedProject:
                 runOnUiThread(() -> {
@@ -97,4 +87,10 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
         }
 
     }
+
+    private Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            startActivity(new Intent(getApplicationContext(), OpenAllProjectsActivity.class));
+        }
+    };
 }
