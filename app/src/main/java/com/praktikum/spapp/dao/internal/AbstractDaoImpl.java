@@ -17,6 +17,7 @@ public abstract class AbstractDaoImpl {
     protected Session session;
     protected static final OkHttpClient client = new OkHttpClient();
     protected static final String api = "http://api.solaimani.de:8081";
+    //protected static final String api = "http://192.168.1.160:8081";
     // need this for okhttp
     protected static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");

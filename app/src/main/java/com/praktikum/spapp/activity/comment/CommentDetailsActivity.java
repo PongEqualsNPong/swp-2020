@@ -1,4 +1,4 @@
-package com.praktikum.spapp.activities.comment;
+package com.praktikum.spapp.activity.comment;
 
 import android.os.Build;
 import android.os.Bundle;

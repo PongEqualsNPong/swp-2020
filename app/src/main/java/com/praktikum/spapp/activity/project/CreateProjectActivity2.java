@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.service.internal.ProjectServiceImpl;
 import com.praktikum.spapp.common.Utils;
@@ -61,14 +62,14 @@ public class CreateProjectActivity2 extends AppCompatActivity implements View.On
         switch (view.getId()) {
             case R.id.createProject2_button_confirm:
 
-                ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(new Session());
+                ProjectServiceImpl projectServiceImpl = new ProjectServiceImpl(SessionManager.getSession());
 
                 new Thread(() -> {
                     try {
                         projectServiceImpl.createProject(project) ;
 
                         //  projectService.projectCreate(project);
-                        if(Utils.isSuccess("hihi")) {
+                        if(SessionManager.getSession() != null) {
                             runOnUiThread(() -> Snackbar.make(view, "get the fuck out", Snackbar.LENGTH_LONG).show());
 
                         }

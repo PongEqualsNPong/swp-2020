@@ -14,7 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
 
-import com.praktikum.spapp.activities.comment.CommentDetailsActivity;
+
+
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.model.Comment;
 
@@ -72,7 +73,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
             viewHolder.commentAuthor.setText(comments.get(i).getAuthor().getUsername());
         }
         viewHolder.parentLayout.setOnClickListener(view -> {
-            Intent intent = new Intent(aContext, CommentDetailsActivity.class);
+            Intent intent = new Intent(aContext, com.praktikum.spapp.activity.comment.CommentDetailsActivity.class);
             intent.putExtra("comment", comments.get(i));
             aContext.startActivity(intent);
         });

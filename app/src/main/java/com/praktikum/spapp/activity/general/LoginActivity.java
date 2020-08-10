@@ -58,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             //Intent will be started
                             startActivity(intent);
+                            System.out.println(SessionManager.getSession().getTokenType());
+                            System.out.println(SessionManager.getSession().getAccessToken());
                         });
                     } else {
                         runOnUiThread(() -> {
