@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activities.comment.FragmentProjectComments;
 import com.praktikum.spapp.activity.appointment.FragmentProjectAppointments;
-import com.praktikum.spapp.activity.comment.FragmentProjectComments;
+
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
 import com.praktikum.spapp.model.Project;

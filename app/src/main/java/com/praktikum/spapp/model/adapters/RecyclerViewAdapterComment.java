@@ -13,7 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.praktikum.spapp.R;
-import com.praktikum.spapp.activity.comment.CommentDetailsActivity;
+
+import com.praktikum.spapp.activities.comment.CommentDetailsActivity;
 import com.praktikum.spapp.common.DateStringSplitter;
 import com.praktikum.spapp.model.Comment;
 
