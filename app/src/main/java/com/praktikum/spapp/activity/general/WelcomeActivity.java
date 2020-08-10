@@ -11,6 +11,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
 import com.praktikum.spapp.activity.project.OpenCurrentUserProjectsActivity;
 import com.praktikum.spapp.activity.project.CreateProjectActivity2;
@@ -18,7 +20,13 @@ import com.praktikum.spapp.activity.project.OpenAllProjectsActivity;
 import com.praktikum.spapp.activity.user.CheckForInviteActivity;
 import com.praktikum.spapp.activity.user.InviteActivity;
 import com.praktikum.spapp.activity.user.ShowFetchedUsersActivity;
+import com.praktikum.spapp.activity.user.ShowUserDetailsActivity;
+import com.praktikum.spapp.common.SessionManager;
+import com.praktikum.spapp.common.Utils;
+import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.model.Session;
 import com.praktikum.spapp.model.User;
+import com.praktikum.spapp.service.internal.UserServiceImpl;
 
 import java.util.ArrayList;
 
@@ -26,12 +34,11 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private final static String TAG = "Welcome Activity";
 
-    ArrayList<User> userArrayList;
-
     // USER CORNER
     Button buttonViewProfile;
     Button buttonInviteUser;
     Button CheckForInvite;
+    Button buttonShowAllUsers;
     //PROJECT CORNER
     Button buttonOpenProject;
     Button buttonCreateProject;
@@ -55,6 +62,9 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         wcontext = WelcomeActivity.this;
         buttonViewProfile = findViewById(R.id.button_viewprofile);
         buttonViewProfile.setOnClickListener(this);
+
+        buttonShowAllUsers = findViewById(R.id.button_show_all_user);
+        buttonShowAllUsers.setOnClickListener(this);
 
         buttonCreateProject = findViewById(R.id.createFullProject_buttonCreate);
         buttonCreateProject.setOnClickListener(this);
@@ -95,12 +105,17 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.button_acceptInvite:
                 startActivityCheckForInvite();
                 break;
-
-
             case R.id.button_view_current_user_projects:
                 startActivityCurrentUserProjects();
                 break;
-
+            case R.id.button_show_all_user:
+                new Thread(() -> {
+                    try {
+                        startActivityShowAllUsers();
+                    } catch (ResponseException e) {
+                        Snackbar.make(view, "Your profile could not be loaded. Please try again later!", BaseTransientBottomBar.LENGTH_LONG);
+                    }
+                }).start();
         }
     }
 
@@ -150,6 +165,20 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
     private void startActivityCurrentUserProjects() {
         startActivity(new Intent(this, OpenCurrentUserProjectsActivity.class));
+    }
+
+    private void startActivityShowAllUsers() throws ResponseException {
+
+        Intent intent = new Intent(this, ShowUserDetailsActivity.class);
+        User curUser;
+        String nameOrEmail = SessionManager.getSession().getCurrentUsername();
+        if (Utils.isEmail(nameOrEmail)) {
+            curUser = new UserServiceImpl(SessionManager.getSession()).getUserByEmail(nameOrEmail);
+        } else {
+            curUser = new UserServiceImpl(SessionManager.getSession()).getUserByUsername(nameOrEmail);
+        }
+        intent.putExtra("user", curUser);
+        startActivity(intent);
     }
 
 
