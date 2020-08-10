@@ -83,6 +83,10 @@ public class FragmentProjectComments extends Fragment {
                 if (currentUser.getRoles().get(0).equals(Role.ROLE_USER)) {
                     comments = commentService.getPublicComments(project.getId());
                 }
+                for (Comment c : comments) {
+                    c.setCtAsDate();
+                }
+                Collections.sort(comments);
                 getActivity().runOnUiThread(() -> {
                     adapter = new RecyclerViewAdapterComment(comments, view.getContext());
                     if (createdComment) {

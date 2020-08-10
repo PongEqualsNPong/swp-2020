@@ -1,5 +1,6 @@
 package com.praktikum.spapp.activity.comment;
 
+import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,9 +12,11 @@ import android.widget.Switch;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.praktikum.spapp.R;
+import com.praktikum.spapp.activity.project.OpenAllProjectsActivity;
 import com.praktikum.spapp.activity.project.ProjectDetailActivity;
 import com.praktikum.spapp.common.SessionManager;
 import com.praktikum.spapp.exception.ResponseException;
+import com.praktikum.spapp.model.Comment;
 import com.praktikum.spapp.model.Project;
 import com.praktikum.spapp.service.CommentService;
 import com.praktikum.spapp.service.internal.CommentServiceImpl;
@@ -24,6 +27,8 @@ public class CreateCommentActivity extends AppCompatActivity {
     private Button button_create_appointment;
     private EditText ct_comment;
     private CommentService commentService = new CommentServiceImpl(SessionManager.getSession());
+    private Handler mHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,24 +40,32 @@ public class CreateCommentActivity extends AppCompatActivity {
         button_create_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            boolean isSwitchSetted = isPublic.isChecked();
-            String commentText = ct_comment.getText().toString();
-            new Thread(() -> {
-                try {
-                    commentService.createComment(project.getId(), isSwitchSetted, commentText);
-                    runOnUiThread(() -> {
-                        Intent intent = new Intent(v.getContext(), ProjectDetailActivity.class);
-                        intent.putExtra("project", project);
-                        intent.putExtra("changed", false);
-                        intent.putExtra("createdComment", true);
-                        startActivity(intent);
-                    });
+                boolean isSwitchSetted = isPublic.isChecked();
+                String commentText = ct_comment.getText().toString();
+                new Thread(() -> {
+                    try {
+                        Comment nComment = commentService.createComment(project.getId(), isSwitchSetted, commentText);
+                        runOnUiThread(() -> {
+                            // add new comment to list
+                            project.getComments().add(nComment);
+                            Intent intent = new Intent(v.getContext(), ProjectDetailActivity.class);
+                            intent.putExtra("project", project);
+                            Snackbar.make(v, "Your comment has been successfully created!", Snackbar.LENGTH_LONG).show();
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent);
+                                }
+                            }, 2500);
+                        });
 
-                } catch (ResponseException e) {
-                    Snackbar.make(v, e.getMessage(), Snackbar.LENGTH_LONG).show();
-                }
-            }).start();
+                    } catch (ResponseException e) {
+                        Snackbar.make(v, e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                }).start();
             }
         });
     }
+
 }
+
