@@ -45,7 +45,6 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> !c.isRestricted())
                 .collect(Collectors.toList());
-        Collections.sort(filtered);
         return new ArrayList<>(filtered);
     }
 
@@ -57,7 +56,6 @@ public class CommentServiceImpl extends Service implements CommentService {
                 .stream()
                 .filter(c -> c.isRestricted())
                 .collect(Collectors.toList());
-        Collections.sort(filtered);
         return new ArrayList<>(filtered);
     }
 

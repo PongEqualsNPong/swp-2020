@@ -52,7 +52,6 @@ public class CommentDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_comment_details);
         AtomicBoolean editMode = new AtomicBoolean(false);
 
-
         Comment comment = (Comment) getIntent().getSerializableExtra("comment");
 
 
@@ -137,6 +136,7 @@ public class CommentDetailsActivity extends AppCompatActivity {
                 try {
                     service.deleteComment(comment.getId());
                     Snackbar.make(view, "The comment has been deleted.", Snackbar.LENGTH_LONG).show();
+
                 } catch (ResponseException e) {
                     Snackbar.make(view, e.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
