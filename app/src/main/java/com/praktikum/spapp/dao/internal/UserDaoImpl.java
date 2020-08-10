@@ -27,8 +27,6 @@ public class UserDaoImpl extends AbstractDaoImpl implements UserDao {
     public UserDaoImpl() {
     }
 
-    ;
-
     /**
      *
      * @param form

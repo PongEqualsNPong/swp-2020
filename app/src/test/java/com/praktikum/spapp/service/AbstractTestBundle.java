@@ -24,7 +24,10 @@ public abstract class AbstractTestBundle {
         AuthenticationService adminAuth = new AuthenticationServiceImpl();
         adminAuth.logonServer(USERNAME_ADMIN, PASSWORD_ADMIN);
         adminSession = SessionManager.getSession();
+    }
 
+    @BeforeAll
+    public static void auth2() throws ResponseException {
         AuthenticationService userAuth = new AuthenticationServiceImpl();
         userAuth.logonServer(USERNAME_USER, PASSWORD_USER);
         userSession = SessionManager.getSession();
